@@ -15,11 +15,13 @@
 int main(void)
 {
 	cast_t *cast;
-	craft_t *letter = newcraft("welcome", "chat-story", 0);
-	craft_t *lette = newcraft("letter to my mother", "chat-story", 0);
+	craft_t *letter, *lette, *new, *nw;
 	ecraft_t *ecraft = NULL;
 
-	initcraft();
+	letter = initcraft("welcome", "chat-story", EC_CLI);
+	lette = initcraft("letter to my mother", "chat-story", EC_CLI);
+	new = initcraft("HOME", "letter", EC_CLI);
+	nw = initcraft("nEW", "letter", EC_CLI);
 
 	while (__ecraft != NULL)
 	{

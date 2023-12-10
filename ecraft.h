@@ -109,14 +109,12 @@ typedef struct ecraft_s
 
 extern ecraft_t *__ecraft;
 
-void initcraft(void);
-void freecraft(void);
+craft_t *initcraft(char *title, char *format, int interface);
+void delcraft(craft_t *craft);
 
-craft_t *newcraft(char *title, char *format, int interface);
 void startcraft(craft_t *craft);
 void endcraft(craft_t *craft);
-void popcraft(craft_t *craft);
-void delcraft(craft_t *craft);
+/* void popcraft(craft_t *craft); */
 
 void pushcraft(craft_t *craft, cast_t *cast, char *buffer, char *emoji);
 void pullcraft(craft_t *craft, char *format, char *filename);
@@ -145,8 +143,10 @@ void __setgui(meta_t *meta);
 void __setgui1(meta_t *meta);
 void __setgui2(meta_t *meta);
 
-char **__tokenise(char *str, const char *delimiter);
+char **__tokenise(char *str, const char *delim);
 int __vinterf(int interface);
 void __setinterf(craft_t *craft, meta_t *meta);
+
+void __eupdate(ecraft_t *ecraft);
 
 #endif	/* __ECRAFT_H */

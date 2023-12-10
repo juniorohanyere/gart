@@ -7,19 +7,6 @@
 __ECRAFT;	/* by-pass betty error for use of global variables */
 
 /**
- * initcraft - initialises a placeholder (__ecraft) for all crafts
- *
- * Description: __ecraft is a global variable of type ecraft_t
- *
- * Return: return nothing
-*/
-
-void initcraft(void)
-{
-	__ecraft = NULL;
-}
-
-/**
  * pushcraft - sends data to the interface referenced by a given craft
  *
  * @craft: pointer to the craft to reference
@@ -36,7 +23,9 @@ void pushcraft(craft_t *craft, cast_t *cast, char *buffer, char *emoji)
 	ecraft_t *ec, *ecraft;
 
 	if (craft == NULL)
-		__nullcraft(cast, buffer, emoji);
+	{
+		/* __nullcraft(cast, buffer, emoji); */
+	}
 	else
 	{
 		while (__ecraft != NULL)
@@ -68,5 +57,31 @@ void pushcraft(craft_t *craft, cast_t *cast, char *buffer, char *emoji)
 
 		__setinterf(craft, meta);
 		/* __interrupt(getline) */
+	}
+}
+
+/**
+ * __eupdate - updates __ecraft
+ *
+ * @ecraft: pointer to a new placeholder to be used as update for __ecraft
+ *
+ * Return: return nothing
+*/
+
+void __eupdate(ecraft_t *ecraft)
+{
+	ecraft_t *temp;
+
+	if (__ecraft == NULL)
+		__ecraft = ecraft;
+	else
+	{
+		temp = __ecraft;
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+
+		temp->next = ecraft;
 	}
 }

@@ -6,7 +6,7 @@
 #include "ecraft.h"
 
 /**
- * newcraft - creates/initialises a new craft
+ * initcraft - creates/initialises a new craft
  *
  * @title: the desired title for the new craft
  * @format: the format of the new craft
@@ -20,7 +20,7 @@
  *	   return a NULL pointer on failure
 */
 
-craft_t *newcraft(char *title, char *format, int interface)
+craft_t *initcraft(char *title, char *format, int interface)
 {
 	craft_t *craft;
 	ecraft_t *temp, *ecraft;
@@ -35,31 +35,31 @@ craft_t *newcraft(char *title, char *format, int interface)
 
 	craft = malloc(sizeof(craft_t));
 	ecraft = malloc(sizeof(ecraft_t));
+
 	if (craft == NULL || ecraft == NULL)
 		return (NULL);
 
-	craft->__status = EC_INIT, craft->__interface = interface;
+	craft->__status = EC_INIT;
+	craft->__interface = interface;
+
 	craft->__title = malloc(sizeof(char));
 	craft->__format = malloc(sizeof(char));
+
 	if (craft->__title == NULL || craft->__format == NULL)
 	{
-		free(craft)
+		free(craft);
 		return (NULL);
 	}
 
-	strcpy(craft->__title, title), strcpy(craft->__format, format);
-	ecraft->craft = craft, ecraft->meta = NULL, ecraft->next = __ecraft;
-	__ecraft = ecraft, ecraft = NULL;
+	strcpy(craft->__title, title);
+	strcpy(craft->__format, format);
 
-	while (__ecraft != NULL)
-	{
-		temp = malloc(sizeof(ecraft_t));
-		temp->craft = __ecraft->craft, temp->meta = __ecraft->meta;
-		temp->next = ecraft, ecraft = temp, __ecraft = __ecraft->next;
-	}
-	__ecraft = ecraft;
-	/* free(temp); */
-	/* free(ecraft); */
+	ecraft->craft = craft;
+	ecraft->meta = NULL;
+	ecraft->next = NULL;
+
+	__eupdate(ecraft);
+
 	return (craft);
 }
 

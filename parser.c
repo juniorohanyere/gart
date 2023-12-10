@@ -28,14 +28,14 @@ char **__tokenise(char *str, const char *delim)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(str, delimiter);
+	token = strtok(str, delim);
 	if (token == NULL)
 		return (NULL);
 
 	for (i = 0; token != NULL; i++)
 	{
 		tokens[i] = token;
-		token = strtok(NULL, " ");
+		token = strtok(NULL, delim);
 	}
 	tokens[i] = NULL;
 

@@ -116,8 +116,8 @@ void startcraft(craft_t *craft);
 void endcraft(craft_t *craft);
 /* void popcraft(craft_t *craft); */
 
-void pushcraft(craft_t *craft, cast_t *cast, char *buffer, char *emoji);
-void pullcraft(craft_t *craft, char *format, char *filename);
+void pushc(craft_t *craft, char *buffer, char *emoji, cast_t *cast);
+void pullc(craft_t *craft, char *format, char *filename);
 
 void __nullcraft(cast_t *cast, char *buffer, char *emoji);
 void __nullcast(craft_t *craft, char *buffer, char *emoji);
@@ -132,7 +132,7 @@ void setname(cast_t *cast, char *dname, char *fname, char *lname,
 void setinfo(cast_t *cast, int height, int weight, int gender,
 	char *complxn);
 
-meta_t *__meta(cast_t *cast, char *buffer, char *emoji);
+meta_t *__meta(meta_t *meta, cast_t *cast, char *buffer, char *emoji);
 
 void __setcli(meta_t *meta);
 void __setcli1(meta_t *meta);
@@ -148,5 +148,6 @@ int __vinterf(int interface);
 void __setinterf(craft_t *craft, meta_t *meta);
 
 void __eupdate(ecraft_t *ecraft);
+meta_t *__mupdate(meta_t *meta, meta_t *temp);
 
 #endif	/* __ECRAFT_H */

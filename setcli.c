@@ -13,12 +13,17 @@
 
 void __setcli(meta_t *meta)
 {
+	int i = 0;
+
+	printf("\n");
+
 	if (meta->cast != NULL && meta->cast->__dname != NULL)
 		printf("%s: ", meta->cast->__dname);	/* print in bold */
 
-	while (meta->emoji != NULL)
+	while (meta->emoji[i] != NULL)
 	{
-		printf("%s", meta->emoji);
+		printf("%s ", meta->emoji[i]);
+		i++;
 	}
 	printf("\n");
 

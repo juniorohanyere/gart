@@ -20,7 +20,7 @@ char **__tokenise(char *str, const char *delim)
 	char *token;
 	char **tokens;
 
-	tokens = malloc(sizeof(char *) * 3);
+	tokens = malloc(sizeof(char *) * 1024);
 	if (tokens == NULL)
 	{
 		dprintf(STDERR_FILENO, "fatal: insufficient memory");

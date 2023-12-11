@@ -6,8 +6,9 @@
 #include "ecraft.h"
 
 /**
- * __meta - generate meta information for a craft
+ * __meta - generates and update meta information for a craft
  *
+ * @meta: pointer to the head meta
  * @cast: the cast of a craft
  * @buffer: string action of @cast
  * @emoji: state of the cast at the moment
@@ -15,25 +16,31 @@
  * Return: return a pointer to the generated meta information
 */
 
-meta_t *__meta(cast_t *cast, char *buffer, char *emoji)
+meta_t *__meta(meta_t *meta, cast_t *cast, char *buffer, char *emoji)
 {
-	meta_t *meta;
+	meta_t *temp, *tmp;
 
-	meta = malloc(sizeof(meta_t));
-	if (meta == NULL)
+	temp = malloc(sizeof(meta_t));
+	if (temp == NULL)
 	{
 		dprintf(STDERR_FILENO, "fatal: insufficient memory\n");
 		/* TODO: free malloc'ed variables */
 		exit(EXIT_FAILURE);
 	}
 
-	meta->body = strdup(buffer);
+	temp->body = strdup(buffer);
 
-	/* split state variable */
-	meta->emoji = __tokenise(emoji, ":");
+	/* split emoji variable */
+	temp->emoji = __tokenise(strdup(emoji), ":");
 
-	meta->cast = cast;
-	meta->next = NULL;
+	temp->cast = cast;
+	temp->next = NULL;
+
+	/*
+	 * update and arrange meta information ground to head from earliest to
+	 * oldest
+	*/
+	meta = __mupdate(meta, temp);
 
 	return (meta);
 }

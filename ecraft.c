@@ -7,7 +7,7 @@
 __ECRAFT;	/* by-pass betty error for use of global variables */
 
 /**
- * pushcraft - sends data to the interface referenced by a given craft
+ * pushc - sends data to the interface referenced by a given craft
  *
  * @craft: pointer to the craft to reference
  * @cast: pointer to the cast in which the data to send is meant for
@@ -17,10 +17,10 @@ __ECRAFT;	/* by-pass betty error for use of global variables */
  * Return: return nothing
 */
 
-void pushcraft(craft_t *craft, cast_t *cast, char *buffer, char *emoji)
+void pushc(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
 {
-	meta_t *meta, *temp;
-	ecraft_t *ec, *ecraft;
+	meta_t *meta = NULL;
+	ecraft_t *ecraft;
 
 	if (craft == NULL)
 	{
@@ -28,60 +28,22 @@ void pushcraft(craft_t *craft, cast_t *cast, char *buffer, char *emoji)
 	}
 	else
 	{
-		while (__ecraft != NULL)
+		ecraft = __ecraft;
+
+		while (ecraft != NULL)
 		{
-			ec = ecraft;
-			if (__ecraft->craft == craft)
+			if (ecraft->craft == craft)
 			{
-				temp = __ecraft->meta;
-				__ecraft->meta = __meta(cast, buffer, emoji);
-				__ecraft->meta->next = temp;
-				while (__ecraft->meta != NULL)
-				{
-					temp = meta, meta = __ecraft->meta;
-					meta->next = temp;
-					__ecraft->meta = __ecraft->meta->next;
-				}
-				__ecraft->meta = meta;
+				ecraft->meta = __meta(ecraft->meta, cast,
+					buffer, emoji);
+
+				__setinterf(ecraft->craft, __meta(NULL, cast,
+					buffer, emoji));
+
+				return;
 			}
-			ecraft = __ecraft, ecraft->next = ec;
-			__ecraft = __ecraft->next;
-		}	/* __ecraft becomes NULL at this point */
-		/* rearrange ground to head from earliest to oldest */
-		while (ecraft != NULL)	/* ecraft holds the right data */
-		{
-			ec = __ecraft, __ecraft = ecraft;
-			__ecraft->next = ec, ecraft = ecraft->next;
+			ecraft = ecraft->next;
 		}
-		/* balanced: __ecraft now contains the right data */
-
-		__setinterf(craft, meta);
 		/* __interrupt(getline) */
-	}
-}
-
-/**
- * __eupdate - updates __ecraft
- *
- * @ecraft: pointer to a new placeholder to be used as update for __ecraft
- *
- * Return: return nothing
-*/
-
-void __eupdate(ecraft_t *ecraft)
-{
-	ecraft_t *temp;
-
-	if (__ecraft == NULL)
-		__ecraft = ecraft;
-	else
-	{
-		temp = __ecraft;
-		while (temp->next != NULL)
-		{
-			temp = temp->next;
-		}
-
-		temp->next = ecraft;
 	}
 }

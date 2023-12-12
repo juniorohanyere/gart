@@ -48,7 +48,7 @@ craft_t *initcraft(char *title, char *format, int interface)
 	}
 
 	ecraft->craft = craft;
-	ecraft->echo = NULL;
+	ecraft->meta = NULL;
 	ecraft->next = NULL;
 
 	__addcraft(ecraft);

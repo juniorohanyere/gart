@@ -11,10 +11,9 @@
 
 #define __ECRAFT ecraft_t *__ecraft
 
+/* general */
 #define EC_NONE -1	/* none */
-
-/* status */
-#define EC_INIT 0	/* init */
+#define __EC_INIT 0	/* init */
 
 /* command line interfaces */
 #define EC_TERM 1	/* command line interface (new terminal) TODO */
@@ -46,9 +45,9 @@ typedef struct cast_s
 } cast_t;
 
 /**
- * struct echo_s - echo information structure for a craft
+ * struct meta_s - meta information structure for a craft
  *
- * @message: body to echo to an interface
+ * @message: message to echo to an interface
  * @emoji: emoji
  * @cast: pointer to the cast of a craft
  *
@@ -56,12 +55,12 @@ typedef struct cast_s
  *		its usage should be avoided in a main program
 */
 
-typedef struct echo_s
+typedef struct meta_s
 {
 	char *message;
 	char **emoji;
 	cast_t *cast;
-} echo_t;
+} meta_t;
 
 /**
  * struct craft_s - craft structure
@@ -81,7 +80,7 @@ typedef struct craft_s
  * struct ecraft_s - placeholder struct for crafts
  *
  * @craft: pointer to a craft
- * @echo: echo information for the craft
+ * @meta: meta information for the craft
  * @next: pointer to the next craft
  *
  * Description: this type is meant to be utilised by the library itself
@@ -91,7 +90,7 @@ typedef struct craft_s
 typedef struct ecraft_s
 {
 	craft_t *craft;
-	echo_t **echo;
+	meta_t **meta;
 	struct ecraft_s *next;
 } ecraft_t;
 
@@ -117,10 +116,10 @@ craft_t *initcraft(char *title, char *format, int interface);
 void endcraft(craft_t *craft);
 void freecraft(void);
 
-int echo(craft_t *craft, char *message, char *emoji, cast_t *cast);
-void recho(craft_t *craft, char *format, char *filename);
-echo_t **__echo(echo_t **echo, cast_t *cast, char *message, char *emoji);
-void __delecho(echo_t **echo);
+int surge(craft_t *craft, char *message, char *emoji, cast_t *cast);
+void rsurge(craft_t *craft, char *format, char *filename);
+meta_t **__meta(meta_t **meta, cast_t *cast, char *message, char *emoji);
+void __delmeta(meta_t **meta);
 
 void __nullcraft(cast_t *cast, char *message, char *emoji);
 void __nullcast(craft_t *craft, char *message, char *emoji);
@@ -136,20 +135,14 @@ void setname(cast_t *cast, char *dname, char *fname, char *lname,
 void setinfo(cast_t *cast, int height, int weight, int gender,
 	char *complxn);
 
-void __setcli(echo_t **echo);
-void __setcli1(echo_t **echo);
-void __setcli2(echo_t **echo);
-void __setcli3(echo_t **echo);
+void __setcli(meta_t **meta);
 
-void __setgui(echo_t **echo);
-void __setgui1(echo_t **echo);
-void __setgui2(echo_t **echo);
+void __setgui(meta_t **meta);
 
 char **__tokenise(char *str, const char *delim, int size);
-void __setinterf(craft_t *craft, echo_t **echo);
+void __setinterf(craft_t *craft, meta_t **meta);
 
 void __addcraft(ecraft_t *ecraft);
-/* meta_t *__mupdate(meta_t *meta, meta_t *temp); */
 void __interrupt(void);
 
 #endif	/* __ECRAFT_H */

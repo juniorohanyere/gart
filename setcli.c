@@ -6,14 +6,14 @@
 #include "ecraft.h"
 
 /**
- * __setcli - set command line interface (index 0)
+ * __setcli - set command line interface
  *
- * @echo: echo information of a craft
+ * @meta: meta information of a craft
  *
  * Return: return nothing
 */
 
-void __setcli(echo_t **echo)
+void __setcli(meta_t **meta)
 {
 	int i, emoji_size = 1, emoji_check;
 	emoji_t emoji[] = {
@@ -22,16 +22,16 @@ void __setcli(echo_t **echo)
 		{"loudly-crying-face", "\U0001F62D"}, {NULL, NULL}
 	};
 
-	if ((*echo)->cast != NULL && (*echo)->cast->__dname != NULL)
-		printf("%s: ", (*echo)->cast->__dname);	/* print in bold */
+	if ((*meta)->cast != NULL && (*meta)->cast->__dname != NULL)
+		printf("%s: ", (*meta)->cast->__dname);	/* print in bold */
 
-	while ((*echo)->emoji[emoji_size - 1] != NULL)
+	while ((*meta)->emoji[emoji_size - 1] != NULL)
 	{
 		assert(emoji_size <= 3);
 
 		for (i = 0; emoji[i].emoji != NULL; i++)
 		{
-			emoji_check = strcmp((*echo)->emoji[emoji_size - 1],
+			emoji_check = strcmp((*meta)->emoji[emoji_size - 1],
 				emoji[i].emoji);
 
 			/* end of dictionary */
@@ -48,7 +48,7 @@ void __setcli(echo_t **echo)
 	}
 	printf("\n");
 
-	printf("%s\n", (*echo)->message);
+	printf("%s\n", (*meta)->message);
 
 	__interrupt();
 }

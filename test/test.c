@@ -23,8 +23,8 @@ int main(void)
 	jun = newcast("Junior Ohanyere", "Junior", "Ohanyere", "Twin J");
 	vic = newcast("Victory Micheal", "Victiory", "Daivid", "Davido");
 
-	echo(cstory, "Hi, Vic\nWelcome to the Test", "smile:angry:crying-face", jun);
-	echo(cstory, "What's good about the test? Uhn", "angry:crying-cat:loudly-crying-face", vic);
+	surge(cstory, "Hi, Vic\nWelcome to the Test", "smile:angry:crying-face", jun);
+	surge(cstory, "What's good about the test? Uhn", "angry:crying-cat:loudly-crying-face", vic);
 
 	freecraft();
 

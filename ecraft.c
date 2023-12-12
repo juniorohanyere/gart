@@ -27,7 +27,7 @@ void freecraft(void)
 		next = ecraft->next;
 
 		endcraft(ecraft->craft);
-		__delecho(ecraft->echo);
+		__delmeta(ecraft->meta);
 		free(ecraft);
 
 		ecraft = next;

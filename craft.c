@@ -35,7 +35,6 @@ craft_t *initcraft(char *title, char *format, int interface)
 	if (craft == NULL || ecraft == NULL)
 		return (NULL);
 
-	craft->__status = EC_INIT;
 	craft->__interface = interface;
 
 	craft->__title = strdup(title);

@@ -75,7 +75,6 @@ typedef struct echo_s
 /**
  * struct craft_s - craft structure
  *
- * @__status: END, START, INIT, DEL
  * @__interface: NONE, CLI, CLI1, CLI2, CLI3, GUI, GUI2, etc
  * @__title: title of the craft
  * @__format: letter, story, chat-story, comic, etc
@@ -83,7 +82,7 @@ typedef struct echo_s
 
 typedef struct craft_s
 {
-	int __status, __interface;
+	int __interface;
 	char *__title, *__format;
 } craft_t;
 

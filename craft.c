@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <assert.h>
 
 #include "ecraft.h"
 
@@ -26,12 +27,7 @@ craft_t *initcraft(char *title, char *format, int interface)
 	ecraft_t *temp, *ecraft;
 
 	/* validate interface */
-	if (__vinterf(interface) == 1)
-	{
-		dprintf(STDERR_FILENO, "fatal: invalid interface");
-		/* TODO: free malloc'ed variables */
-		exit(EXIT_FAILURE);
-	}
+	assert(interface == EC_NONE || interface == EC_CLI);
 
 	craft = malloc(sizeof(craft_t));
 	ecraft = malloc(sizeof(ecraft_t));
@@ -55,7 +51,7 @@ craft_t *initcraft(char *title, char *format, int interface)
 	strcpy(craft->__format, format);
 
 	ecraft->craft = craft;
-	ecraft->meta = NULL;
+	ecraft->echo = NULL;
 	ecraft->next = NULL;
 
 	__eupdate(ecraft);

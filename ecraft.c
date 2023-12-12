@@ -17,9 +17,9 @@ __ECRAFT;	/* by-pass betty error for use of global variables */
  * Return: return nothing
 */
 
-void pushc(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
+void echo(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
 {
-	meta_t *meta = NULL;
+	echo_t *echo = NULL;
 	ecraft_t *ecraft;
 
 	if (craft == NULL)
@@ -34,16 +34,15 @@ void pushc(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
 		{
 			if (ecraft->craft == craft)
 			{
-				ecraft->meta = __meta(ecraft->meta, cast,
+				ecraft->echo = __echo(ecraft->echo, cast,
 					buffer, emoji);
 
-				__setinterf(ecraft->craft, __meta(NULL, cast,
+					__setinterf(ecraft->craft, __echo(NULL, cast,
 					buffer, emoji));
 
 				return;
 			}
 			ecraft = ecraft->next;
 		}
-		/* __interrupt(getline) */
 	}
 }

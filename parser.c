@@ -14,13 +14,13 @@
  * Return: return a pointer to an array of the generated tokens
 */
 
-char **__tokenise(char *str, const char *delim)
+char **__tokenise(char *str, const char *delim, int size)
 {
 	int i;
 	char *token;
 	char **tokens;
 
-	tokens = malloc(sizeof(char *) * 1024);
+	tokens = malloc(sizeof(char *) * size);
 	if (tokens == NULL)
 	{
 		dprintf(STDERR_FILENO, "fatal: insufficient memory");
@@ -45,64 +45,20 @@ char **__tokenise(char *str, const char *delim)
 }
 
 /**
- * __vinterf - validate/verify if a given interface exists
- *
- * @interface: the given interface
- *
- * Return: return 0 if @interface is a valid interface
- *	   return 1 otherwise
-*/
-
-int __vinterf(int interface)
-{
-	switch (interface)
-	{
-		case EC_NONE:
-			break;
-
-		case EC_CLI:
-			break;
-
-		case EC_CLI1:
-			break;
-
-		case EC_CLI2:
-			break;
-
-		case EC_CLI3:
-			break;
-
-		case EC_GUI:
-			break;
-
-		case EC_GUI1:
-			break;
-
-		case EC_GUI2:
-			break;
-
-		default:
-			return (1);
-	}
-
-	return (0);
-}
-
-/**
  * __setinterf - sets the interface for a given craft
  *
  * @craft: the given craft
- * @meta: the meta information for the given craft
+ * @echo: the meta information for the given craft
  *
  * Return: return nothing
 */
 
-void __setinterf(craft_t *craft, meta_t *meta)
+void __setinterf(craft_t *craft, echo_t **echo)
 {
 	switch (craft->__interface)
 	{
 		case EC_CLI:
-			__setcli(meta);
+			__setcli(echo);
 			break;
 
 		default:	/* EC_NONE */

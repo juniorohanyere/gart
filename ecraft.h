@@ -55,24 +55,22 @@ typedef struct cast_s
 } cast_t;
 
 /**
- * struct meta_s - meta information structure for a craft
+ * struct echo_s - echo information structure for a craft
  *
- * @body: body content
+ * @body: body to echo to an interface
  * @emoji: emoji
  * @cast: pointer to the cast of a craft
- * @next: pointer to the next meta information
  *
  * Description: this type is meant to be utilised by the library itself
  *		its usage should be avoided in a main program
 */
 
-typedef struct meta_s
+typedef struct echo_s
 {
 	char *body;
 	char **emoji;
 	cast_t *cast;
-	struct meta_s *next;
-} meta_t;
+} echo_t;
 
 /**
  * struct craft_s - craft structure
@@ -103,9 +101,15 @@ typedef struct craft_s
 typedef struct ecraft_s
 {
 	craft_t *craft;
-	meta_t *meta;
+	echo_t **echo;
 	struct ecraft_s *next;
 } ecraft_t;
+
+typedef struct emoji_s
+{
+	char *emoji;
+	char *unicode;
+} emoji_t;
 
 extern ecraft_t *__ecraft;
 
@@ -116,8 +120,8 @@ void startcraft(craft_t *craft);
 void endcraft(craft_t *craft);
 /* void popcraft(craft_t *craft); */
 
-void pushc(craft_t *craft, char *buffer, char *emoji, cast_t *cast);
-void pullc(craft_t *craft, char *format, char *filename);
+void echo(craft_t *craft, char *buffer, char *emoji, cast_t *cast);
+void recho(craft_t *craft, char *format, char *filename);
 
 void __nullcraft(cast_t *cast, char *buffer, char *emoji);
 void __nullcast(craft_t *craft, char *buffer, char *emoji);
@@ -132,22 +136,22 @@ void setname(cast_t *cast, char *dname, char *fname, char *lname,
 void setinfo(cast_t *cast, int height, int weight, int gender,
 	char *complxn);
 
-meta_t *__meta(meta_t *meta, cast_t *cast, char *buffer, char *emoji);
+echo_t **__echo(echo_t **echo, cast_t *cast, char *buffer, char *emoji);
 
-void __setcli(meta_t *meta);
-void __setcli1(meta_t *meta);
-void __setcli2(meta_t *meta);
-void __setcli3(meta_t *meta);
+void __setcli(echo_t **echo);
+void __setcli1(echo_t **echo);
+void __setcli2(echo_t **echo);
+void __setcli3(echo_t **echo);
 
-void __setgui(meta_t *meta);
-void __setgui1(meta_t *meta);
-void __setgui2(meta_t *meta);
+void __setgui(echo_t **echo);
+void __setgui1(echo_t **echo);
+void __setgui2(echo_t **echo);
 
-char **__tokenise(char *str, const char *delim);
-int __vinterf(int interface);
-void __setinterf(craft_t *craft, meta_t *meta);
+char **__tokenise(char *str, const char *delim, int size);
+void __setinterf(craft_t *craft, echo_t **echo);
 
 void __eupdate(ecraft_t *ecraft);
-meta_t *__mupdate(meta_t *meta, meta_t *temp);
+/* meta_t *__mupdate(meta_t *meta, meta_t *temp); */
+void __interrupt(void);
 
 #endif	/* __ECRAFT_H */

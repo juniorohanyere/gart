@@ -22,9 +22,9 @@ int main(void)
 	jun = newcast("Junior Ohanyere", "Junior", "Ohanyere", "Twin J");
 	vic = newcast("Victory Micheal", "Victiory", "Daivid", "Davido");
 
-	pushc(cstory, "Welcome to the Test", "smile", jun);
+	echo(cstory, "Hi, Vic\nWelcome to the Test", "smile:angry:crying-face", jun);
 
-	pushc(cstory, "What's Good", "angry", vic);
+	echo(cstory, "What's good about the test? Uhn", "angry:crying-cat:loudly-crying-face", vic);
 
 	return (0);
 }

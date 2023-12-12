@@ -158,7 +158,7 @@ void __setgui2(echo_t **echo);
 char **__tokenise(char *str, const char *delim, int size);
 void __setinterf(craft_t *craft, echo_t **echo);
 
-void __eupdate(ecraft_t *ecraft);
+void __addcraft(ecraft_t *ecraft);
 /* meta_t *__mupdate(meta_t *meta, meta_t *temp); */
 void __interrupt(void);
 

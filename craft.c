@@ -52,7 +52,7 @@ craft_t *initcraft(char *title, char *format, int interface)
 	ecraft->echo = NULL;
 	ecraft->next = NULL;
 
-	__eupdate(ecraft);
+	__addcraft(ecraft);
 
 	return (craft);
 }
@@ -75,4 +75,30 @@ void endcraft(craft_t *craft)
 	free(craft->__format);
 
 	free(craft);
+}
+
+/**
+ * __addcraft - updates __ecraft
+ *
+ * @ecraft: pointer to a new placeholder to be used as update for __ecraft
+ *
+ * Return: return nothing
+*/
+
+void __addcraft(ecraft_t *ecraft)
+{
+	ecraft_t *temp;
+
+	if (__ecraft == NULL)
+		__ecraft = ecraft;
+	else
+	{
+		temp = __ecraft;
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+
+		temp->next = ecraft;
+	}
 }

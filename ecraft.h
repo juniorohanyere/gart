@@ -15,23 +15,14 @@
 
 /* status */
 #define EC_INIT 0	/* init */
-#define EC_START 1	/* start */
-#define EC_END 2	/* end */
-#define EC_DEL 3	/* delete */
-#define EC_POP 4	/* pop */
-#define EC_FINAL 5	/* final */
 
-/* interface */
-#define EC_CLI 0	/* command line interface (index 0) TODO */
-#define EC_CLI1 1	/* command line interface (index 1) TODO */
-#define EC_CLI2 2	/* command line interface (index 2) TODO */
-#define EC_CLI3 3	/* command line interface (index 3) TODO */
+/* command line interfaces */
+#define EC_TERM 1	/* command line interface (new terminal) TODO */
+#define EC_CLI 2	/* command line interface TODO */
 
-#define EC_GUI 4	/* graphical user interface (index 0) TODO */
-#define EC_GUI1 5	/* graphical user interface (index 1) TODO */
-#define EC_GUI2 6	/* graphical user interface (index 2) TODO */
-
-/* more interface... */
+/* graphical user interfaces */
+#define EC_WIN 3	/* graphical user interface (new window) TODO */
+#define EC_GUI 4	/* graphical user interface TODO */
 
 /**
  * struct cast_s - cast structure for a craft

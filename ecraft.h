@@ -57,7 +57,7 @@ typedef struct cast_s
 /**
  * struct echo_s - echo information structure for a craft
  *
- * @body: body to echo to an interface
+ * @message: body to echo to an interface
  * @emoji: emoji
  * @cast: pointer to the cast of a craft
  *
@@ -91,7 +91,7 @@ typedef struct craft_s
  * struct ecraft_s - placeholder struct for crafts
  *
  * @craft: pointer to a craft
- * @meta: meta information for the craft
+ * @echo: echo information for the craft
  * @next: pointer to the next craft
  *
  * Description: this type is meant to be utilised by the library itself
@@ -105,6 +105,15 @@ typedef struct ecraft_s
 	struct ecraft_s *next;
 } ecraft_t;
 
+/**
+ * struct emoji_s - struture that defines emojis and their unicode
+ *		    characters
+ *
+ * @emoji: the emoji
+ * @unicode: the unicode representation of @emoji
+ *
+*/
+
 typedef struct emoji_s
 {
 	char *emoji;
@@ -116,7 +125,7 @@ extern ecraft_t *__ecraft;
 craft_t *initcraft(char *title, char *format, int interface);
 
 void endcraft(craft_t *craft);
-void freecraft();
+void freecraft(void);
 
 int echo(craft_t *craft, char *message, char *emoji, cast_t *cast);
 void recho(craft_t *craft, char *format, char *filename);

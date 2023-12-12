@@ -3,6 +3,12 @@
 
 #include "ecraft.h"
 
+/**
+ * __interrupt - interrupt handler that prompts for user input
+ *
+ * Return: return nothing
+*/
+
 void __interrupt(void)
 {
 	char *line = NULL;

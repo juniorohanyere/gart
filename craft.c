@@ -58,7 +58,7 @@ craft_t *initcraft(char *title, char *format, int interface)
 }
 
 /**
- * delcraft - finalises a craft and frees all memory associated
+ * endcraft - finalises/ends and frees all memory associated
  *
  * @craft: the craft to finalise
  *

@@ -46,6 +46,14 @@ cast_t *newcast(char *dname, char *fname, char *lname, char *altnames)
 	return (cast);
 }
 
+/**
+ * __delcast - deletes a cast from the __ecraft placeholder
+ *
+ * @cast: pointer to the cast to delete
+ *
+ * Return: return nothing
+*/
+
 void __delcast(cast_t *cast)
 {
 	free(cast->__altnames);

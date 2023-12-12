@@ -10,6 +10,8 @@
  *
  * @str: the string to split into tokens
  * @delim: the delimiter
+ * @size: the size of token to generate
+ *	  is also the limit of tokens generatable [is that even a word? :)]
  *
  * Return: return a pointer to an array of the generated tokens
 */

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "ecraft.h"
@@ -14,12 +15,14 @@ __ECRAFT;	/* by-pass betty error for use of global variables */
  * @buffer: the data/string to send
  * @emoji: the state of the @cast at the moment of sending the data
  *
- * Return: return nothing
+ * Return: return an integral position of the echo from __ecraft->echo
 */
 
-void echo(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
+int echo(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
 {
-	echo_t *echo = NULL;
+	int i;
+	char *emoji_dup;
+	echo_t **echo = NULL;
 	ecraft_t *ecraft;
 
 	if (craft == NULL)
@@ -34,15 +37,45 @@ void echo(craft_t *craft, char *buffer, char *emoji, cast_t *cast)
 		{
 			if (ecraft->craft == craft)
 			{
+				emoji_dup = strdup(emoji);
+				echo = __echo(echo, cast, buffer, emoji_dup);
 				ecraft->echo = __echo(ecraft->echo, cast,
-					buffer, emoji);
+					buffer, emoji_dup);
 
-					__setinterf(ecraft->craft, __echo(NULL, cast,
-					buffer, emoji));
+				__setinterf(ecraft->craft, echo);
 
-				return;
+				for (i = 0; ecraft->echo[i] != NULL; i++)
+					;
+				free((*echo)->message);
+				free((*echo)->emoji);
+				//__delcast((*echo)->cast);
+				free(*echo);
+				free(echo);
+
+				free(emoji_dup);
+
+				return (i - 1);
 			}
 			ecraft = ecraft->next;
 		}
+	}
+}
+
+void freecraft(void)
+{
+	ecraft_t *ecraft = __ecraft, *next;
+
+	if (__ecraft == NULL)
+		return;
+
+	while (ecraft != NULL)
+	{
+		next = ecraft->next;
+
+		endcraft(ecraft->craft);
+		__delecho(ecraft->echo);
+		free(ecraft);
+
+		ecraft = next;
 	}
 }

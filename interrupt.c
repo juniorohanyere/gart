@@ -16,4 +16,6 @@ void __interrupt(void)
 	{
 		exit(EXIT_SUCCESS);
 	}
+
+	free(line);
 }

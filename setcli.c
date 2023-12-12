@@ -48,7 +48,7 @@ void __setcli(echo_t **echo)
 	}
 	printf("\n");
 
-	printf("%s\n", (*echo)->body);
+	printf("%s\n", (*echo)->message);
 
 	__interrupt();
 }

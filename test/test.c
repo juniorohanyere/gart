@@ -14,6 +14,7 @@
 
 int main(void)
 {
+	int i, j;
 	cast_t *jun, *vic;
 	craft_t *cstory;
 
@@ -23,8 +24,9 @@ int main(void)
 	vic = newcast("Victory Micheal", "Victiory", "Daivid", "Davido");
 
 	echo(cstory, "Hi, Vic\nWelcome to the Test", "smile:angry:crying-face", jun);
-
 	echo(cstory, "What's good about the test? Uhn", "angry:crying-cat:loudly-crying-face", vic);
+
+	freecraft();
 
 	return (0);
 }

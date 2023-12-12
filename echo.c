@@ -10,42 +10,58 @@
  *
  * @echo: pointer to the head echo
  * @cast: the cast of a craft
- * @buffer: string action of @cast
+ * @message: string action of @cast
  * @emoji: state of the cast at the moment
  *
  * Return: return a pointer to the generated echo information
 */
 
-echo_t **__echo(echo_t **echo, cast_t *cast, char *buffer, char *emoji)
+echo_t **__echo(echo_t **echo, cast_t *cast, char *message, char *emoji)
 {
 	int i;
-	echo_t **temp;
-
-	temp = malloc(sizeof(echo_t *));
-	(*temp) = malloc(sizeof(echo_t));
-
-	if (temp == NULL || (*temp) == NULL)
-	{
-		dprintf(STDERR_FILENO, "fatal: insufficient memory\n");
-		/* TODO: free malloc'ed variables */
-		exit(EXIT_FAILURE);
-	}
-
-	(*temp)->body = strdup(buffer);
-
-	/* split emoji variable */
-	(*temp)->emoji = __tokenise(strdup(emoji), " \t\r\n:", 4);
-
-	(*temp)->cast = cast;
 
 	if (echo == NULL)
-		return (temp);
+		echo = calloc(sizeof(echo_t *), 20);
+
+	for (i = 0; echo[i] != NULL; i++)
+			;
 
 	/* update echo information */
-	for (i = 0; echo[i] != NULL; i++)
-		;
+	echo[i] = malloc(sizeof(echo_t));
 
-	echo[i] = *temp;
+	echo[i]->message = strdup(message);
+
+	/* split emoji variable */
+
+	echo[i]->emoji = __tokenise(emoji, "\t\r\n:", 4);
+	echo[i]->cast = cast;
+
+	//free(emoji);
+
+	//__delcast((*temp)->cast);
 
 	return (echo);
+}
+
+void __delecho(echo_t **echo)
+{
+	int i = 0, j = 0;
+
+	if (echo == NULL)
+		return;
+
+	while (echo[i] != NULL)
+	{
+		free(echo[i]->message);
+
+		free(echo[i]->emoji);
+
+		__delcast(echo[i]->cast);
+
+		free(echo[i]);
+
+		i++;
+	}
+
+	free(echo);
 }

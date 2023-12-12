@@ -67,7 +67,7 @@ typedef struct cast_s
 
 typedef struct echo_s
 {
-	char *body;
+	char *message;
 	char **emoji;
 	cast_t *cast;
 } echo_t;
@@ -114,29 +114,28 @@ typedef struct emoji_s
 extern ecraft_t *__ecraft;
 
 craft_t *initcraft(char *title, char *format, int interface);
-void delcraft(craft_t *craft);
 
-void startcraft(craft_t *craft);
 void endcraft(craft_t *craft);
-/* void popcraft(craft_t *craft); */
+void freecraft();
 
-void echo(craft_t *craft, char *buffer, char *emoji, cast_t *cast);
+int echo(craft_t *craft, char *message, char *emoji, cast_t *cast);
 void recho(craft_t *craft, char *format, char *filename);
+echo_t **__echo(echo_t **echo, cast_t *cast, char *message, char *emoji);
+void __delecho(echo_t **echo);
 
-void __nullcraft(cast_t *cast, char *buffer, char *emoji);
-void __nullcast(craft_t *craft, char *buffer, char *emoji);
+void __nullcraft(cast_t *cast, char *message, char *emoji);
+void __nullcast(craft_t *craft, char *message, char *emoji);
 
-void sethead(craft_t *craft, char *header, char *body);
+void sethead(craft_t *craft, char *header, char *message);
 void unsethead(craft_t *craft, char *header);
 
 cast_t *newcast(char *dname, char *fname, char *lname, char *altnames);
+void __delcast(cast_t *cast);
 
 void setname(cast_t *cast, char *dname, char *fname, char *lname,
 	char *altnames);
 void setinfo(cast_t *cast, int height, int weight, int gender,
 	char *complxn);
-
-echo_t **__echo(echo_t **echo, cast_t *cast, char *buffer, char *emoji);
 
 void __setcli(echo_t **echo);
 void __setcli1(echo_t **echo);

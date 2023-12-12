@@ -24,12 +24,12 @@
 craft_t *initcraft(char *title, char *format, int interface)
 {
 	craft_t *craft;
-	ecraft_t *temp, *ecraft;
+	ecraft_t *ecraft;
 
 	/* validate interface */
 	assert(interface == EC_NONE || interface == EC_CLI);
 
-	craft = malloc(sizeof(craft_t));
+	craft = calloc(sizeof(craft_t), 1);
 	ecraft = malloc(sizeof(ecraft_t));
 
 	if (craft == NULL || ecraft == NULL)
@@ -38,17 +38,15 @@ craft_t *initcraft(char *title, char *format, int interface)
 	craft->__status = EC_INIT;
 	craft->__interface = interface;
 
-	craft->__title = malloc(sizeof(char));
-	craft->__format = malloc(sizeof(char));
+	craft->__title = strdup(title);
+	craft->__format = strdup(format);
 
 	if (craft->__title == NULL || craft->__format == NULL)
 	{
+		free(ecraft);
 		free(craft);
 		return (NULL);
 	}
-
-	strcpy(craft->__title, title);
-	strcpy(craft->__format, format);
 
 	ecraft->craft = craft;
 	ecraft->echo = NULL;
@@ -60,35 +58,6 @@ craft_t *initcraft(char *title, char *format, int interface)
 }
 
 /**
- * startcraft - prepares a craft for work :)
- *
- * @craft: the craft to prepare
- *
- * Return: return nothing
-*/
-
-void startcraft(craft_t *craft)
-{
-	if (craft == NULL)
-		return;
-
-	craft->__status = EC_START;
-}
-
-/**
- * endcraft - ends/hides a specified craft passed as a parameter
- *
- * @craft: pointer to the craft to end/hide
- *
- * Return: return nothing
-*/
-
-void endcraft(craft_t *craft)
-{
-	craft->__status = EC_END;
-}
-
-/**
  * delcraft - finalises a craft and frees all memory associated
  *
  * @craft: the craft to finalise
@@ -96,7 +65,14 @@ void endcraft(craft_t *craft)
  * Return: return nothing
 */
 
-void delcraft(craft_t *craft)
+void endcraft(craft_t *craft)
 {
 	/* free all malloc'ed variables */
+	if (craft == NULL)
+		return;
+
+	free(craft->__title);
+	free(craft->__format);
+
+	free(craft);
 }

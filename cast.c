@@ -30,21 +30,30 @@ cast_t *newcast(char *dname, char *fname, char *lname, char *altnames)
 	cast->__weight = EC_NONE;
 	cast->__gender = EC_NONE;
 
-	cast->__dname = malloc(sizeof(char));
-	cast->__fname = malloc(sizeof(char));
-	cast->__lname = malloc(sizeof(char));
-	cast->__altnames = malloc(sizeof(char));
+	cast->__dname = strdup(dname);
+	cast->__fname = strdup(fname);
+	cast->__lname = strdup(lname);
+	cast->__altnames = strdup(altnames);
 
 	if (cast->__fname == NULL || cast->__lname == NULL ||
 		cast->__altnames == NULL || cast->__dname == NULL)
-		return (NULL);
+	{
+		free(cast);
 
-	strcpy(cast->__dname, dname);
-	strcpy(cast->__fname, fname);
-	strcpy(cast->__lname, lname);
-	strcpy(cast->__altnames, altnames);
+		return (NULL);
+	}
 
 	return (cast);
+}
+
+void __delcast(cast_t *cast)
+{
+	free(cast->__altnames);
+	free(cast->__lname);
+	free(cast->__fname);
+	free(cast->__dname);
+
+	free(cast);
 }
 
 /**
@@ -65,8 +74,8 @@ void setname(cast_t *cast, char *dname, char *fname, char *lname,
 	if (cast == NULL)
 		return;
 
-	strcpy(cast->__dname, dname);
-	strcpy(cast->__fname, fname);
-	strcpy(cast->__lname, lname);
-	strcpy(cast->__altnames, altnames);
+	cast->__dname = strdup(dname);
+	cast->__fname = strdup(fname);
+	cast->__lname = strdup(lname);
+	cast->__altnames = strdup(altnames);
 }

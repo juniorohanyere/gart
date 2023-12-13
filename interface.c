@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <termbox.h>
 
 #include "ecraft.h"
 
@@ -14,32 +15,50 @@
  * Return: return nothing
 */
 
-void __setinterf(craft_t *craft, meta_t **meta)
+void __setinterf(ecraft_t *ecraft)
 {
-	switch (craft->__interface)
+	switch (ecraft->craft->__interface)
 	{
+		case EC_NONE:
+			break;
 		case EC_CLI:
-			__setcli(meta);
+			if (__cli == EC_NONE)
+			{
+				tb_init();	/* TODO: manage init error */
+				initscr();
+
+				__cli = __EC_INIT;
+			}
+			ecraft->interf.cli = newterm(NULL, stdout, stdin);
 
 			break;
 
 		case EC_GUI:
-			break;
+			if (__gui == EC_NONE)
+			{
+				/* init gui */
+				__gui = __EC_INIT;
+			}
+			break;	/* TODO */
 
-		default:	/* EC_NONE */
-			return;
+		default:	/* invalid interface */
+			assert(ecraft->craft->__interface == EC_NONE ||
+				ecraft->craft->__interface == EC_CLI ||
+				ecraft->craft->__interface == EC_GUI);
+
+			return;	/* to avoid unexpected bug */
 	}
 }
 
 /**
- * __setcli - set command line interface
+ * __stagecli - set command line interface
  *
  * @meta: meta information of a craft
  *
  * Return: return nothing
 */
 
-void __setcli(meta_t **meta)
+/*void __stagecli(meta_t **meta)
 {
 	int i, emoji_size = 1, emoji_check;
 	emoji_t emoji[] = {
@@ -49,9 +68,9 @@ void __setcli(meta_t **meta)
 	};
 
 	if ((*meta)->cast != NULL && (*meta)->cast->__dname != NULL)
-		printf("%s: ", (*meta)->cast->__dname);	/* print in bold */
+		printf("%s: ", (*meta)->cast->__dname);*/	/* print in bold */
 
-	while ((*meta)->emoji[emoji_size - 1] != NULL)
+/*	while ((*meta)->emoji[emoji_size - 1] != NULL)
 	{
 		assert(emoji_size <= 3);
 
@@ -59,9 +78,9 @@ void __setcli(meta_t **meta)
 		{
 			emoji_check = strcmp((*meta)->emoji[emoji_size - 1],
 				emoji[i].emoji);
-
+*/
 			/* end of dictionary */
-			if (emoji[i + 1].emoji == NULL && emoji_check != 0)
+/*			if (emoji[i + 1].emoji == NULL && emoji_check != 0)
 				assert(emoji_check == 0);
 			else if (emoji_check == 0)
 			{
@@ -78,3 +97,4 @@ void __setcli(meta_t **meta)
 
 	__interrupt();
 }
+*/

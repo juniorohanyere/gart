@@ -9,19 +9,20 @@
  * within their documentation
 */
 
+/* global variables */
 #define __ECRAFT ecraft_t *__ecraft
+#define __EC_CLI int __cli
+#define __EC_GUI int __gui
 
 /* general */
 #define EC_NONE -1	/* none */
 #define __EC_INIT 0	/* init */
 
-/* command line interfaces */
-#define EC_TERM 1	/* command line interface (new terminal) TODO */
-#define EC_CLI 2	/* command line interface TODO */
+/* interfaces */
+#define EC_CLI 1	/* command line interface TODO */
+#define EC_GUI 2	/* graphical user interface TODO */
 
-/* graphical user interfaces */
-#define EC_WIN 3	/* graphical user interface (new window) TODO */
-#define EC_GUI 4	/* graphical user interface TODO */
+#include <ncurses.h>
 
 /**
  * struct cast_s - cast structure for a craft
@@ -77,6 +78,20 @@ typedef struct craft_s
 } craft_t;
 
 /**
+ * union interf_u - type definition for an interface union
+ *
+ * @cli: command line interface
+ * @gui: graphical user interface
+ *
+*/
+
+typedef union interf_u
+{
+	SCREEN *cli;
+	void *gui;	/* TODO: not yet implemeted, need to focus on cli */
+} interf_t;
+
+/**
  * struct ecraft_s - placeholder struct for crafts
  *
  * @craft: pointer to a craft
@@ -89,6 +104,7 @@ typedef struct craft_s
 
 typedef struct ecraft_s
 {
+	interf_t interf;
 	craft_t *craft;
 	meta_t **meta;
 	struct ecraft_s *next;
@@ -105,11 +121,12 @@ typedef struct ecraft_s
 
 typedef struct emoji_s
 {
-	char *emoji;
-	char *unicode;
+	char *rep, *unicode, *emoji;
 } emoji_t;
 
 extern ecraft_t *__ecraft;
+extern int __cli;
+extern int __gui;
 
 craft_t *initcraft(char *title, char *format, int interface);
 
@@ -135,14 +152,16 @@ void setname(cast_t *cast, char *dname, char *fname, char *lname,
 void setinfo(cast_t *cast, int height, int weight, int gender,
 	char *complxn);
 
-void __setcli(meta_t **meta);
-
-void __setgui(meta_t **meta);
+void __stage(ecraft_t *ecraft);
+void __stagecli(ecraft_t *ecraft);
+void __stagegui(ecraft_t *ecraft);
 
 char **__tokenise(char *str, const char *delim, int size);
-void __setinterf(craft_t *craft, meta_t **meta);
+void __setinterf(ecraft_t *ecraft);
+
+void __ecprintf(SCREEN *screen, char *type, char *str);
+void __interrupt(SCREEN *screen);
 
 void __addcraft(ecraft_t *ecraft);
-void __interrupt(void);
 
 #endif	/* __ECRAFT_H */

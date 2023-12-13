@@ -23,8 +23,8 @@ int main(void)
 	jun = newcast("Junior Ohanyere", "Junior", "Ohanyere", "Twin J");
 	vic = newcast("Victory Micheal", "Victiory", "Daivid", "Davido");
 
-	stage(cstory, "Hi, Vic\nWelcome to the Test", "smile:angry:crying-face", jun);
-	stage(cstory, "What's good about the test? Uhn", "angry:crying-cat:loudly-crying-face", vic);
+	stage(cstory, "Hi, Vic\nWelcome to the Test", "grinning-face:crying-face", jun);
+	stage(cstory, "What's good about the test? Uhn", "crying-face", vic);
 
 	freecraft();
 

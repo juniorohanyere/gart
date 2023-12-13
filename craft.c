@@ -27,7 +27,8 @@ craft_t *initcraft(char *title, char *format, int interface)
 	ecraft_t *ecraft;
 
 	/* validate interface */
-	assert(interface == EC_NONE || interface == EC_CLI);
+	assert(interface == EC_NONE || interface == EC_CLI ||
+		interface == EC_GUI);
 
 	craft = calloc(sizeof(craft_t), 1);
 	ecraft = malloc(sizeof(ecraft_t));
@@ -48,6 +49,7 @@ craft_t *initcraft(char *title, char *format, int interface)
 	}
 
 	ecraft->craft = craft;
+	__setinterf(ecraft);	/* ecraft->interf */
 	ecraft->meta = NULL;
 	ecraft->next = NULL;
 

@@ -5,7 +5,10 @@
 
 #include "ecraft.h"
 
-__ECRAFT;	/* by-pass betty error for use of global variables */
+/* by-pass betty error for use of global variables */
+__ECRAFT;
+__EC_CLI = -1;
+__EC_GUI = -1;
 
 /**
  * freecraft - clean-up

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <termbox.h>
 
 #include "ecraft.h"
 
@@ -9,19 +10,25 @@
  * Return: return nothing
 */
 
-void __interrupt(void)
+void __interrupt(SCREEN *screen)
 {
-	char *line = NULL;
+	char *line = malloc(sizeof(char) * 1024);
 	size_t n = 1024;
 	ssize_t flag;
 
-	printf("$ ");
+	__ecprintf(screen, "string", "\n$ ");
 
-	flag = getline(&line, &n, stdin);
-	if (flag == -1)
-	{
-		exit(EXIT_SUCCESS);
-	}
+	getstr(line);
+	refresh();
+	endwin();
+	delscreen(screen);
+	tb_shutdown();
+	exit(0);
+//	flag = getline(&line, &n, stdin);
+//	if (flag == -1)
+//	{
+//		exit(EXIT_SUCCESS);
+//	}
 
-	free(line);
+//	free(line);
 }

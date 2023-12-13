@@ -45,25 +45,3 @@ char **__tokenise(char *str, const char *delim, int size)
 
 	return (tokens);
 }
-
-/**
- * __setinterf - sets the interface for a given craft
- *
- * @craft: the given craft
- * @meta: the meta information for the given craft
- *
- * Return: return nothing
-*/
-
-void __setinterf(craft_t *craft, meta_t **meta)
-{
-	switch (craft->__interface)
-	{
-		case EC_CLI:
-			__setcli(meta);
-			break;
-
-		default:	/* EC_NONE */
-			return;
-	}
-}

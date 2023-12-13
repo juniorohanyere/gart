@@ -116,8 +116,8 @@ craft_t *initcraft(char *title, char *format, int interface);
 void endcraft(craft_t *craft);
 void freecraft(void);
 
-int surge(craft_t *craft, char *message, char *emoji, cast_t *cast);
-void rsurge(craft_t *craft, char *format, char *filename);
+int stage(craft_t *craft, char *message, char *emoji, cast_t *cast);
+void rstage(craft_t *craft, char *format, char *filename);
 meta_t **__meta(meta_t **meta, cast_t *cast, char *message, char *emoji);
 void __delmeta(meta_t **meta);
 

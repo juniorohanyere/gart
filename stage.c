@@ -24,6 +24,12 @@ int stage(craft_t *craft, char *message, char *emoji, cast_t *cast)
 	meta_t **meta = NULL;
 	ecraft_t *ecraft;
 
+	if (message == NULL)
+		message = "";
+
+	if (emoji == NULL)
+		emoji = "";
+
 	if (craft == NULL)
 	{
 		/* __nullcraft(cast, buffer, emoji); */
@@ -108,6 +114,9 @@ void __stagecli(ecraft_t *ecraft, meta_t **meta)
 				assert(emoji_check == 0);
 			else if (emoji_check == 0)
 			{
+				if ((*meta)->cast == NULL)
+					break;
+
 				__ecprintf(cli, "emoji", emoji[i].unicode);
 				__ecprintf(cli, "string", "  ");
 

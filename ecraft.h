@@ -10,17 +10,26 @@
 */
 
 /* global variables */
-#define __ECRAFT ecraft_t *__ecraft
-#define __EC_CLI int __cli
-#define __EC_GUI int __gui
+#define __ECRAFT ecraft_t *__ecraft	/* placeholeder */
+#define __CAST cast_t **__cast	/* place holder for all casts */
+#define __EC_CLI int __cli	/* flag for command line interface */
+#define __EC_GUI int __gui	/* flag for graphical user interface  */
+
+#define __EC_SIZE size_t __ec_size
 
 /* general */
 #define EC_NONE -1	/* none */
 #define __EC_INIT 0	/* init */
 
+/* NOTE: tampering with __EC_INIT may break the library or introduce bugs */
+
 /* interfaces */
 #define EC_CLI 1	/* command line interface TODO */
 #define EC_GUI 2	/* graphical user interface TODO */
+
+#ifndef EC_SIZE
+#define EC_SIZE 1024
+#endif
 
 #include <ncurses.h>
 
@@ -52,8 +61,8 @@ typedef struct cast_s
  * @emoji: emoji
  * @cast: pointer to the cast of a craft
  *
- * Description: this type is meant to be utilised by the library itself
- *		its usage should be avoided in a main program
+ * Description: this type definition is meant to be utilised by the library
+ *		itself its usage should be avoided in a main program
 */
 
 typedef struct meta_s
@@ -66,7 +75,7 @@ typedef struct meta_s
 /**
  * struct craft_s - craft structure
  *
- * @__interface: NONE, CLI, CLI1, CLI2, CLI3, GUI, GUI2, etc
+ * @__interface: EC_NONE, EC_CLI, EC_GUI
  * @__title: title of the craft
  * @__format: letter, story, chat-story, comic, etc
 */
@@ -83,6 +92,8 @@ typedef struct craft_s
  * @cli: command line interface
  * @gui: graphical user interface
  *
+ * Description: this type definition is meant to be utilised by the library
+ *		itself its usage should be avoided by user's  program
 */
 
 typedef union interf_u
@@ -98,8 +109,8 @@ typedef union interf_u
  * @meta: meta information for the craft
  * @next: pointer to the next craft
  *
- * Description: this type is meant to be utilised by the library itself
- *		its usage should be avoided in a main program
+ * Description: this type definition is meant to be utilised by the library
+ *		itself its usage should be avoided by the user's program
 */
 
 typedef struct ecraft_s
@@ -117,6 +128,8 @@ typedef struct ecraft_s
  * @emoji: the emoji
  * @unicode: the unicode representation of @emoji
  *
+ * Description: this type definition is meant to be utilised by the library
+ *		itself its usage should be avoided by the user's program
 */
 
 typedef struct emoji_s
@@ -125,8 +138,12 @@ typedef struct emoji_s
 } emoji_t;
 
 extern ecraft_t *__ecraft;
+extern cast_t **__cast;
+
 extern int __cli;
 extern int __gui;
+
+extern size_t __ec_size;
 
 craft_t *initcraft(char *title, char *format, int interface);
 
@@ -135,7 +152,7 @@ void freecraft(void);
 
 int stage(craft_t *craft, char *message, char *emoji, cast_t *cast);
 void rstage(craft_t *craft, char *format, char *filename);
-meta_t **__meta(meta_t **meta, cast_t *cast, char *message, char *emoji);
+meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji);
 void __delmeta(meta_t **meta);
 
 void __nullcraft(cast_t *cast, char *message, char *emoji);
@@ -145,7 +162,7 @@ void sethead(craft_t *craft, char *header, char *message);
 void unsethead(craft_t *craft, char *header);
 
 cast_t *newcast(char *dname, char *fname, char *lname, char *altnames);
-void __delcast(cast_t *cast);
+void __freecast(void);
 
 void setname(cast_t *cast, char *dname, char *fname, char *lname,
 	char *altnames);
@@ -163,5 +180,6 @@ void __ecprintf(SCREEN *screen, char *type, char *str);
 void __interrupt(SCREEN *screen);
 
 void __addcraft(ecraft_t *ecraft);
+void __addcast(cast_t *cast);
 
 #endif	/* __ECRAFT_H */

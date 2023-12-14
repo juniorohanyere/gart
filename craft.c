@@ -13,9 +13,10 @@
  * @format: the format of the new craft
  *	    valid formats: letter, story, chat-story, comic, etc
  * @interface: the desired interface for the craft
- *	       valid interfaces: NONE, CLI, CLI1, CLI2, CLI3, GUI, GUI2, etc
+ *	       valid interfaces: EC_NONE, EC_CLI, EC_GUI
  *
- * Description: adds, to the end of the master node, a new craft
+ * Description: adds, to the end of the master node (__ecraft), a pointer
+ *		to the new craft
  *
  * Return: return a pointer to the newly created craft
  *	   return a NULL pointer on failure
@@ -59,7 +60,8 @@ craft_t *initcraft(char *title, char *format, int interface)
 }
 
 /**
- * endcraft - finalises/ends and frees all memory associated
+ * endcraft - finalises/ends and frees all memory associated with/within a
+ *	      given craft
  *
  * @craft: the craft to finalise
  *
@@ -76,30 +78,4 @@ void endcraft(craft_t *craft)
 	free(craft->__format);
 
 	free(craft);
-}
-
-/**
- * __addcraft - updates __ecraft
- *
- * @ecraft: pointer to a new placeholder to be used as update for __ecraft
- *
- * Return: return nothing
-*/
-
-void __addcraft(ecraft_t *ecraft)
-{
-	ecraft_t *temp;
-
-	if (__ecraft == NULL)
-		__ecraft = ecraft;
-	else
-	{
-		temp = __ecraft;
-		while (temp->next != NULL)
-		{
-			temp = temp->next;
-		}
-
-		temp->next = ecraft;
-	}
 }

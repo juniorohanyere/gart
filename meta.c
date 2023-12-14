@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "ecraft.h"
 
@@ -15,12 +16,14 @@
  * Return: return a pointer to the generated meta information
 */
 
-meta_t **__meta(meta_t **meta, cast_t *cast, char *message, char *emoji)
+meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 {
-	int i;
+	int i, craft_size = __ec_size;
+
+	assert(craft_size >= 1024);
 
 	if (meta == NULL)
-		meta = calloc(sizeof(meta_t *), 20);
+		meta = calloc(sizeof(meta_t *), __ec_size);
 
 	for (i = 0; meta[i] != NULL; i++)
 		;
@@ -32,7 +35,7 @@ meta_t **__meta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 
 	/* split emoji variable */
 
-	meta[i]->emoji = __tokenise(emoji, "\t\r\n:", 4);
+	meta[i]->emoji = __tokenise(emoji, " \t\r\n:", 4);
 	meta[i]->cast = cast;
 
 	return (meta);
@@ -59,8 +62,6 @@ void __delmeta(meta_t **meta)
 		free(meta[i]->message);
 
 		free(meta[i]->emoji);
-
-		__delcast(meta[i]->cast);
 
 		free(meta[i]);
 

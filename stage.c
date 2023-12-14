@@ -37,8 +37,8 @@ int stage(craft_t *craft, char *message, char *emoji, cast_t *cast)
 			if (ecraft->craft == craft)
 			{
 				emoji_dup = strdup(emoji);
-				meta = __meta(meta, cast, message, emoji_dup);
-				ecraft->meta = __meta(ecraft->meta, cast,
+				meta = __addmeta(meta, cast, message, emoji_dup);
+				ecraft->meta = __addmeta(ecraft->meta, cast,
 					message, emoji_dup);
 
 				__stage(ecraft, meta);

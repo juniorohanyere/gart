@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "ecraft.h"
 
@@ -43,25 +44,56 @@ cast_t *newcast(char *dname, char *fname, char *lname, char *altnames)
 		return (NULL);
 	}
 
+	__addcast(cast);
+
 	return (cast);
 }
 
+
+void __addcast(cast_t *cast)
+{
+	int i, craft_size = __ec_size;
+
+	assert(craft_size >= 1024);
+
+	if (__cast == NULL)
+		__cast = calloc(sizeof(cast_t *), __ec_size);
+
+	for (i = 0; __cast[i] != NULL; i++)
+		;
+
+	/* update __cast */
+	__cast[i] = cast;
+}
+
 /**
- * __delcast - deletes a cast from the __ecraft placeholder
+ * __freecast - deletes all casts contained in __cast
  *
- * @cast: pointer to the cast to delete
+ * Description: __cast is a double pointer to all the casts
+ *		(see macro __CAST)
  *
  * Return: return nothing
 */
 
-void __delcast(cast_t *cast)
+void __freecast(void)
 {
-	free(cast->__altnames);
-	free(cast->__lname);
-	free(cast->__fname);
-	free(cast->__dname);
+	int i = 0;
 
-	free(cast);
+	if (__cast == NULL)
+		return;
+
+	while (__cast[i] != NULL)
+	{
+		free(__cast[i]->__altnames);
+		free(__cast[i]->__lname);
+		free(__cast[i]->__fname);
+		free(__cast[i]->__dname);
+
+		free(__cast[i]);
+
+		i++;
+	}
+	free(__cast);
 }
 
 /**

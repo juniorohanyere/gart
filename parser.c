@@ -22,6 +22,14 @@ char **__tokenise(char *str, const char *delim, int size)
 	char *token;
 	char **tokens;
 
+	token = strtok(str, delim);
+	if (token == NULL)
+	{
+		free(token);
+
+		return (NULL);
+	}
+
 	tokens = malloc(sizeof(char *) * size);
 	if (tokens == NULL)
 	{
@@ -29,10 +37,6 @@ char **__tokenise(char *str, const char *delim, int size)
 		/* TODO: free malloc'ed variables */
 		exit(EXIT_FAILURE);
 	}
-
-	token = strtok(str, delim);
-	if (token == NULL)
-		return (NULL);
 
 	for (i = 0; token != NULL; i++)
 	{

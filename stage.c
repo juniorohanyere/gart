@@ -37,11 +37,11 @@ int stage(craft_t *craft, char *message, char *emoji, cast_t *cast)
 			if (ecraft->craft == craft)
 			{
 				emoji_dup = strdup(emoji);
-				/*meta = __meta(meta, cast, message, emoji_dup);*/
+				meta = __meta(meta, cast, message, emoji_dup);
 				ecraft->meta = __meta(ecraft->meta, cast,
 					message, emoji_dup);
 
-				__stage(ecraft);
+				__stage(ecraft, meta);
 
 				for (i = 0; ecraft->meta[i] != NULL; i++)
 					;
@@ -59,12 +59,12 @@ int stage(craft_t *craft, char *message, char *emoji, cast_t *cast)
 	}
 }
 
-void __stage(ecraft_t *ecraft)
+void __stage(ecraft_t *ecraft, meta_t **meta)
 {
 	switch (ecraft->craft->__interface)
 	{
 		case EC_CLI:
-			__stagecli(ecraft);
+			__stagecli(ecraft, meta);
 
 			break;
 
@@ -76,7 +76,7 @@ void __stage(ecraft_t *ecraft)
 	}
 }
 
-void __stagecli(ecraft_t *ecraft)
+void __stagecli(ecraft_t *ecraft, meta_t **meta)
 {
 	int i, emoji_size = 1, emoji_check, x, y;
 	emoji_t emoji[] = {
@@ -85,7 +85,6 @@ void __stagecli(ecraft_t *ecraft)
 		{NULL, NULL, NULL},
 	};
 	craft_t *craft = ecraft->craft;
-	meta_t **meta = ecraft->meta;
 	SCREEN *cli = ecraft->interf.cli;
 
 	/* display name should be printed in bold */
@@ -95,7 +94,8 @@ void __stagecli(ecraft_t *ecraft)
 		__ecprintf(cli, "string", ": ");
 	}
 
-	while ((*meta)->emoji[emoji_size - 1] != NULL)
+	while ((*meta)->emoji != NULL &&
+		(*meta)->emoji[emoji_size - 1] != NULL)
 	{
 		assert(emoji_size <= 3);
 
@@ -103,7 +103,7 @@ void __stagecli(ecraft_t *ecraft)
 		{
 			emoji_check = strcmp((*meta)->emoji[emoji_size - 1],
 				emoji[i].rep);
-			/* end of dictionary */
+			/* end of dictionary yet coudn't validate emoji */
 			if (emoji[i + 1].rep == NULL && emoji_check != 0)
 				assert(emoji_check == 0);
 			else if (emoji_check == 0)

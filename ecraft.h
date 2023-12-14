@@ -152,9 +152,9 @@ void setname(cast_t *cast, char *dname, char *fname, char *lname,
 void setinfo(cast_t *cast, int height, int weight, int gender,
 	char *complxn);
 
-void __stage(ecraft_t *ecraft);
-void __stagecli(ecraft_t *ecraft);
-void __stagegui(ecraft_t *ecraft);
+void __stage(ecraft_t *ecraft, meta_t **meta);
+void __stagecli(ecraft_t *ecraft, meta_t **meta);
+void __stagegui(ecraft_t *ecraft, meta_t **meta);
 
 char **__tokenise(char *str, const char *delim, int size);
 void __setinterf(ecraft_t *ecraft);

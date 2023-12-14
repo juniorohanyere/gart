@@ -20,10 +20,10 @@ void __interrupt(SCREEN *screen)
 
 	getstr(line);
 	refresh();
-	endwin();
-	delscreen(screen);
-	tb_shutdown();
-	exit(0);
+//	endwin();
+//	delscreen(screen);
+//	tb_shutdown();
+//	exit(0);
 //	flag = getline(&line, &n, stdin);
 //	if (flag == -1)
 //	{

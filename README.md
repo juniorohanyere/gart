@@ -1,6 +1,6 @@
 # ecraft
 
-`ecraft` is an open source programming library, managed by [Junior Ohanyere](https://github.com/juniorohanyere), and distributed under the `GPL-v3.0 license` terms and conditions. It is designed to enable programmers with knowledge in any programming language to create and build `electronic crafts` like stories, short-stories, comics, novels, novella, letters, essays, musics, etc, by writing codes.
+`ecraft` is an open source programming library, managed by [Junior Ohanyere](https://github.com/juniorohanyere), and distributed under the [`GPL-v3.0 license`](LICENSE) terms and conditions. It is designed to enable programmers with knowledge in any programming language to create and build `electronic crafts` like stories, short-stories, comics, novels, novella, letters, essays, musics, etc, by writing codes.
 
 Welcome to the era of programming these craft with your favourite programming language as an electronic craft
 
@@ -28,4 +28,4 @@ the ecraft library is currently under construction with `not much to try feature
 ## programming languages currently supported on
 
 - **C**: under construction
-[try a demo](#)
+[try a demo](tests)

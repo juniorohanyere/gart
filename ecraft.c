@@ -26,6 +26,7 @@ __EC_SIZE;
 
 void __addcraft(ecraft_t *ecraft)
 {
+	int size = 4;
 	ecraft_t *temp;
 
 	if (__ecraft == NULL)
@@ -40,7 +41,6 @@ void __addcraft(ecraft_t *ecraft)
 
 		temp->next = ecraft;
 	}
-	__ec_size = 1024;
 }
 
 /**

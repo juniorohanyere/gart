@@ -18,15 +18,38 @@
 
 meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 {
-	int i, craft_size = __ec_size;
-
-	assert(craft_size >= 1024);
+	int i = 0, meta_size, size = 4;	/* 4 bytes */
 
 	if (meta == NULL)
-		meta = calloc(sizeof(meta_t *), __ec_size);
+	{
+		meta_size = size * (2 * i + 3);
+
+		meta = calloc(sizeof(meta_t *), meta_size);
+		if (meta == NULL)
+			return (NULL);
+	}
 
 	for (i = 0; meta[i] != NULL; i++)
 		;
+
+	meta_size = size * (2 * i + 3);	/* cool formula */
+
+	meta = realloc(meta, sizeof(meta_t *) * meta_size);
+	if (meta == NULL)
+		return (NULL);
+
+	/*
+	 * Original Formula/Algorithm: (i + size + (i - 1)) * size
+	 * By: Junior Ohanyere <junohanyere@gmail.com>
+	 *
+	 * History: (i + size + (i - 1)) * size)
+	 *
+	 *	    (i * size * 2) + (size * size) - size
+	 *
+	 *	    size * (2 * i + 3)	simplified
+	 *
+ 	 * Where size = 4 bytes represented by 4 int
+	*/
 
 	/* update meta information */
 	meta[i] = malloc(sizeof(meta_t));
@@ -34,7 +57,6 @@ meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 	meta[i]->message = strdup(message);
 
 	/* split emoji variable */
-
 	meta[i]->emoji = __tokenise(emoji, " \t\r\n:", 4);
 	meta[i]->cast = cast;
 

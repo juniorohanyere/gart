@@ -55,7 +55,7 @@ typedef struct cast_s
 } cast_t;
 
 /**
- * struct meta_s - meta information structure for a craft
+ * struct __meta_s - meta information structure for a craft
  *
  * @message: message to echo to an interface
  * @emoji: emoji
@@ -65,7 +65,7 @@ typedef struct cast_s
  *		itself its usage should be avoided in a main program
 */
 
-typedef struct meta_s
+typedef struct __meta_s
 {
 	char *message;
 	char **emoji;
@@ -96,14 +96,14 @@ typedef struct craft_s
  *		itself its usage should be avoided by user's  program
 */
 
-typedef union interf_u
+typedef union __interf_u
 {
 	SCREEN *cli;
 	void *gui;	/* TODO: not yet implemeted, need to focus on cli */
 } interf_t;
 
 /**
- * struct ecraft_s - placeholder struct for crafts
+ * struct __ecraft_s - placeholder struct for crafts
  *
  * @craft: pointer to a craft
  * @meta: meta information for the craft
@@ -113,16 +113,16 @@ typedef union interf_u
  *		itself its usage should be avoided by the user's program
 */
 
-typedef struct ecraft_s
+typedef struct __ecraft_s
 {
 	interf_t interf;
 	craft_t *craft;
 	meta_t **meta;
-	struct ecraft_s *next;
+	struct __ecraft_s *next;
 } ecraft_t;
 
 /**
- * struct emoji_s - struture that defines emojis and their unicode
+ * struct __emoji_s - struture that defines emojis and their unicode
  *		    characters
  *
  * @emoji: the emoji
@@ -132,7 +132,7 @@ typedef struct ecraft_s
  *		itself its usage should be avoided by the user's program
 */
 
-typedef struct emoji_s
+typedef struct __emoji_s
 {
 	char *rep, *unicode, *emoji;
 } emoji_t;

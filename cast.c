@@ -52,15 +52,25 @@ cast_t *newcast(char *dname, char *fname, char *lname, char *altnames)
 
 void __addcast(cast_t *cast)
 {
-	int i, craft_size = __ec_size;
-
-	assert(craft_size >= 1024);
+	int i = 0, cast_size, size = 4;
 
 	if (__cast == NULL)
-		__cast = calloc(sizeof(cast_t *), __ec_size);
+	{
+		cast_size = size * (2 * i + 3);
+
+		__cast = calloc(sizeof(cast_t *), 1024);
+		if (__cast == NULL)
+			return;
+	}
 
 	for (i = 0; __cast[i] != NULL; i++)
 		;
+
+	cast_size = size * (2 * i + 3);	/* flawless */
+
+	__cast = realloc(__cast, sizeof(cast_t *) * cast_size);
+	if (__cast == NULL)
+		return;
 
 	/* update __cast */
 	__cast[i] = cast;

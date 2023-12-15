@@ -26,6 +26,12 @@ void __setinterf(ecraft_t *ecraft)
 				initscr();
 
 				__cli = EC_CLI;
+
+				cbreak();
+				/* enable special key input */
+				keypad(stdscr, TRUE);
+				/* enable colours */
+				refresh();
 			}
 			ecraft->interf.cli = newterm(NULL, stdout, stdin);
 

@@ -15,8 +15,6 @@
 #define __EC_CLI int __cli	/* flag for command line interface */
 #define __EC_GUI int __gui	/* flag for graphical user interface  */
 
-#define __EC_SIZE size_t __ec_size
-
 /* general */
 #define EC_NONE -1	/* none */
 #define __EC_INIT 0	/* init */
@@ -142,8 +140,6 @@ extern cast_t **__cast;
 
 extern int __cli;
 extern int __gui;
-
-extern size_t __ec_size;
 
 craft_t *initcraft(char *title, char *format, int interface);
 

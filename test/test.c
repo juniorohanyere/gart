@@ -24,18 +24,19 @@ int main(void)
 	vic = newcast("Victory Micheal", "Victiory", "Daivid", "Davido");
 	mic = newcast("Mic", "Micheal", "Dominion", "No name");
 
-	stage(cstory, "Hi, Vic\nWelcome to the Test", "grinning-face ", jun);
-	stage(cstory, "What's good about the test? Uhn", "crying-face", vic);
+	stage(cstory, "Hi, Vic\nWelcome to the Test", "g-f ", jun);
+	stage(cstory, "What's good about the test? Uhn", "c-f", vic);
 
-	stage(cstory, "We just performed a new test, and the test definitely looks good", "grinning-face", jun);
-	stage(cstory, "Why don't you give it a try?", "grinning-face", jun);
+	stage(cstory, "We just performed a new test, and the test definitely \
+looks good.\nBetty, Valgrind... Just give the new update a try!", "g-f", jun);
+	stage(cstory, "Why don't you give it a try?", "u-d-f", jun);
 
-	stage(cstory, "Ok, I'll give it a try later", "grinning-face", vic);
+	stage(cstory, "Ok, I'll give it a try later", "g-f", vic);
 
-	stage(cstory, "Alright, buddy", "grinning-face", jun);
+	stage(cstory, "Alright, buddy", "b-f-w-s-e", jun);
 
 	stage(cstory, "Hey guys, what's popping! I just got news about ecraft",
-		"grinning-face ", mic);
+		"s-s-f", mic);
 
 	freecraft();
 

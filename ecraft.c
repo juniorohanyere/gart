@@ -14,8 +14,6 @@ __CAST;
 __EC_CLI;
 __EC_GUI;
 
-__EC_SIZE;
-
 /**
  * __addcraft - updates __ecraft
  *

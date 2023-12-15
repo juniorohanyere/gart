@@ -179,5 +179,14 @@ void __addcraft(ecraft_t *ecraft);
 void __addcast(cast_t *cast);
 
 emoji_t *__emojilist(void);
+char **__craftfmt(void);
 
 #endif	/* __ECRAFT_H */
+typedef struct __ec_cstory_s ec_cstory_t;
+
+typedef
+void ec_init(int interface);
+
+int ec_cstory(char *title, char *subtitle);
+int ec_story(char *title, char *subtitle);
+int ec_comic(char *title, char *subtitle);

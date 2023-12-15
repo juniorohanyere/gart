@@ -9,19 +9,23 @@
 /**
  * __set_interf - sets the interface for a given craft
  *
- * @interface: the interface to set
+ * @craft: pointer to the given craft
  *
- * Return: return a pointer to the newly created interface as a union
+ * Return: return nothing
 */
 
 void __set_interf(ecraft_t *craft)
 {
+	int tb;
+
 	switch (craft->__interface)
 	{
 		case EC_CLI:
 			if (__cli == __EC_INIT)
 			{
-				tb_init();	/* TODO: manage init error */
+				tb = tb_init();
+				assert(tb == 0);
+
 				initscr();
 
 				__cli = EC_CLI;

@@ -1,19 +1,33 @@
 #ifndef __ECRAFT_H
 #define __ECRAFT_H
 
-#define __ECRAFT ecraft_t **__ecraft
+/*
+ * Note: variables, macros, structs, unions, enums, and/or functions
+ *	 beginning with double underscore (__) should be avoided by user
+ *	 programs
+*/
 
-#define __EC_CLI int __cli
-#define __EC_GUI int  __gui
+#define __ECRAFT ecraft_t **__ecraft	/* placeholder */
 
-#define EC_NONE -1
-#define __EC_INIT 0
+#define __EC_CLI int __cli	/* flag for command line interface */
+#define __EC_GUI int  __gui	/* flag for graphical user interface */
+
+#define EC_NONE -1	/* none */
+#define __EC_INIT 0	/* init */
+
+/* Note: tampering with __EC_INIT may break the library or introduce bugs */
 
 #define EC_CLI 1
 #define EC_GUI 2
 
 #include <ncurses.h>
-#include <stdarg.h>
+
+/**
+ * union __interf_u - union for interfaces
+ *
+ * @cli: command line interface
+ * @gui: graphical user interface
+*/
 
 typedef union __interf_u
 {
@@ -21,11 +35,28 @@ typedef union __interf_u
 	void *gui;
 } interf_t;
 
+/**
+ * struct cast_s - data structure for casts of a craft
+ *
+ * @__dname: display name
+ * @__fname: first name
+ * @__lname: last name
+ * @__altnames: alternate names
+*/
+
 typedef struct cast_s
 {
 	/* int height, weight, gender, ... */
 	char *__dname, *__fname, *__lname, *__altnames;
 } cast_t;
+
+/**
+ * struct __meta_s - data structure for meta data for a given craft
+ *
+ * @message: message body
+ * @emoji: mode at which @message is based upon
+ * @cast: cast responsible for @message
+*/
 
 typedef struct __meta_s
 {
@@ -33,6 +64,18 @@ typedef struct __meta_s
 	char **emoji;
 	cast_t *cast;
 } meta_t;
+
+/**
+ * struct ecraft_s - data structure for crafts (placeholder)
+ *
+ * @__interface: interface of the craft
+ * @__title: title for the craft
+ * @__subtitle: subtitle for the craft
+ * @__type: type of craft
+ * @__interf: interface switch for the craft
+ * @__cast: cast added to the craft
+ * @__meta: metadata for a craft
+*/
 
 typedef struct ecraft_s
 {
@@ -50,9 +93,6 @@ typedef struct ecraft_s
  * @rep: end user representation of the emoji
  * @unicode: the unicode representation of @emoji
  * @emoji: the emoji
- *
- * Description: this type definition is meant to be utilised by the library
- *		itself its usage should be avoided by the user's program
 */
 
 typedef struct __emoji_s
@@ -78,14 +118,13 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta);
 emoji_t *__emoji_list(void);
 void __ec_printf(SCREEN *screen, const char *type, char *str);
 void __interrupt(SCREEN *screen);
-void freecraft(void);
+void ec_free(void);
 cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
 	char *altnames);
 int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji);
 void __m_del_cstory(meta_t **meta);
 void __c_del_cstory(cast_t **cast);
-void __freecraft(ecraft_t *craft);
-
-/* int stage(cast_t *cast, */
+void __free_craft(ecraft_t *craft);
+void __free_cstory(ecraft_t *cstory);
 
 #endif	/* __ECRAFT_H */

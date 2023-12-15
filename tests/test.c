@@ -23,8 +23,8 @@ int main(void)
 	vic = c_cstory(cstory, "Victory Micheal", "Victiory", "Daivid", "Davido");
 	mic = c_cstory(cstory, "Mic", "Micheal", "Dominion", "No name");
 
-	s_cstory(cstory, jun, "Hi, Vic\nWelcome to the Test", "g-f");
-	s_cstory(cstory, vic, "What's good about the test? Uhn", "c-f");
+	i = s_cstory(cstory, jun, "Hi, Vic\nWelcome to the Test", "g-f");
+	j = s_cstory(cstory, vic, "What's good about the test? Uhn", "c-f");
 
 	s_cstory(cstory, jun, "We just performed a new test, and the test \
 definitely looks good.\n\
@@ -39,7 +39,7 @@ Betty, Valgrind... Just give the new update a try!", "g-f:b-f-w-s-e");
 		"Hey guys, what's popping! I just got news about ecraft",
 		"s-s-f");
 
-	freecraft();
+	ec_free();
 
 	return (0);
 }

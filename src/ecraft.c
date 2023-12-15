@@ -10,52 +10,15 @@ __ECRAFT;
 __EC_CLI;
 __EC_GUI;
 
-ecraft_t *ec_cstory(char *title, char *subtitle, int interface)
-{
-	int i = 0, ec_size, size = 4;
-
-	if (__ecraft == NULL)
-	{
-		ec_size = size * (2 * i + 3);
-
-		__ecraft = calloc(sizeof(ecraft_t *), ec_size);
-		if (__ecraft == NULL)
-			return (NULL);
-	}
-
-	for (i = 0; __ecraft[i] != NULL; i++)
-		;
-
-	ec_size = size * (2 * i + 3);
-
-	__ecraft = realloc(__ecraft, sizeof(ecraft_t *) * ec_size);
-	if (__ecraft == NULL)
-		return (NULL);
-
-	__ecraft[i] = calloc(sizeof(ecraft_t), 1);
-	if (__ecraft[i] == NULL)
-		return (NULL);
-
-	__ecraft[i]->__interface = interface;
-	__ecraft[i]->__title = strdup(title);
-	__ecraft[i]->__subtitle = strdup(subtitle);
-	__ecraft[i]->__type = strdup("ec_cstory");
-	__set_interf(__ecraft[i]);
-	__ecraft[i]->__cast = NULL;
-	__ecraft[i]->__meta = NULL;
-
-	return (__ecraft[i]);
-}
-
 /**
- * freecraft - clean-up
+ * ec_free - clean-up
  *	       this function must be called at the end of the user's program
  *	       in order to clean up or free all allocated blocks of  memory
  *
  * Return: return nothing
 */
 
-void freecraft(void)
+void ec_free(void)
 {
 	int i = 0, interface;
 
@@ -66,7 +29,6 @@ void freecraft(void)
 	{
 		interface = __ecraft[i]->__interface;
 
-		__freecraft(__ecraft[i]);
 		__c_del_cstory(__ecraft[i]->__cast);
 		__m_del_cstory(__ecraft[i]->__meta);
 		if (interface == EC_CLI)
@@ -75,7 +37,7 @@ void freecraft(void)
 		{
 			/* delete gui window */
 		}
-		free(__ecraft[i]);
+		__free_craft(__ecraft[i]);
 		i++;
 	}
 	free(__ecraft);
@@ -97,12 +59,18 @@ void freecraft(void)
 	__cli = __EC_INIT, __gui = __EC_INIT;
 }
 
-void __freecraft(ecraft_t *craft)
+/**
+ * __free_craft - frees memory associated with a given craft
+ *
+ * @craft: pointer to the given craft
+ *
+ * Return: return nothing
+*/
+
+void __free_craft(ecraft_t *craft)
 {
 	if (craft == NULL)
 		return;
 
-	free(craft->__title);
-	free(craft->__subtitle);
-	free(craft->__type);
+	__free_cstory(craft);
 }

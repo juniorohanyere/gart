@@ -3,6 +3,16 @@
 
 #include "ecraft.h"
 
+/**
+ * __c_add_cstory - cast_add_cstory => adds a new cast to a pointer to a
+ *		    chat-story/cstory
+ *
+ * @cstory: pointer to the head of the chat-story
+ * @cast: the cast to add to @cstory
+ *
+ * Return: return nothing
+*/
+
 void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
 {
 	int i = 0, ec_size, size = 4;
@@ -29,7 +39,8 @@ void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
 }
 
 /**
- * __addmeta - generates and update meta information for a craft
+ * __m_add_cstory - meta_add_cstory => generates and update meta
+ *		    information for a craft
  *
  * @meta: pointer to the head metadata
  * @cast: the cast of a craft
@@ -39,7 +50,8 @@ void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
  * Return: return a pointer to the generated meta information
 */
 
-meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message, char *emoji)
+meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message,
+	char *emoji)
 {
 	int i = 0, meta_size, size = 4;	/* 4 bytes */
 
@@ -50,10 +62,8 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message, char *emoji)
 		if (meta == NULL)
 			return (NULL);
 	}
-
 	for (i = 0; meta[i] != NULL; i++)
 		;
-
 	meta_size = size * (2 * i + 3);	/* cool formula */
 	meta = realloc(meta, sizeof(meta_t *) * meta_size);
 	if (meta == NULL)
@@ -64,9 +74,7 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message, char *emoji)
 	 * By: Junior Ohanyere <junohanyere@gmail.com>
 	 *
 	 * History: (i + size + (i - 1)) * size)
-	 *
 	 *	    (i * size * 2) + (size * size) - size
-	 *
 	 *	    size * (2 * i + 3)	simplified
 	 *
 	 * Where size = 4 bytes represented by 4 int
@@ -77,22 +85,19 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message, char *emoji)
 	if (meta[i] == NULL)
 	{
 		free(meta);
-
 		return (NULL);
 	}
 
 	meta[i]->message = strdup(message);
-
 	/* split emoji variable */
 	meta[i]->emoji = __tokenise(emoji, " \t\r\n:", 4);
 	meta[i]->cast = cast;
-
 	return (meta);
 }
 
 /**
- * __delmeta - deletes/pops out all meta information stored in __ecraft for
- *	       a craft
+ * __m_del_cstory - meta_del_cstory => deletes/pops out all meta
+ *		    information stored in __ecraft for a craft
  *
  * @meta: double pointer to all meta information for a craft
  *
@@ -120,6 +125,15 @@ void __m_del_cstory(meta_t **meta)
 	free(meta);
 }
 
+/**
+ * __c_del_cstory - cast_del_cstory => deletes all casts associated with a
+ *		    given craft
+ *
+ * @cast: head pointer to the cast to delete
+ *
+ * Return: return nothing
+*/
+
 void __c_del_cstory(cast_t **cast)
 {
 	int i;
@@ -138,4 +152,26 @@ void __c_del_cstory(cast_t **cast)
 	}
 
 	free(cast);
+}
+
+/**
+ * __free_cstory - frees all memory associated with a given chat-story object
+ *
+ * @cstory: pointer to the given chat-story object
+ *
+ * Return: return nothing
+*/
+
+void __free_cstory(ecraft_t *cstory)
+{
+	if (cstory == NULL)
+		return;
+
+	if (strcmp(cstory->__type, "ec_cstory") == 0)
+	{
+		free(cstory->__title);
+		free(cstory->__subtitle);
+		free(cstory->__type);
+		free(cstory);
+	}
 }

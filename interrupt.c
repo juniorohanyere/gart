@@ -7,6 +7,8 @@
 /**
  * __interrupt - interrupt handler that prompts for user input
  *
+ * @screen: current terminal screen
+ *
  * Return: return nothing
 */
 

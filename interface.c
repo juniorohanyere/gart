@@ -9,8 +9,7 @@
 /**
  * __setinterf - sets the interface for a given craft
  *
- * @craft: the given craft
- * @meta: the meta information for the given craft
+ * @ecraft: pointer to the parent node of the craft to set interface for
  *
  * Return: return nothing
 */

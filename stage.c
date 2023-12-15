@@ -37,7 +37,6 @@ int stage(craft_t *craft, char *message, char *emoji, cast_t *cast)
 	else
 	{
 		ecraft = __ecraft;
-
 		while (ecraft != NULL)
 		{
 			if (ecraft->craft == craft)
@@ -46,24 +45,29 @@ int stage(craft_t *craft, char *message, char *emoji, cast_t *cast)
 				meta = __addmeta(meta, cast, message, emoji_dup);
 				ecraft->meta = __addmeta(ecraft->meta, cast,
 					message, emoji_dup);
-
 				__stage(ecraft, meta);
-
 				for (i = 0; ecraft->meta[i] != NULL; i++)
 					;
 				free((*meta)->message);
 				free((*meta)->emoji);
 				free(*meta);
 				free(meta);
-
 				free(emoji_dup);
-
 				return (i - 1);
 			}
 			ecraft = ecraft->next;
 		}
 	}
 }
+
+/**
+ * __stage - switch between interfaces
+ *
+ * @ecraft: pointer to the head craft placeholder
+ * @meta: meta information for the craft
+ *
+ * Return: return nothing
+*/
 
 void __stage(ecraft_t *ecraft, meta_t **meta)
 {
@@ -82,27 +86,19 @@ void __stage(ecraft_t *ecraft, meta_t **meta)
 	}
 }
 
+/**
+ * __stagecli - sends/stages data to the command line interface
+ *
+ * @ecraft: pointer to the head craft placeholder
+ * @meta: metadata for the craft
+ *
+ * Return: return nothing
+*/
+
 void __stagecli(ecraft_t *ecraft, meta_t **meta)
 {
 	int i, emoji_size = 1, emoji_check, x, y;
-	emoji_t emoji[] = {
-		{"g-f", "0x1F600", "[grinning face]"},
-		{"g-f-w-b-e", "0x1F603", "[grinning face with big eyes]"},
-		{"g-f-w-s-e", "0x1F604", "[grinning face with smiling eyes]"},
-		{"b-f-w-s-e", "0x1F601", "[beaming face with similing eyes]"},
-		{"g-s-f", "0x1F606", "[grinning squinting face]"},
-		{"g-f-w-s", "0x1F605", "[grinning face with sweat]"},
-		{"r-o-t-f-l", "0x1F923", "[rolling on the floor laughing]"},
-		{"f-w-t-o-j", "0x1F602", "[face with tears of joy]"},
-		{"s-s-f", "0x1F642", "[slightly smiling face]"},
-		{"u-d-f", "0x1F643", "[upside-down face]"},
-		{"m-f", "0x1FAE0", "[melting face]"},
-		{"w-f", "0x1F609", "[winking face]"},
-
-		{"c-f", "0x1F622", "[crying face]"},
-
-		{NULL, NULL, NULL},
-	};
+	emoji_t *emoji = __emojilist();
 	craft_t *craft = ecraft->craft;
 	SCREEN *cli = ecraft->interf.cli;
 
@@ -111,15 +107,13 @@ void __stagecli(ecraft_t *ecraft, meta_t **meta)
 	{
 		attron(A_BOLD);
 		__ecprintf(cli, "string", (*meta)->cast->__dname);
-		__ecprintf(cli, "string", ": ");
-		attroff(A_BOLD);
+		__ecprintf(cli, "string", ": "), attroff(A_BOLD);
 	}
 
 	while ((*meta)->emoji != NULL &&
 		(*meta)->emoji[emoji_size - 1] != NULL)
 	{
 		assert(emoji_size <= 3);
-
 		for (i = 0; emoji[i].rep != NULL; i++)
 		{
 			emoji_check = strcmp((*meta)->emoji[emoji_size - 1],
@@ -136,13 +130,11 @@ void __stagecli(ecraft_t *ecraft, meta_t **meta)
 				__ecprintf(cli, "emoji", emoji[i].unicode);
 				__ecprintf(cli, "string", "  ");
 				attroff(A_BOLD);
-
 				break;
 			}
 		}
 		emoji_size++;
 	}
 	__ecprintf(cli, "string", "\n");
-	__ecprintf(cli, "string", (*meta)->message);
-	__interrupt(cli);
+	__ecprintf(cli, "string", (*meta)->message), __interrupt(cli);
 }

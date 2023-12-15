@@ -6,7 +6,7 @@
 #include "ecraft.h"
 
 /**
- * __meta - generates and update meta information for a craft
+ * __addmeta - generates and update meta information for a craft
  *
  * @meta: pointer to the head metadata
  * @cast: the cast of a craft
@@ -23,7 +23,6 @@ meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 	if (meta == NULL)
 	{
 		meta_size = size * (2 * i + 3);
-
 		meta = calloc(sizeof(meta_t *), meta_size);
 		if (meta == NULL)
 			return (NULL);
@@ -33,7 +32,6 @@ meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 		;
 
 	meta_size = size * (2 * i + 3);	/* cool formula */
-
 	meta = realloc(meta, sizeof(meta_t *) * meta_size);
 	if (meta == NULL)
 		return (NULL);
@@ -48,12 +46,11 @@ meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 	 *
 	 *	    size * (2 * i + 3)	simplified
 	 *
- 	 * Where size = 4 bytes represented by 4 int
+	 * Where size = 4 bytes represented by 4 int
 	*/
 
 	/* update meta information */
 	meta[i] = malloc(sizeof(meta_t));
-
 	meta[i]->message = strdup(message);
 
 	/* split emoji variable */

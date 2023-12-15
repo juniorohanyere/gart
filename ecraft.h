@@ -2,11 +2,9 @@
 #define __ECRAFT_H
 
 /*
- * variables, macros, and/or functions beginning with double underscore (__)
- * should be avoided by user programs
- *
- * types/typedefs/type definitions designed for the library alone are stated
- * within their documentation
+ * Note: variables, macros, data structures, unions, enums, and/or functions
+ *	 beginning with double underscore (__) should be avoided by user
+ *	 programs
 */
 
 /* global variables */
@@ -85,7 +83,7 @@ typedef struct craft_s
 } craft_t;
 
 /**
- * union interf_u - type definition for an interface union
+ * union __interf_u - type definition for an interface union
  *
  * @cli: command line interface
  * @gui: graphical user interface
@@ -103,6 +101,7 @@ typedef union __interf_u
 /**
  * struct __ecraft_s - placeholder struct for crafts
  *
+ * @interf: union of interfaces
  * @craft: pointer to a craft
  * @meta: meta information for the craft
  * @next: pointer to the next craft
@@ -123,8 +122,9 @@ typedef struct __ecraft_s
  * struct __emoji_s - struture that defines emojis and their unicode
  *		    characters
  *
- * @emoji: the emoji
+ * @rep: end user representation of the emoji
  * @unicode: the unicode representation of @emoji
+ * @emoji: the emoji
  *
  * Description: this type definition is meant to be utilised by the library
  *		itself its usage should be avoided by the user's program
@@ -177,5 +177,7 @@ void __interrupt(SCREEN *screen);
 
 void __addcraft(ecraft_t *ecraft);
 void __addcast(cast_t *cast);
+
+emoji_t *__emojilist(void);
 
 #endif	/* __ECRAFT_H */

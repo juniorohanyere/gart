@@ -61,47 +61,32 @@ void freecraft(void)
 	{
 		next = ecraft->next;
 		interface = ecraft->craft->__interface;
-
 		endcraft(ecraft->craft);
 		__delmeta(ecraft->meta);
-
 		if (interface == EC_CLI)
 			delscreen(ecraft->interf.cli);
-
 		else if (interface == EC_GUI)
 		{
 			/* delete gui window */
 		}
-
-
 		free(ecraft);
-
 		ecraft = next;
 	}
-
 	__freecast();
-
 	if (__cli == EC_CLI)
 	{
-		endwin();
-		del_curterm(cur_term);
-		delwin(stdscr);
-		delwin(curscr);
-		delwin(newscr);
+		endwin(), del_curterm(cur_term);
+		delwin(stdscr), delwin(curscr), delwin(newscr);
 		/*
 		 * this is by far the best clean up for ncurses I know of
 		 * any help on improving or making the ncurses clean up perfect
 		 * is highly appreciated
 		*/
-
 		tb_shutdown();
 	}
-
 	if (__gui == EC_GUI)
 	{
 		/* end gui */
 	}
-
-	__cli = __EC_INIT;
-	__gui = __EC_INIT;
+	__cli = __EC_INIT, __gui = __EC_INIT;
 }

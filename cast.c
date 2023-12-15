@@ -49,6 +49,13 @@ cast_t *newcast(char *dname, char *fname, char *lname, char *altnames)
 	return (cast);
 }
 
+/**
+ * __addcast - adds a cast to a new index in __cast placeholder
+ *
+ * @cast: the cast to add to __cast
+ *
+ * Return: return nothing
+*/
 
 void __addcast(cast_t *cast)
 {

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../ecraft.h"
+#include "../src/ecraft.h"
 
 /**
  * main - entry point

@@ -6,7 +6,7 @@
 #include "ecraft.h"
 
 /**
- * __ecprintf - prints a string, or emoji to the stdscr of the current
+ * __ec_printf - prints a string, or emoji to the stdscr of the current
  *		terminal screen
  *
  * @screen: the current terminal screen
@@ -17,7 +17,7 @@
  * Return: return nothing
 */
 
-void __ecprintf(SCREEN *screen, char *type, char *str)
+void __ec_printf(SCREEN *screen, const char *type, char *str)
 {
 	int x, y;
 	uint32_t ch;

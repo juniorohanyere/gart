@@ -7,16 +7,16 @@
 #include "ecraft.h"
 
 /**
- * __setinterf - sets the interface for a given craft
+ * __set_interf - sets the interface for a given craft
  *
- * @ecraft: pointer to the parent node of the craft to set interface for
+ * @interface: the interface to set
  *
- * Return: return nothing
+ * Return: return a pointer to the newly created interface as a union
 */
 
-void __setinterf(ecraft_t *ecraft)
+void __set_interf(ecraft_t *craft)
 {
-	switch (ecraft->craft->__interface)
+	switch (craft->__interface)
 	{
 		case EC_CLI:
 			if (__cli == __EC_INIT)
@@ -32,7 +32,7 @@ void __setinterf(ecraft_t *ecraft)
 				/* enable colours */
 				refresh();
 			}
-			ecraft->interf.cli = newterm(NULL, stdout, stdin);
+			craft->__interf.cli = newterm(NULL, stdout, stdin);
 
 			break;
 

@@ -1,9 +1,32 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
 #include "ecraft.h"
+
+void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
+{
+	int i = 0, ec_size, size = 4;
+
+	if (cstory->__cast == NULL)
+	{
+		ec_size = size * (2 * i + 3);
+
+		cstory->__cast = calloc(sizeof(cast_t *), ec_size);
+		if (cstory->__cast == NULL)
+			return;
+	}
+
+	for (i = 0; cstory->__cast[i] != NULL; i++)
+		;
+
+	ec_size = size * (2 * i + 3);
+
+	cstory->__cast = realloc(cstory->__cast, sizeof(cast_t *) * ec_size);
+	if (cstory->__cast == NULL)
+		return;
+
+	cstory->__cast[i] = cast;
+}
 
 /**
  * __addmeta - generates and update meta information for a craft
@@ -16,7 +39,7 @@
  * Return: return a pointer to the generated meta information
 */
 
-meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
+meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message, char *emoji)
 {
 	int i = 0, meta_size, size = 4;	/* 4 bytes */
 
@@ -50,7 +73,14 @@ meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
 	*/
 
 	/* update meta information */
-	meta[i] = malloc(sizeof(meta_t));
+	meta[i] = calloc(sizeof(meta_t), 1);
+	if (meta[i] == NULL)
+	{
+		free(meta);
+
+		return (NULL);
+	}
+
 	meta[i]->message = strdup(message);
 
 	/* split emoji variable */
@@ -69,7 +99,7 @@ meta_t **__addmeta(meta_t **meta, cast_t *cast, char *message, char *emoji)
  * Return: return nothing
 */
 
-void __delmeta(meta_t **meta)
+void __m_del_cstory(meta_t **meta)
 {
 	int i = 0, j = 0;
 
@@ -88,4 +118,24 @@ void __delmeta(meta_t **meta)
 	}
 
 	free(meta);
+}
+
+void __c_del_cstory(cast_t **cast)
+{
+	int i;
+
+	if (cast == NULL)
+		return;
+
+	for (i = 0; cast[i] != NULL; i++)
+	{
+		free(cast[i]->__dname);
+		free(cast[i]->__fname);
+		free(cast[i]->__lname);
+		free(cast[i]->__altnames);
+
+		free(cast[i]);
+	}
+
+	free(cast);
 }

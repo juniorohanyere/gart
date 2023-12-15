@@ -16,27 +16,28 @@ int main(void)
 {
 	int i, j;
 	cast_t *jun, *vic, *mic;
-	craft_t *cstory;
+	ecraft_t *cstory;
 
-	cstory = initcraft("welcome", "chat-story", EC_CLI);
+	cstory = ec_cstory("welcome", "chat-story", EC_CLI);
+	jun = c_cstory(cstory, "Junior Ohanyere", "Junior", "Ohanyere", "Twin J");
+	vic = c_cstory(cstory, "Victory Micheal", "Victiory", "Daivid", "Davido");
+	mic = c_cstory(cstory, "Mic", "Micheal", "Dominion", "No name");
 
-	jun = newcast("Junior Ohanyere", "Junior", "Ohanyere", "Twin J");
-	vic = newcast("Victory Micheal", "Victiory", "Daivid", "Davido");
-	mic = newcast("Mic", "Micheal", "Dominion", "No name");
+	s_cstory(cstory, jun, "Hi, Vic\nWelcome to the Test", "g-f");
+	s_cstory(cstory, vic, "What's good about the test? Uhn", "c-f");
 
-	stage(cstory, "Hi, Vic\nWelcome to the Test", "g-f ", jun);
-	stage(cstory, "What's good about the test? Uhn", "c-f", vic);
+	s_cstory(cstory, jun, "We just performed a new test, and the test \
+definitely looks good.\n\
+Betty, Valgrind... Just give the new update a try!", "g-f:b-f-w-s-e");
+	s_cstory(cstory, jun, "Why don't you give it a try?", "u-d-f");
 
-	stage(cstory, "We just performed a new test, and the test definitely \
-looks good.\nBetty, Valgrind... Just give the new update a try!", "g-f", jun);
-	stage(cstory, "Why don't you give it a try?", "u-d-f", jun);
+	s_cstory(cstory, vic, "Ok, I'll give it a try later", "g-f");
 
-	stage(cstory, "Ok, I'll give it a try later", "g-f", vic);
+	s_cstory(cstory, jun, "Alright, buddy", "b-f-w-s-e");
 
-	stage(cstory, "Alright, buddy", "b-f-w-s-e", jun);
-
-	stage(cstory, "Hey guys, what's popping! I just got news about ecraft",
-		"s-s-f", mic);
+	s_cstory(cstory, mic,
+		"Hey guys, what's popping! I just got news about ecraft",
+		"s-s-f");
 
 	freecraft();
 

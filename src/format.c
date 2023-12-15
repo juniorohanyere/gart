@@ -8,8 +8,9 @@
 
 char **__craftfmt(void)
 {
-	char *format[] = {
+	static char *format[] = {
 		"chat-story", "story", "comic", "letter", "essay", NULL
 	};
 
-	return (
+	return (format);
+}

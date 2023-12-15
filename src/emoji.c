@@ -1,12 +1,12 @@
 #include "ecraft.h"
 
 /**
- * __emojilist - list of emojis, their representation, and unicode values
+ * __emoji_list - list of emojis, their representation, and unicode values
  *
  * Return: return a pointer to the list of emojis
 */
 
-emoji_t *__emojilist(void)
+emoji_t *__emoji_list(void)
 {
 	static emoji_t emoji[] = {
 		{"g-f", "0x1F600", "[grinning face]"},

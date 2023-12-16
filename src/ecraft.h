@@ -7,16 +7,23 @@
  *	 programs
 */
 
+/* global variables */
 #define __ECRAFT ecraft_t **__ecraft	/* placeholder */
+
+#define __PMTSCR WINDOW *__pmtscr	/* prompt screen */
 
 #define __EC_CLI int __cli	/* flag for command line interface */
 #define __EC_GUI int  __gui	/* flag for graphical user interface */
 
+/* general */
 #define EC_NONE -1	/* none */
 #define __EC_INIT 0	/* init */
 
+#define __PMT_HEIGHT 1	/* prompt window height */
+
 /* Note: tampering with __EC_INIT may break the library or introduce bugs */
 
+/* interfaces */
 #define EC_CLI 1
 #define EC_GUI 2
 
@@ -105,26 +112,36 @@ extern ecraft_t **__ecraft;
 extern int __cli;
 extern int __gui;
 
-ecraft_t *ec_cstory(char *title, char *subtitle, int interface);
-void __set_interf(ecraft_t *craft);
-int stage(...);
+extern WINDOW *__pmtscr;
 
-void __c_add_cstory(ecraft_t *cstory, cast_t *cast);
-char **__tokenise(char *str, const char *delim, int size);
-meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message,
-	char *emoji);
-void __s_cstory(ecraft_t *cstory, meta_t *meta);
-void __s_cli_cstory(ecraft_t *cstory, meta_t *meta);
-emoji_t *__emoji_list(void);
-void __ec_printf(SCREEN *screen, const char *type, char *str);
-void __interrupt(SCREEN *screen);
+ecraft_t *ec_cstory(char *title, char *subtitle, int interface);
 void ec_free(void);
+
+int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji);
 cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
 	char *altnames);
-int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji);
-void __m_del_cstory(meta_t **meta);
-void __c_del_cstory(cast_t **cast);
+
+/*
+ * below functions are meant for the library itself, so therefore, a user
+ * should avoid the use of these functions
+*/
+
+void __ec_printf(SCREEN *screen, const char *type, char *str);
+void __set_interf(ecraft_t *craft);
+char **__tokenise(char *str, const char *delim, int size);
+void __interrupt(SCREEN *screen);
 void __free_craft(ecraft_t *craft);
+void __prompt_win(void);
+
+void __c_add_cstory(ecraft_t *cstory, cast_t *cast);
+void __c_del_cstory(cast_t **cast);
+void __s_cstory(ecraft_t *cstory, meta_t *meta);
+void __s_cli_cstory(ecraft_t *cstory, meta_t *meta);
+void __m_del_cstory(meta_t **meta);
+meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message,
+	char *emoji);
 void __free_cstory(ecraft_t *cstory);
+
+emoji_t *__emoji_list(void);
 
 #endif	/* __ECRAFT_H */

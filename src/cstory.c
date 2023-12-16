@@ -193,6 +193,14 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta)
 	emoji_t *emoji = __emoji_list();
 	SCREEN *cli = cstory->__interf.cli;
 
+	y = getcury(stdscr);
+	if (y == getmaxy(stdscr) - 2)
+	{
+		scrl(2);
+		refresh();
+		doupdate();
+	}
+
 	/* display name should be printed in bold */
 	if (meta->cast != NULL && meta->cast->__dname != NULL)
 	{

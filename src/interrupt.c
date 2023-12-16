@@ -17,10 +17,13 @@ void __interrupt(SCREEN *screen)
 	char *line = malloc(sizeof(char) * 1024);
 	ssize_t flag;
 
-	__ec_printf(screen, "string", "\n");
+	__ec_printf(screen, "string", "\n\n");
 
-	getstr(line);
-	refresh();
+	mvwprintw(__pmtscr, 0, 0, "$ ");
+	wrefresh(__pmtscr);
+
+	wgetstr(__pmtscr, line);
+	werase(__pmtscr);
 
 	free(line);
 }

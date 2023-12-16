@@ -37,6 +37,8 @@ void __set_interf(ecraft_t *craft)
 				refresh();
 			}
 			craft->__interf.cli = newterm(NULL, stdout, stdin);
+			scrollok(stdscr, TRUE);
+			__prompt_win();
 
 			break;
 
@@ -53,4 +55,13 @@ void __set_interf(ecraft_t *craft)
 		default:	/* EC_NONE */
 			return;	/* do nothing */
 	}
+}
+
+void __prompt_win(void)
+{
+	int x, y;
+
+	getmaxyx(stdscr, y, x);
+
+	__pmtscr = newwin(__PMT_HEIGHT, x, y - __PMT_HEIGHT, 0);
 }

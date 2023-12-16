@@ -37,7 +37,7 @@ Betty, Valgrind... Just give the new update a try!", "g-f:b-f-w-s-e");
 
 	s_cstory(cstory, mic,
 		"Hey guys, what's popping! I just got news about ecraft",
-		"s-s-f");
+		"s-s-f:s-s-f");
 
 	ec_free();
 

@@ -7,6 +7,8 @@
 
 __ECRAFT;
 
+__PMTSCR;
+
 __EC_CLI;
 __EC_GUI;
 

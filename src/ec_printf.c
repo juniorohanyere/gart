@@ -29,7 +29,11 @@ void __ec_printf(SCREEN *screen, const char *type, char *str)
 	y = getcury(stdscr);
 
 	if (strcmp(type, "string") == 0)
-		mvprintw(y, x, str);
+	{
+		printw(str);
+		tb_present();
+		refresh();	/* force characters to output -> fflush */
+	}
 	else if (strcmp(type, "emoji") == 0)
 	{
 		ch = strtoul(str, &s, 16);
@@ -38,5 +42,4 @@ void __ec_printf(SCREEN *screen, const char *type, char *str)
 		tb_change_cell(x, y, ch, TB_WHITE, TB_DEFAULT);
 		tb_present();
 	}
-	refresh();	/* force characters to output -> fflush */
 }

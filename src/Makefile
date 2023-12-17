@@ -3,9 +3,12 @@
 # compiler
 CC = gcc
 
+# include path for termux
+INCLUDE = -I/data/data/com.termux/files/usr/include/termbox
+
 # compiler flags
-CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement -Werror \
-	-Wextra
+CFLAGS = $(INCLUDE) -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement \
+	-Werror -Wformat-security -Wextra
 
 # archiver
 AR = ar

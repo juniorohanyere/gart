@@ -26,7 +26,7 @@ int main(void)
 		"Davido");
 	mic = c_cstory(cstory, "Mic", "Micheal", "Dominion", "No name");
 
-	i = s_cstory(cstory, jun, "Hi, Vic\nWelcome to the Test", "g-f");
+	i = s_cstory(cstory, jun, "Hi, Vic\nWelcome to the Test", "g-f:f-s-f");
 	j = s_cstory(cstory, vic, "What's good about the test? Uhn", "c-f");
 
 	strcpy(str, "We just performed a new test, ");
@@ -34,7 +34,8 @@ int main(void)
 	strcat(str, "Betty, Valgrind... Just give the new update a try!");
 
 	s_cstory(cstory, jun, str, "g-f:b-f-w-s-e");
-	s_cstory(cstory, jun, "Why don't you give it a try?", "u-d-f");
+	s_cstory(cstory, jun, "Why don't you give it a try?",
+		"u-d-f:s-f-w-o-h");
 
 	s_cstory(cstory, vic, "Ok, I'll give it a try later", "g-f: ");
 
@@ -42,7 +43,7 @@ int main(void)
 
 	s_cstory(cstory, mic,
 		"Hey guys, what's popping! I just got news about ecraft",
-		"s-s-f:s-s-f");
+		"s-s-f:s-s-f:s-f");
 
 	free(str);
 

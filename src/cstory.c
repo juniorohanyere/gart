@@ -17,7 +17,8 @@
  * Return: return a pointer to the new chat-story
 */
 
-ecraft_t *ec_cstory(char *title, char *subtitle, int interface)
+ecraft_t *ec_cstory(char *title, char *subtitle, char *description,
+	int interface)
 {
 	int i = 0, ec_size, size = 4;
 	char *type = "ec_cstory";
@@ -49,10 +50,14 @@ ecraft_t *ec_cstory(char *title, char *subtitle, int interface)
 		return (NULL);
 
 	__ecraft[i]->__interface = interface;
+
 	__ecraft[i]->__title = strdup(title);
 	__ecraft[i]->__subtitle = strdup(subtitle);
+	__ecraft[i]->__description = strdup(description);
 	__ecraft[i]->__type = strdup(type);
+
 	__set_interf(__ecraft[i]);
+
 	__ecraft[i]->__cast = NULL;
 	__ecraft[i]->__meta = NULL;
 
@@ -141,6 +146,38 @@ int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji)
 
 			for (j = 0; __ecraft[i]->__meta[j] != NULL; j++)
 				;
+
+			if (j - 1 == 0)
+			{
+				attron(A_BOLD);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", "Title:		");
+				attroff(A_BOLD);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", __ecraft[i]->__title);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", "\n");
+
+				attron(A_BOLD);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", "Subtitle:	");
+				attroff(A_BOLD);
+
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", __ecraft[i]->__subtitle);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", "\n");
+
+				attron(A_BOLD);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", "Description:	");
+				attroff(A_BOLD);
+
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", __ecraft[i]->__description);
+				__ec_printf(__ecraft[i]->__interf.cli,
+					"string", "\n\n");
+			}
 
 			__s_cstory(cstory, __ecraft[i]->__meta[j - 1]);
 

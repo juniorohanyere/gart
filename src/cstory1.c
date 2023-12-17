@@ -171,6 +171,7 @@ void __free_cstory(ecraft_t *cstory)
 	{
 		free(cstory->__title);
 		free(cstory->__subtitle);
+		free(cstory->__description);
 		free(cstory->__type);
 		free(cstory);
 	}

@@ -5,6 +5,16 @@
  * Note: variables, macros, structs, unions, enums, and/or functions
  *	 beginning with double underscore (__) should be avoided by user
  *	 programs
+ *
+ * Prefixing - variables, functions, macros, structs, unions, and/or enums
+ *	       beginning with <prefix>_ or __<prefix>_ in the case of
+ *	       library-only variables, or functions, or the likes, are
+ *	       described below
+ * ec_, __ec_: ecraft/e-craft/electronic craft
+ *	       create a new craft usually of ecraft_t data type
+ * s_, __s_: stage, stage/display an input buffer to a specified interface
+ * c_, __c_: cast, create a new cast for a given craft
+ * m_, __m_: meta, create/update a meta data for a given craft
 */
 
 /* global variables */
@@ -87,7 +97,7 @@ typedef struct __meta_s
 typedef struct ecraft_s
 {
 	int __interface;
-	char *__title, *__subtitle, *__type;
+	char *__title, *__subtitle, *__description, *__type;
 	interf_t __interf;
 	cast_t **__cast;
 	meta_t **__meta;
@@ -114,7 +124,8 @@ extern int __gui;
 
 extern WINDOW *__pmtscr;
 
-ecraft_t *ec_cstory(char *title, char *subtitle, int interface);
+ecraft_t *ec_cstory(char *title, char *subtitle, char *description,
+	int interface);
 void ec_free(void);
 
 int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji);

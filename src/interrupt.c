@@ -19,7 +19,9 @@ void __interrupt(SCREEN *screen)
 
 	__ec_printf(screen, "string", "\n\n");
 
+	wattron(__pmtscr, A_BOLD);
 	mvwprintw(__pmtscr, 0, 0, "$ ");
+	wattroff(__pmtscr, A_BOLD);
 	wrefresh(__pmtscr);
 
 	wgetstr(__pmtscr, line);

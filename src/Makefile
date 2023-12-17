@@ -4,7 +4,7 @@
 CC = gcc
 
 # compiler flags
-CFLAGS = -pedantic -std=gnu2x -Wall -Wdecalaration-after-statement -Werror \
+CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement -Werror \
 	-Wextra
 
 # all source files
@@ -19,12 +19,15 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 # object files
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
+# dependency files
+DEP = ecraft.h
+
 # default target
 all: $(OBJ)
 
 # compiling each source file into an object file
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c $(DEP)
+	$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
 # clean up generated files
 clean:

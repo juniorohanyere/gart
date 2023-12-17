@@ -106,7 +106,7 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message,
 
 void __m_del_cstory(meta_t **meta)
 {
-	int i = 0, j = 0;
+	int i = 0;
 
 	if (meta == NULL)
 		return;

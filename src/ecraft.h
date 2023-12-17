@@ -124,6 +124,7 @@ extern int __gui;
 
 extern WINDOW *__pmtscr;
 
+
 ecraft_t *ec_cstory(char *title, char *subtitle, char *description,
 	int interface);
 void ec_free(void);

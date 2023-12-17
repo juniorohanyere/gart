@@ -15,7 +15,6 @@
 void __interrupt(SCREEN *screen)
 {
 	char *line = malloc(sizeof(char) * 1024);
-	ssize_t flag;
 
 	__ec_printf(screen, "string", "\n\n");
 

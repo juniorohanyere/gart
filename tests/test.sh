@@ -1,6 +1,5 @@
-gcc -shared -fPIC -o libecraft.so ../src/*.c
-gcc test.c -L. -lecraft -lncurses -ltermbox -o test
+gcc test.c -L.. -lecraft -lncurses -ltermbox -o test -Wl,-rpath=..,-rpath=.
 
-export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+./test/test
 
 ./test

@@ -186,6 +186,7 @@ int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji)
 			return (j - 1);
 		}
 	}
+	return (-1);
 }
 
 /**
@@ -226,7 +227,7 @@ void __s_cstory(ecraft_t *cstory, meta_t *meta)
 
 void __s_cli_cstory(ecraft_t *cstory, meta_t *meta)
 {
-	int i, emoji_size = 1, emoji_check, x, y;
+	int i, emoji_size = 1, emoji_check, y;
 	emoji_t *emoji = __emoji_list();
 	SCREEN *cli = cstory->__interf.cli;
 

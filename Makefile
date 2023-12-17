@@ -9,8 +9,9 @@ AR = ar
 # compiler flags
 CFLAGS = -shared
 
-# libraries: should later use ecraft-config when it will be available
-LIBS = $(shell ncurses6-config --cflags --libs) -ltermbox
+# libraries for test target:
+# should later use ecraft-config when it will be available
+LIBS = -L. -lecraft $(shell ncurses6-config --cflags --libs) -ltermbox
 
 # object files
 OBJ = $(wildcard src/*.o)
@@ -39,6 +40,11 @@ $(TARGET1): $(OBJ)
 # build target by archiving the object files
 $(TARGET2): $(OBJ)
 	$(AR) rcs $@ $^
+
+# test target
+test:
+	$(CC) tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=.,-rpath=..
+	./tests/test
 
 # clean generated files
 clean:

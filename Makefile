@@ -13,8 +13,11 @@ CFLAGS = -shared
 # should later use ecraft-config when it will be available
 LIBS = -L. -lecraft $(shell ncurses6-config --cflags --libs) -ltermbox
 
+# source files
+SRC = $(wildcard src/*.c)
+
 # object files
-OBJ = $(wildcard src/*.o)
+OBJ = $(patsubst %.c, %.o, $(SRC))
 
 # target
 TARGET = target
@@ -38,15 +41,20 @@ $(TARGET1): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $@
 
 # build target by archiving the object files
-$(TARGET2): $(OBJ)
+$(TARGET2): $(wildcard src/*.o)
 	$(AR) rcs $@ $^
 
-# test target
+# test dynamic library
 test:
-	$(CC) tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=.,-rpath=..
-	./tests/test
+	@$(CC) tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=$(shell pwd)
+	@tests/$@
+
+# test static library
+test-static:
+	@$(CC) -static tests/test.c $(LIBS) -o tests/$@
+	@./tests/$@
 
 # clean generated files
 clean:
 	$(MAKE) -C src clean
-	rm -f $(TARGET1) $(TARGET2)
+	rm -f $(TARGET1) $(TARGET2) tests/test tests/test-static

@@ -7,6 +7,9 @@ CC = gcc
 CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement -Werror \
 	-Wextra
 
+# archiver
+AR = ar
+
 # all source files
 SRCS = $(wildcard *.c)
 
@@ -22,8 +25,12 @@ OBJ = $(patsubst %.c, %.o, $(SRC))
 # dependency files
 DEP = ecraft.h
 
+# static library to extract from
+LIB = $(shell whereis libncurses.a | awk '{print $$2}')
+
 # default target
-all: $(OBJ)
+all: $(OBJ) $(LIB)
+	$(AR) x $(LIB)
 
 # compiling each source file into an object file
 %.o: %.c $(DEP)
@@ -31,4 +38,4 @@ all: $(OBJ)
 
 # clean up generated files
 clean:
-	rm -f $(OBJ)
+	rm -f $(wildcard *.o)

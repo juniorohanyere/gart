@@ -10,7 +10,6 @@
  *
  * @title: title of the chat-story
  * @subtitle: subtitle of the chat-story
- * @description: description of the chat story
  * @interface: interface to use (cli, gui, or none)
  *
  * Description: @title and @subtitle can be set to NULL
@@ -221,7 +220,7 @@ void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 
 void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 {
-	int i, y;
+	int i, j, emoji_size, emoji_check, y;
 	SCREEN *cli = cstory->__interf.cli;
 
 	y = getcury(stdscr);
@@ -251,9 +250,42 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 			__ec_printf(cli, "string", ": ");
 			attroff(A_BOLD);
 			if (meta->emoji != NULL && meta->emoji[i] != NULL)
-				__sp_cstory(cli, meta->emoji[i]);
-			__ec_printf(cli, "string", "\n");
+			{
+				emoji_size = 1;
+				while (meta->emoji[i][emoji_size - 1] != NULL)
+				{
+					assert(emoji_size <= 3);
+					for (j = 0; emoji[j].rep != NULL; j++)
+					{
+						emoji_check = strcmp(
+							meta->emoji[i][emoji_size - 1],
+							emoji[j].rep);
+						/*
+						 * end of dictionary, yet
+						 * couldn't validate emoji
+						*/
+						if (emoji[j + 1].rep == NULL &&
+							emoji_check != 0)
+							assert(emoji_check == 0);
+						else if (emoji_check == 0)
+						{
+							attron(A_BOLD);
+							__ec_printf(cli,
+								"emoji", emoji[j].unicode);
+							__ec_printf(cli,
+								"string",
+								"  ");
+							attroff(A_BOLD);
+
+							break;
+							/* check next emoji */
+						}
+					}
+					emoji_size++;	/* next emoji */
+				}
+			}	/* do nothing if emoji is NULL */
 			/* next cast */
+			__ec_printf(cli, "string", "\n");
 		}
 	}	/* if cast is NULL, just print the message */
 	__ec_printf(cli, "string", meta->message);

@@ -1,3 +1,6 @@
+#include <string.h>
+#include <assert.h>
+
 #include <ecraft.h>
 
 /**
@@ -34,4 +37,46 @@ void __h_cstory(ecraft_t *cstory)
 
 	__ec_printf(cli, "string", cstory->__description);
 	__ec_printf(cli, "string", "\n\n");
+}
+
+void __sp_cstory(SCREEN *screen, char **emoji)
+{
+	int i, emoji_size = 1, emoji_check;
+	emoji_t *emojis = __emoji_list();
+
+	while (emoji[emoji_size - 1] != NULL)
+	{
+		if (emoji_size > 3)
+		{
+			/* do some clean up at least */
+			delscreen(screen);
+			__scr_cleanup();
+
+			assert(emoji_size <= 3);
+		}
+		for (i = 0; emojis[i].rep != NULL; i++)
+		{
+			emoji_check = strcmp(emoji[emoji_size - 1],
+				emojis[i].rep);
+			/* end of dictionary, yet couldn't validate emoji */
+			if (emojis[i + 1].rep == NULL && emoji_check != 0)
+			{
+				delscreen(screen);
+				__scr_cleanup();
+
+				assert(emoji_check == 0);
+			}
+			else if (emoji_check == 0)
+			{
+				attron(A_BOLD);
+				__ec_printf(screen, "emoji",
+					emojis[i].unicode);
+				__ec_printf(screen, "string", "  ");
+				attroff(A_BOLD);
+
+				break;	/* check next emoji */
+			}
+		}
+		emoji_size++;	/* next emoji */
+	}
 }

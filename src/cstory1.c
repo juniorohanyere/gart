@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "ecraft.h"
 
@@ -50,10 +51,10 @@ void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
  * Return: return a pointer to the generated meta information
 */
 
-meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message,
-	char *emoji)
+meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
+	char *message, int nmemb)
 {
-	int i = 0, meta_size, size = 4;	/* 4 bytes */
+	int i = 0, j, meta_size, size = 4;
 
 	if (meta == NULL)
 	{
@@ -90,8 +91,16 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t *cast, char *message,
 
 	meta[i]->message = strdup(message);
 	/* split emoji variable */
-	meta[i]->emoji = __tokenise(emoji, " \t\r\n:", 4);
+	meta[i]->emoji = malloc(sizeof(char **) * nmemb);
+	if (meta[i]->emoji == NULL)
+		return (NULL);
+
+	for (j = 0; j < nmemb; j++)
+		meta[i]->emoji[j] = __tokenise(emoji[j], " \t\r\n:", 4);
+	meta[i]->emoji[j] = NULL;
+
 	meta[i]->cast = cast;
+
 	return (meta);
 }
 

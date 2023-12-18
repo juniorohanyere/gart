@@ -111,23 +111,33 @@ cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
  *	      message and the cast responsible for the message
  *
  * @cstory: pointer to the head of the chat-story
- * @cast: pointer to the cast responsible for the message to display
- * @message: message to display
+ * @cast: pointer to the an array of cast responsible for the message to
+ *	  display
  * @emoji: state of the @cast at the moment
+ * @message: message to display
+ * @nmemb: number of cast pointers to reference for number of cast pointers to
+ *	   reference is less than or equal to number of the total cast pointers
+ *	   in @cast
+ *
+ * Description: if the @nmemb is greater than number of cast pointers present
+ *		in @cast, could lead to undefined behaviour
+ *		@cast or any of its elements can be set to NULL
+ *		any element of @cast set to NULL will be assigned an identity
+ *		of <Unknown>
+ *		if @cast is NULL, message to broadcast is taken as anonymous
+ *		message
+ *		@emoji must also contain the same number of elements in @cast
  *
  * Return: return the index position of the stage within @cstory->meta
 */
 
-int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji)
+int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
+	int nmemb)
 {
 	int i, j;
-	char *emoji_dup;
 
 	if (message == NULL)
 		message = "";
-
-	if (emoji == NULL)
-		emoji = "";
 
 	if (cstory == NULL)
 	{
@@ -140,9 +150,9 @@ int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji)
 	{
 		if (__ecraft[i] == cstory)
 		{
-			emoji_dup = strdup(emoji);
 			__ecraft[i]->__meta = __m_add_cstory(
-				__ecraft[i]->__meta, cast, message, emoji_dup);
+				__ecraft[i]->__meta, cast, emoji, message,
+					nmemb);
 
 			for (j = 0; __ecraft[i]->__meta[j] != NULL; j++)
 				;
@@ -179,9 +189,8 @@ int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji)
 					"string", "\n\n");
 			}
 
-			__s_cstory(cstory, __ecraft[i]->__meta[j - 1]);
-
-			free(emoji_dup);
+			__s_cstory(cstory, __ecraft[i]->__meta[j - 1],
+				nmemb);
 
 			return (j - 1);
 		}
@@ -194,16 +203,17 @@ int s_cstory(ecraft_t *cstory, cast_t *cast, char *message, char *emoji)
  *
  * @cstory: the chat-story to be staged for display
  * @meta: pointer to the meta data for @cstory
+ * @ncast: number of cast members to reference
  *
  * Return: return nothing
 */
 
-void __s_cstory(ecraft_t *cstory, meta_t *meta)
+void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 {
 	switch (cstory->__interface)
 	{
 		case EC_CLI:
-			__s_cli_cstory(cstory, meta);
+			__s_cli_cstory(cstory, meta, ncast);
 
 			break;
 
@@ -221,13 +231,14 @@ void __s_cstory(ecraft_t *cstory, meta_t *meta)
  *
  * @cstory: pointer to the chat-story to stage for display
  * @meta: pointer to meta data for @cstory
+ * @ncast: number of cast members to reference
  *
  * Return: return nothing
 */
 
-void __s_cli_cstory(ecraft_t *cstory, meta_t *meta)
+void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 {
-	int i, emoji_size = 1, emoji_check, y;
+	int i, j, emoji_size = 1, emoji_check, y;
 	emoji_t *emoji = __emoji_list();
 	SCREEN *cli = cstory->__interf.cli;
 
@@ -240,39 +251,61 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta)
 	}
 
 	/* display name should be printed in bold */
-	if (meta->cast != NULL && meta->cast->__dname != NULL)
+	if (meta->cast != NULL)
 	{
-		attron(A_BOLD);
-		__ec_printf(cli, "string", meta->cast->__dname);
-		__ec_printf(cli, "string", ": "), attroff(A_BOLD);
-	}
-
-	while (meta->emoji != NULL && meta->emoji[emoji_size - 1] != NULL)
-	{
-		assert(emoji_size <= 3);
-		for (i = 0; emoji[i].rep != NULL; i++)
+		for (i = 0; i < ncast; i++)
 		{
-			emoji_check = strcmp(meta->emoji[emoji_size - 1],
-				emoji[i].rep);
-			/* end of dictionary, yet couldn't validate emoji */
-			if (emoji[i + 1].rep == NULL && emoji_check != 0)
-				assert(emoji_check == 0);
-			else if (emoji_check == 0)
+			attron(A_BOLD);
+			if (meta->cast[i] == NULL)
 			{
-				if (meta->cast == NULL)
-					break;
-
-				attron(A_BOLD);
-				__ec_printf(cli, "emoji", emoji[i].unicode);
-				__ec_printf(cli, "string", "  ");
-				attroff(A_BOLD);
-
-				break;
+				/* unknown cast/character */
+				__ec_printf(cli, "string", "<Unknown>");
 			}
+			else
+			{
+				__ec_printf(cli, "string",
+					meta->cast[i]->__dname);
+			}
+			__ec_printf(cli, "string", ": ");
+			attroff(A_BOLD);
+			if (meta->emoji != NULL && meta->emoji[i] != NULL)
+			{
+				while (meta->emoji[i][emoji_size - 1] != NULL)
+				{
+					assert(emoji_size <= 3);
+					for (j = 0; emoji[j].rep != NULL; j++)
+					{
+						emoji_check = strcmp(
+							meta->emoji[i][emoji_size - 1],
+							emoji[j].rep);
+						/*
+						 * end of dictionary, yet
+						 * couldn't validate emoji
+						*/
+						if (emoji[j + 1].rep == NULL &&
+							emoji_check != 0)
+							assert(emoji_check == 0);
+						else if (emoji_check == 0)
+						{
+							attron(A_BOLD);
+							__ec_printf(cli,
+								"emoji", emoji[j].unicode);
+							__ec_printf(cli,
+								"string",
+								"  ");
+							attroff(A_BOLD);
+
+							break;
+							/* check next emoji */
+						}
+					}
+					emoji_size++;	/* next emoji */
+				}
+			}	/* do nothing if emoji is NULL */
+			/* next cast */
+			__ec_printf(cli, "string", "\n");
 		}
-		emoji_size++;
-	}
-	__ec_printf(cli, "string", "\n");
+	}	/* if cast is NULL, just print the message */
 	__ec_printf(cli, "string", meta->message);
 	__interrupt(cli);
 }

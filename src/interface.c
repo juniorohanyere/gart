@@ -21,14 +21,14 @@ void __set_interf(ecraft_t *craft)
 	switch (craft->__interface)
 	{
 		case EC_CLI:
-			if (__cli == __EC_INIT)
+			if (__cli == EC_NONE)
 			{
 				tb = tb_init();
 				assert(tb == 0);
 
 				initscr();
 
-				__cli = EC_CLI;
+				__cli = __EC_INIT;
 
 				cbreak();
 				/* enable special key input */
@@ -43,10 +43,10 @@ void __set_interf(ecraft_t *craft)
 			break;
 
 		case EC_GUI:
-			if (__gui == __EC_INIT)
+			if (__gui == EC_NONE)
 			{
 				/* init gui */
-				__gui = EC_GUI;
+				__gui = __EC_INIT;
 			}
 			/* ecraft->interf.gui = TODO */
 

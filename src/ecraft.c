@@ -6,11 +6,10 @@
 #include "ecraft.h"
 
 __ECRAFT;
-
 __PMTSCR;
-
 __EC_CLI;
 __EC_GUI;
+__EC_TTS;
 
 /**
  * ec_free - clean-up
@@ -43,7 +42,7 @@ void ec_free(void)
 		i++;
 	}
 	free(__ecraft);
-	if (__cli == EC_CLI)
+	if (__cli == __EC_INIT)
 	{
 		endwin(), del_curterm(cur_term);
 		delwin(stdscr), delwin(curscr), delwin(newscr);
@@ -54,11 +53,11 @@ void ec_free(void)
 		*/
 		tb_shutdown();
 	}
-	if (__gui == EC_GUI)
+	if (__gui == __EC_INIT)
 	{
 		/* end gui */
 	}
-	__cli = __EC_INIT, __gui = __EC_INIT;
+	__cli = EC_NONE, __gui = EC_NONE;
 }
 
 /**

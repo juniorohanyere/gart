@@ -125,9 +125,11 @@ extern int __gui;
 extern WINDOW *__pmtscr;
 extern int __tts;
 
+void ec_init(void);
 void ec_tts(void);	/* text to speech mode */
 void ec_ntts(void);	/* disable text to speech mode */
 void ec_emoji(void);	/* display emoji */
+void ec_wemoji(void);	/* display word representation of emoji */
 void ec_nemoji(void);	/* do not display emoji */
 void ec_free(void);
 
@@ -148,7 +150,7 @@ void __ec_tts(char *str);
 
 void __set_interf(ecraft_t *craft);
 char **__tokenise(char *str, const char *delim, int size);
-void __interrupt(SCREEN *screen);
+void __interrupt(SCREEN *screen, char *tts_msg);
 void __free_craft(ecraft_t *craft);
 void __prompt_win(void);
 emoji_t *__emoji_list(void);

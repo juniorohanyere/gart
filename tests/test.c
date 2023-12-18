@@ -23,9 +23,11 @@ int main(void)
 
 	str = malloc(sizeof(char) * 1024);
 
+	ec_init();
+	ec_tts();
+
 	strcpy(str,
 		"An overview on ecraft library usage for create chat stories");
-
 	cstory = ec_cstory("Electronic Craft", "Chat Story", str, EC_CLI);
 
 	jun = c_cstory(cstory, "Junior Ohanyere", "Junior", "Ohanyere",

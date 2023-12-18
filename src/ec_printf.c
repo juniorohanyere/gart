@@ -31,7 +31,6 @@ void __ec_printf(SCREEN *screen, const char *type, char *str)
 	if (strcmp(type, "string") == 0)
 	{
 		printw("%s", str);
-		tb_present();
 		refresh();	/* force characters to output -> fflush */
 	}
 	else if (strcmp(type, "emoji") == 0)

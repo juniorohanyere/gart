@@ -260,5 +260,5 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 	if (strcmp(meta->message, "\r") != 0)
 		__ec_printf(cli, "string", "\n");
 
-	__interrupt(cli);
+	__interrupt(cli, meta->message);
 }

@@ -3,10 +3,12 @@
 #include <assert.h>
 #include <espeak/speak_lib.h>
 
-#include "ecraft.h"
+#include <ecraft.h>
 
 /**
  * ec_tts - sets the tts flag to true
+ *
+ * Description: text to speech is disabled by default
  *
  * Return: return nothing
 */
@@ -19,6 +21,8 @@ void ec_tts(void)
 /**
  * ec_ntts - sets the tts flag to false
  *
+ * Description: default text to speech mode
+ *
  * Return: return nothing
 */
 
@@ -28,20 +32,19 @@ void ec_ntts(void)
 }
 
 /**
- * __ec_tts - enable text to speech mode
+ * __ec_tts - enables text to speech mode if tts flag is set to true
  *
  * @buffer: the text to convert to speech
  *
- * Description: tts is disabled by default
+ * Description: tts flag (__tts) is disabled by default
  *
  * Return: return nothing
 */
 
-void __ec_tts(char *buffer)
+void __ec_tts(char __attribute__((unused))*buffer)
 {
-	/* initialise espeak */
-	assert(espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, strlen(buffer) + 1,
-		NULL, 0) >= 0);
+	if (__tts == EC_NONE)
+		return;
 
 	/* synthesize the speech */
 	espeak_Synth(buffer, strlen(buffer) + 1, 0, POS_CHARACTER, 0,
@@ -51,5 +54,5 @@ void __ec_tts(char *buffer)
 	espeak_Synchronize();
 
 	/* clean up espeak */
-	espeak_Terminate();
+//	espeak_Terminate();
 }

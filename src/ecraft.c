@@ -1,15 +1,48 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
 #include <term.h>
 #include <termbox.h>
+#include <espeak/speak_lib.h>
 
-#include "ecraft.h"
+#include <ecraft.h>
 
 __ECRAFT;
 __PMTSCR;
 __EC_CLI;
 __EC_GUI;
 __EC_TTS;
+
+void ec_init(void)
+{
+	int cli_init;
+
+	/* initialise espeak */
+	if (__cli == EC_NONE && __gui == EC_NONE)
+	{
+		cli_init = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 500, NULL, 0);
+
+		assert(cli_init != -1);
+	}
+
+	/* initialise termbox and ncurses */
+	if (__cli == EC_NONE)
+	{
+		cli_init = tb_init();
+		assert(cli_init == 0);
+
+		initscr();
+
+		cbreak();
+		/* enable special key input */
+		keypad(stdscr, TRUE);
+
+		refresh();
+
+		__cli = __EC_INIT;
+	}
+}
 
 /**
  * ec_free - clean-up

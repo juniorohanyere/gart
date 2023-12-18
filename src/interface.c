@@ -16,26 +16,9 @@
 
 void __set_interf(ecraft_t *craft)
 {
-	int tb;
-
 	switch (craft->__interface)
 	{
 		case EC_CLI:
-			if (__cli == EC_NONE)
-			{
-				tb = tb_init();
-				assert(tb == 0);
-
-				initscr();
-
-				__cli = __EC_INIT;
-
-				cbreak();
-				/* enable special key input */
-				keypad(stdscr, TRUE);
-				/* enable colours */
-				refresh();
-			}
 			craft->__interf.cli = newterm(NULL, stdout, stdin);
 			scrollok(stdscr, TRUE);
 			__prompt_win();

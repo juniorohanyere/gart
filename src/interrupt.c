@@ -12,7 +12,7 @@
  * Return: return nothing
 */
 
-void __interrupt(SCREEN *screen)
+void __interrupt(SCREEN *screen, char *tts_msg)
 {
 	char *line = malloc(sizeof(char) * 1024);
 
@@ -22,6 +22,8 @@ void __interrupt(SCREEN *screen)
 	mvwprintw(__pmtscr, 0, 0, "$ ");
 	wattroff(__pmtscr, A_BOLD);
 	wrefresh(__pmtscr);
+
+	__ec_tts(tts_msg);
 
 	wgetstr(__pmtscr, line);
 	werase(__pmtscr);

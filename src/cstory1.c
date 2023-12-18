@@ -51,7 +51,7 @@ void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
  * Return: return a pointer to the generated meta information
 */
 
-meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
+meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, __attribute__((unused))char **emoji,
 	char *message, int nmemb)
 {
 	int i = 0, j, meta_size, size = 4;
@@ -91,12 +91,14 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
 
 	meta[i]->message = strdup(message);
 	/* split emoji variable */
-	meta[i]->emoji = malloc(sizeof(char **) * nmemb);
+	meta[i]->emoji = malloc(sizeof(char **) * nmemb * 1024);
 	if (meta[i]->emoji == NULL)
 		return (NULL);
 
 	for (j = 0; j < nmemb; j++)
+	{
 		meta[i]->emoji[j] = __tokenise(emoji[j], " \t\r\n:", 4);
+	}
 	meta[i]->emoji[j] = NULL;
 
 	meta[i]->cast = cast;

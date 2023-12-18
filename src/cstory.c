@@ -88,6 +88,15 @@ cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
 	if (cast == NULL)
 		return (NULL);
 
+	if (dname == NULL)
+		dname = "<No Name>";
+	if (fname == NULL)
+		fname = "";
+	if (lname == NULL)
+		lname = "";
+	if (altnames == NULL)
+		altnames = "";
+
 	cast->__dname = strdup(dname);
 	cast->__fname = strdup(fname);
 	cast->__lname = strdup(lname);
@@ -135,6 +144,7 @@ int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
 	int nmemb)
 {
 	int i, j;
+	char **emoji_dup = malloc(sizeof(char *) * nmemb);
 
 	if (message == NULL)
 		message = "";
@@ -146,12 +156,19 @@ int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
 		return (-1);
 	}
 
+	for (i = 0; i < nmemb; i++)
+	{
+		if (emoji[i] == NULL)
+			emoji[i] = "";
+		emoji_dup[i] = strdup(emoji[i]);
+	}
+
 	for (i = 0; __ecraft[i] != NULL; i++)
 	{
 		if (__ecraft[i] == cstory)
 		{
 			__ecraft[i]->__meta = __m_add_cstory(
-				__ecraft[i]->__meta, cast, emoji, message,
+				__ecraft[i]->__meta, cast, emoji_dup, message,
 					nmemb);
 
 			for (j = 0; __ecraft[i]->__meta[j] != NULL; j++)
@@ -191,6 +208,10 @@ int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
 
 			__s_cstory(cstory, __ecraft[i]->__meta[j - 1],
 				nmemb);
+			for (i = 0; i < nmemb; i++)
+				free(emoji_dup[i]);
+
+			free(emoji_dup);
 
 			return (j - 1);
 		}
@@ -238,7 +259,7 @@ void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 
 void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 {
-	int i, j, emoji_size = 1, emoji_check, y;
+	int i, j, emoji_size, emoji_check, y;
 	emoji_t *emoji = __emoji_list();
 	SCREEN *cli = cstory->__interf.cli;
 
@@ -270,6 +291,7 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 			attroff(A_BOLD);
 			if (meta->emoji != NULL && meta->emoji[i] != NULL)
 			{
+				emoji_size = 1;
 				while (meta->emoji[i][emoji_size - 1] != NULL)
 				{
 					assert(emoji_size <= 3);

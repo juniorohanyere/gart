@@ -70,6 +70,7 @@ typedef struct cast_s
 /**
  * struct __meta_s - data structure for meta data for a given craft
  *
+ * @nmemb: number of cast member to reference
  * @message: message body
  * @emoji: mode at which @message is based upon
  * @cast: cast responsible for @message
@@ -77,6 +78,7 @@ typedef struct cast_s
 
 typedef struct __meta_s
 {
+	int nmemb;
 	char *message;
 	char ***emoji;
 	cast_t **cast;

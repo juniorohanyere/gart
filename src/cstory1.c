@@ -87,7 +87,7 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
 		free(meta);
 		return (NULL);
 	}
-
+	meta[i]->nmemb = nmemb;
 	meta[i]->message = strdup(message);
 	/* split emoji variable */
 	meta[i]->emoji = malloc(sizeof(char **) * nmemb * 1024);
@@ -116,7 +116,7 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
 
 void __m_del_cstory(meta_t **meta)
 {
-	int i = 0;
+	int i = 0, j;
 
 	if (meta == NULL)
 		return;
@@ -124,6 +124,9 @@ void __m_del_cstory(meta_t **meta)
 	while (meta[i] != NULL)
 	{
 		free(meta[i]->message);
+
+		for (j = 0; j < meta[i]->nmemb; j++)
+			free(meta[i]->emoji[j]);
 
 		free(meta[i]->emoji);
 

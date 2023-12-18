@@ -78,6 +78,8 @@ int main(void)
 	s_cstory(cstory, &vic, &emojis[1], "What's ecraft?", 1);
 
 	free(str);
+	free(emojis);
+	free(casts);
 
 	ec_free();
 

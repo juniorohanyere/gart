@@ -3,11 +3,8 @@
 # compiler
 CC = gcc
 
-# include path for termux
-INCLUDE = -I/data/data/com.termux/files/usr/include/termbox
-
 # compiler flags
-CFLAGS = $(INCLUDE) -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement \
+CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement \
 	-Werror -Wformat-security -Wextra
 
 # archiver
@@ -28,8 +25,8 @@ OBJ = $(patsubst %.c, %.o, $(SRC))
 # dependency files
 DEP = ecraft.h
 
-# static library to extract from
-LIB = $(shell whereis libncurses.a | awk '{print $$2}')
+# static library to extract object files from
+LIB = /usr/lib/x86_64-linux-gnu/libncurses.a
 
 # default target
 all: $(OBJ) $(LIB)

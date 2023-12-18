@@ -4,7 +4,7 @@
 CC = gcc
 
 # compiler flags
-CFLAGS = -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement \
+CFLAGS = -I. -pedantic -std=gnu2x -Wall -Wdeclaration-after-statement \
 	-Werror -Wformat-security -Wextra
 
 # archiver

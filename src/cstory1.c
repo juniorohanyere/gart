@@ -2,7 +2,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "ecraft.h"
+#include <ecraft.h>
 
 /**
  * __c_add_cstory - cast_add_cstory => adds a new cast to a pointer to a
@@ -45,13 +45,23 @@ void __c_add_cstory(ecraft_t *cstory, cast_t *cast)
  *
  * @meta: pointer to the head metadata
  * @cast: the cast of a craft
- * @message: string action of @cast
  * @emoji: state of the cast at the moment
+ * @message: string action of @cast
+ * @nmemb: number of @cast member to reference
+ *
+ * Description: Original Formula/Algorithm: (i + size + (i - 1)) * size
+ *		By: Junior Ohanyere <junohanyere@gmail.com>
+ *
+ *		History: (i + size + (i - 1)) * size)
+ *		(i * size * 2) + (size * size) - size
+ *		size * (2 * i + 3)	simplified
+ *
+ *		Where size = 4 bytes represented by 4 int
  *
  * Return: return a pointer to the generated meta information
 */
 
-meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, __attribute__((unused))char **emoji,
+meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
 	char *message, int nmemb)
 {
 	int i = 0, j, meta_size, size = 4;
@@ -69,17 +79,6 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, __attribute__((unused))cha
 	meta = realloc(meta, sizeof(meta_t *) * meta_size);
 	if (meta == NULL)
 		return (NULL);
-
-	/*
-	 * Original Formula/Algorithm: (i + size + (i - 1)) * size
-	 * By: Junior Ohanyere <junohanyere@gmail.com>
-	 *
-	 * History: (i + size + (i - 1)) * size)
-	 *	    (i * size * 2) + (size * size) - size
-	 *	    size * (2 * i + 3)	simplified
-	 *
-	 * Where size = 4 bytes represented by 4 int
-	*/
 
 	/* update meta information */
 	meta[i] = calloc(sizeof(meta_t), 1);

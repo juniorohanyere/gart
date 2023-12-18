@@ -3,7 +3,6 @@
 /**
  * __emoji_list - list of emojis, their representation, and unicode values
  *
- *
  * Description: the emojis are arranged in chronological order. The
  *		chronological order ranges from representation, to emoji, to
  *		unicode
@@ -13,8 +12,7 @@
 
 emoji_t *__emoji_list(void)
 {
-	static emoji_t emoji[] = {
-		/* arrange in chronological order */
+	static emoji_t emoji[] = {	/* arrange in chronological order */
 		{"b-f-w-s-e", "0x1F601", "[beaming face with similing eyes]"},
 		{"c-f", "0x1F622", "[crying face]"},
 		{"f-b-a-k", "0x1F618", "[face blowing a kiss]"},
@@ -53,6 +51,5 @@ emoji_t *__emoji_list(void)
 		{"w-f-w-t", "0x1F61C", "[winking face with tongue]"},
 		{"z-f", "0x1F92A", "[zany face]"}, {NULL, NULL, NULL}
 	};
-
 	return (emoji);
 }

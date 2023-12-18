@@ -16,7 +16,7 @@ void __interrupt(SCREEN *screen)
 {
 	char *line = malloc(sizeof(char) * 1024);
 
-	__ec_printf(screen, "string", "\n\n");
+	__ec_printf(screen, "string", "\n");
 
 	wattron(__pmtscr, A_BOLD);
 	mvwprintw(__pmtscr, 0, 0, "$ ");

@@ -57,6 +57,13 @@ void __set_interf(ecraft_t *craft)
 	}
 }
 
+/**
+ * __prompt_win - creates a new window screen for prompt at the bottom of the
+ *		  stdscr
+ *
+ * Return: return nothing
+*/
+
 void __prompt_win(void)
 {
 	int x, y;

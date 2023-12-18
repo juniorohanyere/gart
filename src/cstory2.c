@@ -39,7 +39,16 @@ void __h_cstory(ecraft_t *cstory)
 	__ec_printf(cli, "string", "\n\n");
 }
 
-void __sp_cstory(SCREEN *screen, char **emoji)
+/**
+ * __emoji_cstory - validates and prints emoji for a chat story
+ *
+ * @screen: the display
+ * @emoji: pointer to an array of emoji to validate and print
+ *
+ * Return: return nothing
+*/
+
+void __emoji_cstory(SCREEN *screen, char **emoji)
 {
 	int i, emoji_size = 1, emoji_check;
 	emoji_t *emojis = __emoji_list();

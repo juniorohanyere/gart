@@ -251,7 +251,7 @@ void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 			__ec_printf(cli, "string", ": ");
 			attroff(A_BOLD);
 			if (meta->emoji != NULL && meta->emoji[i] != NULL)
-				__sp_cstory(cli, meta->emoji[i]);
+				__emoji_cstory(cli, meta->emoji[i]);
 			__ec_printf(cli, "string", "\n");
 			/* next cast */
 		}

@@ -150,16 +150,20 @@ void __interrupt(SCREEN *screen);
 void __free_craft(ecraft_t *craft);
 void __prompt_win(void);
 emoji_t *__emoji_list(void);
+void __scr_cleanup(void);
 
 void __c_add_cstory(ecraft_t *cstory, cast_t *cast);
 void __c_del_cstory(cast_t **cast);
 
 void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast);
 void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast);
+void __emoji_cstory(SCREEN *screen, char **emoji);
 
 void __m_del_cstory(meta_t **meta);
 meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
 	char *message, int nmemb);
+
+void __h_cstory(ecraft_t *cstory);
 
 void __free_cstory(ecraft_t *cstory);
 

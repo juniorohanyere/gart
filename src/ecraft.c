@@ -43,16 +43,7 @@ void ec_free(void)
 	}
 	free(__ecraft);
 	if (__cli == __EC_INIT)
-	{
-		endwin(), del_curterm(cur_term);
-		delwin(stdscr), delwin(curscr), delwin(newscr);
-		/*
-		 * this is by far the best clean up for ncurses I know of
-		 * any help on improving or making the ncurses clean up perfect
-		 * is highly appreciated
-		*/
-		tb_shutdown();
-	}
+		__scr_cleanup();
 	if (__gui == __EC_INIT)
 	{
 		/* end gui */
@@ -74,4 +65,26 @@ void __free_craft(ecraft_t *craft)
 		return;
 
 	__free_cstory(craft);
+}
+
+/**
+ * __scr_cleanup - clean up ncurses and termbox
+ *		   this is by far the best clean up for ncurses I know of
+ *		   any help on improving or making the ncurses clean up perfect
+ *		   is highly appreciated
+ *
+ * Return: return nothing
+*/
+
+void __scr_cleanup(void)
+{
+	endwin();
+
+	del_curterm(cur_term);
+
+	/* delwin(__pmtscr); why segmentation fault */
+	delwin(stdscr);
+	delwin(curscr);
+
+	tb_shutdown();
 }

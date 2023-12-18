@@ -11,7 +11,7 @@ CFLAGS = -shared
 
 # libraries for test target:
 # should later use ecraft-config when it will be available
-LIBS = -L. -lecraft $(shell ncurses6-config --cflags --libs) -ltermbox
+LIBS = -L. -lecraft $(shell ncurses6-config --cflags --libs) -ltermbox -lespeak
 
 # source files
 SRC = $(wildcard src/*.c)

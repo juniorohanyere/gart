@@ -28,37 +28,37 @@ ecraft_t *ec_cstory(char *title, char *subtitle, char *description,
 	assert(interface == EC_NONE || interface == EC_CLI ||
 		interface == EC_GUI);
 
-	if (__ecraft == NULL)
+	if (__ec->ecraft == NULL)
 	{
 		ec_size = size * (2 * i + 3);
-		__ecraft = calloc(sizeof(ecraft_t *), ec_size);
-		if (__ecraft == NULL)
+		__ec->ecraft = calloc(sizeof(ecraft_t *), ec_size);
+		if (__ec->ecraft == NULL)
 			return (NULL);
 	}
-	for (i = 0; __ecraft[i] != NULL; i++)
+	for (i = 0; __ec->ecraft[i] != NULL; i++)
 		;
 	ec_size = size * (2 * i + 3);
-	__ecraft = realloc(__ecraft, sizeof(ecraft_t *) * ec_size);
-	if (__ecraft == NULL)
+	__ec->ecraft = realloc(__ec->ecraft, sizeof(ecraft_t *) * ec_size);
+	if (__ec->ecraft == NULL)
 		return (NULL);
 
-	__ecraft[i] = calloc(sizeof(ecraft_t), 1);
-	if (__ecraft[i] == NULL)
+	__ec->ecraft[i] = calloc(sizeof(ecraft_t), 1);
+	if (__ec->ecraft[i] == NULL)
 		return (NULL);
 
-	__ecraft[i]->__interface = interface;
+	__ec->ecraft[i]->__interface = interface;
 
-	__ecraft[i]->__title = strdup(title);
-	__ecraft[i]->__subtitle = strdup(subtitle);
-	__ecraft[i]->__description = strdup(description);
-	__ecraft[i]->__type = strdup(type);
+	__ec->ecraft[i]->__title = strdup(title);
+	__ec->ecraft[i]->__subtitle = strdup(subtitle);
+	__ec->ecraft[i]->__description = strdup(description);
+	__ec->ecraft[i]->__type = strdup(type);
 
-	__set_interf(__ecraft[i]);
+	__set_interf(__ec->ecraft[i]);
 
-	__ecraft[i]->__cast = NULL;
-	__ecraft[i]->__meta = NULL;
+	__ec->ecraft[i]->__cast = NULL;
+	__ec->ecraft[i]->__meta = NULL;
 
-	return (__ecraft[i]);
+	return (__ec->ecraft[i]);
 }
 
 /**
@@ -157,19 +157,19 @@ int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
 		emoji_dup[i] = strdup(emoji[i]);
 	}
 
-	for (i = 0; __ecraft[i] != NULL; i++)
+	for (i = 0; __ec->ecraft[i] != NULL; i++)
 	{
-		if (__ecraft[i] == cstory)
+		if (__ec->ecraft[i] == cstory)
 		{
-			__ecraft[i]->__meta = __m_add_cstory(
-				__ecraft[i]->__meta, cast, emoji_dup, message,
+			__ec->ecraft[i]->__meta = __m_add_cstory(
+				__ec->ecraft[i]->__meta, cast, emoji_dup, message,
 					nmemb);
-			for (j = 0; __ecraft[i]->__meta[j] != NULL; j++)
+			for (j = 0; __ec->ecraft[i]->__meta[j] != NULL; j++)
 				;
 
 			if (j - 1 == 0)	/* print header */
-				__h_cstory(__ecraft[i]);
-			__s_cstory(cstory, __ecraft[i]->__meta[j - 1],
+				__h_cstory(__ec->ecraft[i]);
+			__s_cstory(cstory, __ec->ecraft[i]->__meta[j - 1],
 				nmemb);
 			for (i = 0; i < nmemb; i++)
 				free(emoji_dup[i]);

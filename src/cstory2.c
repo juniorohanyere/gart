@@ -63,12 +63,12 @@ void __emoji_cstory(SCREEN *screen, char **emoji)
 
 			assert(emoji_size <= 3);
 		}
-		for (i = 0; emojis[i].rep != NULL; i++)
+		for (i = 0; emojis[i].emoji != NULL; i++)
 		{
 			emoji_check = strcmp(emoji[emoji_size - 1],
-				emojis[i].rep);
+				emojis[i].emoji);
 			/* end of dictionary, yet couldn't validate emoji */
-			if (emojis[i + 1].rep == NULL && emoji_check != 0)
+			if (emojis[i + 1].emoji == NULL && emoji_check != 0)
 			{
 				delscreen(screen);
 				__scr_cleanup();
@@ -77,12 +77,32 @@ void __emoji_cstory(SCREEN *screen, char **emoji)
 			}
 			else if (emoji_check == 0)
 			{
-				attron(A_BOLD);
-				__ec_printf(screen, "emoji",
-					emojis[i].unicode);
-				__ec_printf(screen, "string", "  ");
-				attroff(A_BOLD);
+				if (__ec->emoji == __EC_INIT)
+				{
+					attron(A_BOLD);
+					__ec_printf(screen, "emoji",
+						emojis[i].unicode);
+					__ec_printf(screen, "string", "  ");
+					attroff(A_BOLD);
+				}
 
+				else if (__ec->emoji == __EC_INIT1)
+				{
+					attron(A_BOLD);
+					__ec_printf(screen, "string",
+						emojis[i].string);
+					attroff(A_BOLD);
+				}
+
+				else if (__ec->emoji == __EC_INIT2)
+				{
+					attron(A_BOLD);
+					__ec_printf(screen, "string", "[");
+					__ec_printf(screen, "string",
+						emojis[i].emoji);
+					__ec_printf(screen, "string", "]");
+					attroff(A_BOLD);
+				}
 				break;	/* check next emoji */
 			}
 		}

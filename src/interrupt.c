@@ -18,15 +18,15 @@ void __interrupt(SCREEN *screen, char *tts_msg)
 
 	__ec_printf(screen, "string", "\n");
 
-	wattron(__pmtscr, A_BOLD);
-	mvwprintw(__pmtscr, 0, 0, "$ ");
-	wattroff(__pmtscr, A_BOLD);
-	wrefresh(__pmtscr);
+	wattron(__ec->pmtscr, A_BOLD);
+	mvwprintw(__ec->pmtscr, 0, 0, "$ ");
+	wattroff(__ec->pmtscr, A_BOLD);
+	wrefresh(__ec->pmtscr);
 
 	__ec_tts(tts_msg);
 
-	wgetstr(__pmtscr, line);
-	werase(__pmtscr);
+	wgetstr(__ec->pmtscr, line);
+	werase(__ec->pmtscr);
 
 	free(line);
 }

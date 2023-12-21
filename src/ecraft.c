@@ -8,26 +8,39 @@
 
 #include <ecraft.h>
 
-__ECRAFT;
-__PMTSCR;
-__EC_CLI;
-__EC_GUI;
-__EC_TTS;
+__EC;	/* bypass betty warining for use of global variables */
+
+/**
+ * ec_init - initialise ecraft
+ *
+ * Description: subsequent call to ec_init() is useless unless ec_free() has
+ *		being called, initialisation only occur once
+ *		hence, it's not an error to call ec_init() multiple times
+ *		without a call to ec_free()
+ *
+ * Return: return nothing
+*/
 
 void ec_init(void)
 {
-	int cli_init;
+	int tts_init, cli_init;
 
-	/* initialise espeak */
-	if (__cli == EC_NONE && __gui == EC_NONE)
+	/* initialise ecraft */
+	if (__ec == NULL)
 	{
-		cli_init = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 500, NULL, 0);
+		__ec = calloc(sizeof(ec_t), 1);
 
-		assert(cli_init != -1);
+		/* initialise text to speach (espeak) */
+		tts_init = espeak_Initialize(AUDIO_OUTPUT_PLAYBACK, 500, NULL, 0);
+		assert(tts_init != -1);
+
+		/* disable tts and emoji by default */
+		__ec->tts = EC_NONE;
+		__ec->emoji = EC_NONE;
 	}
 
 	/* initialise termbox and ncurses */
-	if (__cli == EC_NONE)
+	if (__ec->cli == EC_NONE)
 	{
 		cli_init = tb_init();
 		assert(cli_init == 0);
@@ -40,7 +53,7 @@ void ec_init(void)
 
 		refresh();
 
-		__cli = __EC_INIT;
+		__ec->cli = __EC_INIT;
 	}
 }
 
@@ -56,32 +69,34 @@ void ec_free(void)
 {
 	int i = 0, interface;
 
-	if (__ecraft == NULL)
+	if (__ec->ecraft == NULL)
 		return;
 
-	while (__ecraft[i] != NULL)
+	while (__ec->ecraft[i] != NULL)
 	{
-		interface = __ecraft[i]->__interface;
+		interface = __ec->ecraft[i]->__interface;
 
-		__c_del_cstory(__ecraft[i]->__cast);
-		__m_del_cstory(__ecraft[i]->__meta);
+		__c_del_cstory(__ec->ecraft[i]->__cast);
+		__m_del_cstory(__ec->ecraft[i]->__meta);
 		if (interface == EC_CLI)
-			delscreen(__ecraft[i]->__interf.cli);
+			delscreen(__ec->ecraft[i]->__interf.cli);
 		else if (interface == EC_GUI)
 		{
 			/* delete gui window */
 		}
-		__free_craft(__ecraft[i]);
+		__free_craft(__ec->ecraft[i]);
 		i++;
 	}
-	free(__ecraft);
-	if (__cli == __EC_INIT)
+	free(__ec->ecraft);
+	if (__ec->cli == __EC_INIT)
 		__scr_cleanup();
-	if (__gui == __EC_INIT)
+	if (__ec->gui == __EC_INIT)
 	{
 		/* end gui */
 	}
-	__cli = EC_NONE, __gui = EC_NONE;
+	__ec->cli = EC_NONE, __ec->gui = EC_NONE;
+
+	free(__ec);
 }
 
 /**
@@ -111,6 +126,7 @@ void __free_craft(ecraft_t *craft)
 
 void __scr_cleanup(void)
 {
+	espeak_Terminate();
 	endwin();
 
 	del_curterm(cur_term);

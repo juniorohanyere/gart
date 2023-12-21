@@ -15,7 +15,7 @@
 
 void ec_tts(void)
 {
-	__tts = __EC_INIT;
+	__ec->tts = __EC_INIT;
 }
 
 /**
@@ -28,7 +28,7 @@ void ec_tts(void)
 
 void ec_ntts(void)
 {
-	__tts = EC_NONE;
+	__ec->tts = EC_NONE;
 }
 
 /**
@@ -36,14 +36,14 @@ void ec_ntts(void)
  *
  * @buffer: the text to convert to speech
  *
- * Description: tts flag (__tts) is disabled by default
+ * Description: tts flag (__ec->tts) is disabled by default
  *
  * Return: return nothing
 */
 
-void __ec_tts(char __attribute__((unused))*buffer)
+void __ec_tts(char *buffer)
 {
-	if (__tts == EC_NONE)
+	if (__ec->tts == EC_NONE)
 		return;
 
 	/* synthesize the speech */

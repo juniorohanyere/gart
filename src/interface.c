@@ -26,10 +26,10 @@ void __set_interf(ecraft_t *craft)
 			break;
 
 		case EC_GUI:
-			if (__gui == EC_NONE)
+			if (__ec->gui == EC_NONE)
 			{
 				/* init gui */
-				__gui = __EC_INIT;
+				__ec->gui = __EC_INIT;
 			}
 			/* ecraft->interf.gui = TODO */
 
@@ -53,5 +53,6 @@ void __prompt_win(void)
 
 	getmaxyx(stdscr, y, x);
 
-	__pmtscr = newwin(__PMT_HEIGHT, x, y - __PMT_HEIGHT, 0);
+	__ec->pmtscr = newwin(__PMT_HEIGHT, x, y - __PMT_HEIGHT, 0);
+	/* noecho(); */
 }

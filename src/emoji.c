@@ -53,3 +53,47 @@ emoji_t *__emoji_list(void)
 	};
 	return (emoji);
 }
+
+/**
+ * ec_emoji - enables the emoji flag
+ *
+ * Return: return nothing
+*/
+
+void ec_emoji(void)
+{
+	__ec->emoji = __EC_INIT;
+}
+
+/**
+ * ec_nemoji - disables the emoji flag
+ *
+ * Return: return nothing
+*/
+
+void ec_nemoji(void)
+{
+	__ec->emoji = EC_NONE;
+}
+
+/**
+ * ec_wemoji - enables word representation of emoji
+ *
+ * Return: return nothing
+*/
+
+void ec_wemoji(void)
+{
+	__ec->emoji = __EC_INIT1;
+}
+
+/**
+ * ec_remoji - enables shortened string or code representation of emoji
+ *
+ * Return: return nothing
+*/
+
+void ec_remoji(void)
+{
+	__ec->emoji = __EC_INIT2;
+}

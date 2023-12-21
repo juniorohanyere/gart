@@ -18,16 +18,14 @@
 */
 
 /* global variables */
-#define __ECRAFT ecraft_t **__ecraft	/* placeholder */
-#define __PMTSCR WINDOW *__pmtscr	/* prompt screen */
-
-#define __EC_CLI int __cli	/* flag for command line interface */
-#define __EC_GUI int  __gui	/* flag for graphical user interface */
-#define __EC_TTS int __tts	/* flag for text to speech */
+#define __EC ec_t *__ec	/* pointer to a structure for flags and placeholders */
 
 /* general */
 #define EC_NONE 0	/* none */
+
 #define __EC_INIT 1	/* init */
+#define __EC_INIT1 2	/* init */
+#define __EC_INIT2 3	/* init */
 
 #define __PMT_HEIGHT 1	/* prompt window height */
 
@@ -37,6 +35,7 @@
 #define EC_CLI 1
 #define EC_GUI 2
 
+#include <termbox.h>
 #include <ncurses.h>
 
 /**
@@ -109,27 +108,45 @@ typedef struct ecraft_s
  * struct __emoji_s - struture that defines emojis and their unicode
  *		    characters
  *
- * @rep: end user representation of the emoji
- * @unicode: the unicode representation of @emoji
  * @emoji: the emoji
+ * @unicode: the unicode representation of @emoji
+ * @string: human readable string representation
 */
 
 typedef struct __emoji_s
 {
-	char *rep, *unicode, *emoji;
+	char *emoji, *unicode, *string;
 } emoji_t;
 
-extern ecraft_t **__ecraft;
-extern int __cli;
-extern int __gui;
-extern WINDOW *__pmtscr;
-extern int __tts;
+/**
+ * struct __ec_s - contains flags and placeholders for ecraft library
+ *
+ * @cli: flag for command line interface
+ * @gui: flag for graphical user interface
+ * @tts: flag for text to speech
+ * @emoji: flag for emoji
+ * @ecraft: top level placeholder for ecraft
+ * @pmtscr: prompt screen
+*/
+
+typedef struct __ec_s
+{
+	int cli, gui, tts, emoji;
+	ecraft_t **ecraft;
+	WINDOW *pmtscr;
+} ec_t;
+
+extern ec_t *__ec;
 
 void ec_init(void);
+
 void ec_tts(void);	/* text to speech mode */
 void ec_ntts(void);	/* disable text to speech mode */
+
 void ec_emoji(void);	/* display emoji */
 void ec_wemoji(void);	/* display word representation of emoji */
+void ec_remoji(void);	/* display code/short representation of emoji */
+
 void ec_nemoji(void);	/* do not display emoji */
 void ec_free(void);
 

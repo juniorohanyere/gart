@@ -24,7 +24,10 @@ int main(void)
 	str = malloc(sizeof(char) * 1024);
 
 	ec_init();
-	ec_tts();
+
+	/* ec_tts(); */
+	/* ec_remoji(); */
+	/* ec_scroll(0, 0, 0);	dur.dir.step. */
 
 	strcpy(str,
 		"An overview on ecraft library usage for create chat stories");
@@ -34,7 +37,7 @@ int main(void)
 		"Twin J");
 	vic = c_cstory(cstory, "Victory Micheal", "Victiory", "Daivid",
 		"Davido");
-	mic = c_cstory(cstory, "Mic", "Micheal", "Dominion", "No name");
+	mic = c_cstory(cstory, "Mic James", "Micheal", "Dominion", "No name");
 
 	casts[0] = vic;
 	casts[1] = mic;

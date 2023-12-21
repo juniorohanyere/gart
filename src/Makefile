@@ -27,10 +27,12 @@ DEP = ecraft.h
 
 # static library to extract object files from
 LIB = /usr/lib/x86_64-linux-gnu/libncurses.a
+LIB2 = /usr/lib/x86_64-linux-gnu/libespeak.a
 
 # default target
 all: $(OBJ) $(LIB)
 	$(AR) x $(LIB)
+	$(AR) x $(LIB2)
 
 # compiling each source file into an object file
 %.o: %.c $(DEP)

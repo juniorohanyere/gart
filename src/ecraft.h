@@ -155,7 +155,8 @@ int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
 cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
 	char *altnames);
 void cstory_a(ecraft_t *cstory, int h, int e, int b);	/* TODO */
-void c_cstory_a(cast_t *cast, ...);	/* TODO */
+void c_cstory_a(cast_t *cast, int height, int  weight, int gender, ...);
+void c_cstory_v(cast_t *cast, int ascent, int tone, int pitch, ...);
 
 /* yet to be implemented */
 ecraft_t *ec_story(char *title, char *subtitle, char *description,
@@ -194,7 +195,6 @@ meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
 	char *message, int nmemb);
 
 void __h_cstory(ecraft_t *cstory);
-
 void __free_cstory(ecraft_t *cstory);
 
 #endif	/* __ECRAFT_H */

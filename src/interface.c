@@ -53,6 +53,7 @@ void __prompt_win(void)
 
 	getmaxyx(stdscr, y, x);
 
-	__ec->pmtscr = newwin(__PMT_HEIGHT, x, y - __PMT_HEIGHT, 0);
+	/* set the height of the prompt screen to 1 */
+	__ec->pmtscr = newwin(1, x, y - 1, 0);
 	/* noecho(); */
 }

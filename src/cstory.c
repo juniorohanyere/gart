@@ -221,15 +221,8 @@ void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 
 void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast)
 {
-	int i, y;
+	int i;
 	SCREEN *cli = cstory->__interf.cli;
-
-	y = getcury(stdscr);
-	if (y == getmaxy(stdscr))
-	{
-		scroll(stdscr);
-		refresh();
-	}
 
 	/* display name should be printed in bold */
 	if (meta->cast != NULL)

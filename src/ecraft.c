@@ -36,7 +36,7 @@ void ec_init(void)
 
 		/* disable tts and emoji by default */
 		__ec->tts = EC_NONE;
-		__ec->emoji = EC_NONE;
+		__ec->emoji = __EC_NEMOJI;
 	}
 
 	/* initialise termbox and ncurses */

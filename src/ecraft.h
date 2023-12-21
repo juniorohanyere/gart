@@ -5,6 +5,7 @@
  * Note: variables, macros, structs, unions, enums, and/or functions
  *	 beginning with double underscore (__) should be avoided by user
  *	 programs
+ *	 tampering with __EC_INIT may break the library or introduce bugs
  *
  * Prefixing - variables, functions, macros, structs, unions, and/or enums
  *	       beginning with <prefix>_ or __<prefix>_ in the case of
@@ -24,12 +25,12 @@
 #define EC_NONE 0	/* none */
 
 #define __EC_INIT 1	/* init */
-#define __EC_INIT1 2	/* init */
-#define __EC_INIT2 3	/* init */
 
-#define __PMT_HEIGHT 1	/* prompt window height */
-
-/* Note: tampering with __EC_INIT may break the library or introduce bugs */
+/* emoji switch */
+#define __EC_NEMOJI 0
+#define __EC_EMOJI 1	/* display real emoji */
+#define __EC_WEMOJI 2	/* word emoji */
+#define __EC_SEMOJI 3	/* shortend string emoji */
 
 /* interfaces */
 #define EC_CLI 1
@@ -139,16 +140,13 @@ typedef struct __ec_s
 extern ec_t *__ec;
 
 void ec_init(void);
-
-void ec_tts(void);	/* text to speech mode */
-void ec_ntts(void);	/* disable text to speech mode */
-
-void ec_emoji(void);	/* display emoji */
-void ec_wemoji(void);	/* display word representation of emoji */
-void ec_remoji(void);	/* display code/short representation of emoji */
-
-void ec_nemoji(void);	/* do not display emoji */
 void ec_free(void);
+
+void ec_tts(void);	/* enable text to speech mode */
+void ec_ntts(void);	/* disable text to speech mode */
+void ec_emoji(const char *option);	/* manipulate emoji modes */
+
+void ec_scroll(...);	/* TODO */
 
 ecraft_t *ec_cstory(char *title, char *subtitle, char *description,
 	int interface);
@@ -156,6 +154,16 @@ int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
 	int nmemb);
 cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
 	char *altnames);
+void cstory_a(ecraft_t *cstory, int h, int e, int b);	/* TODO */
+void c_cstory_a(cast_t *cast, ...);	/* TODO */
+
+/* yet to be implemented */
+ecraft_t *ec_story(char *title, char *subtitle, char *description,
+	int interface);	/* TODO */
+int s_story(ecraft_t *story, ...);	/* TODO */
+cast_t *c_story(ecraft_t *story, char *dname, char *fname, char *lname, ...);
+void story_a(ecraft_t *story, ...);	/* TODO */
+void c_story_a(cast_t *cast, ...);	/* TODO */
 
 /*
  * below functions are meant for the library itself, so therefore, a user
@@ -179,6 +187,7 @@ void __c_del_cstory(cast_t **cast);
 void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast);
 void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast);
 void __emoji_cstory(SCREEN *screen, char **emoji);
+void __emode_cstory(SCREEN *screen, emoji_t emoji);
 
 void __m_del_cstory(meta_t **meta);
 meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,

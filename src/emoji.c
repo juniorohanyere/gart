@@ -1,3 +1,6 @@
+#include <string.h>
+#include <assert.h>
+
 #include <ecraft.h>
 
 /**
@@ -55,45 +58,33 @@ emoji_t *__emoji_list(void)
 }
 
 /**
- * ec_emoji - enables the emoji flag
+ * ec_emoji - switches emoji modes specified by the parameter passed to it
+ *
+ * @option: option that determines which emoji mode to switch to
+ *
+ * Description: option 'u' switches to unicode mode
+ *		option 'n' switches to no emoji mode
+ *		option 'w' switches to word representation of emoji mode
+ *		option 's' switches to shortened string rep of emoji mode
+ *		passing wrong option causes the caller program to abort
+ *		emoji is disabled by default
  *
  * Return: return nothing
 */
 
-void ec_emoji(void)
+void ec_emoji(const char *option)
 {
-	__ec->emoji = __EC_INIT;
-}
-
-/**
- * ec_nemoji - disables the emoji flag
- *
- * Return: return nothing
-*/
-
-void ec_nemoji(void)
-{
-	__ec->emoji = EC_NONE;
-}
-
-/**
- * ec_wemoji - enables word representation of emoji
- *
- * Return: return nothing
-*/
-
-void ec_wemoji(void)
-{
-	__ec->emoji = __EC_INIT1;
-}
-
-/**
- * ec_remoji - enables shortened string or code representation of emoji
- *
- * Return: return nothing
-*/
-
-void ec_remoji(void)
-{
-	__ec->emoji = __EC_INIT2;
+	if (strcmp(option, "u") == 0)
+		__ec->emoji = __EC_EMOJI;
+	else if (strcmp(option, "n") == 0)
+		__ec->emoji = __EC_NEMOJI;
+	else if (strcmp(option, "w") == 0)
+		__ec->emoji = __EC_WEMOJI;
+	else if (strcmp(option, "s") == 0)
+		__ec->emoji = __EC_SEMOJI;
+	else
+	{
+		__scr_cleanup();
+		assert(!option);
+	}
 }

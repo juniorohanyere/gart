@@ -28,6 +28,12 @@ void __ec_printf(SCREEN *screen, const char *type, char *str)
 	x = getcurx(stdscr);
 	y = getcury(stdscr);
 
+	if (y == getmaxy(stdscr))
+	{
+		scroll(stdscr);
+		refresh();
+	}
+
 	if (strcmp(type, "string") == 0)
 	{
 		printw("%s", str);

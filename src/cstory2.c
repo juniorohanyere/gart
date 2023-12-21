@@ -58,9 +58,7 @@ void __emoji_cstory(SCREEN *screen, char **emoji)
 		if (emoji_size > 3)
 		{
 			/* do some clean up at least */
-			delscreen(screen);
-			__scr_cleanup();
-
+			delscreen(screen), __scr_cleanup();
 			assert(emoji_size <= 3);
 		}
 		for (i = 0; emojis[i].emoji != NULL; i++)
@@ -70,42 +68,50 @@ void __emoji_cstory(SCREEN *screen, char **emoji)
 			/* end of dictionary, yet couldn't validate emoji */
 			if (emojis[i + 1].emoji == NULL && emoji_check != 0)
 			{
-				delscreen(screen);
-				__scr_cleanup();
-
+				delscreen(screen), __scr_cleanup();
 				assert(emoji_check == 0);
 			}
 			else if (emoji_check == 0)
 			{
-				if (__ec->emoji == __EC_INIT)
-				{
-					attron(A_BOLD);
-					__ec_printf(screen, "emoji",
-						emojis[i].unicode);
-					__ec_printf(screen, "string", "  ");
-					attroff(A_BOLD);
-				}
+				__emode_cstory(screen, emojis[i]);
 
-				else if (__ec->emoji == __EC_INIT1)
-				{
-					attron(A_BOLD);
-					__ec_printf(screen, "string",
-						emojis[i].string);
-					attroff(A_BOLD);
-				}
-
-				else if (__ec->emoji == __EC_INIT2)
-				{
-					attron(A_BOLD);
-					__ec_printf(screen, "string", "[");
-					__ec_printf(screen, "string",
-						emojis[i].emoji);
-					__ec_printf(screen, "string", "]");
-					attroff(A_BOLD);
-				}
 				break;	/* check next emoji */
 			}
 		}
 		emoji_size++;	/* next emoji */
+	}
+}
+
+/**
+ * __emode_cstory - prints emoji based on emoji mode
+ *
+ * @screen: screen to print to
+ * @emoji: the emoji to print
+ *
+ * Return: return nothing
+*/
+
+void __emode_cstory(SCREEN *screen, emoji_t emoji)
+{
+	if (__ec->emoji == __EC_EMOJI)
+	{
+		attron(A_BOLD);
+		__ec_printf(screen, "emoji", emoji.unicode);
+		__ec_printf(screen, "string", "  ");
+		attroff(A_BOLD);
+	}
+	else if (__ec->emoji == __EC_WEMOJI)
+	{
+		attron(A_BOLD);
+		__ec_printf(screen, "string", emoji.string);
+		attroff(A_BOLD);
+	}
+	else if (__ec->emoji == __EC_SEMOJI)
+	{
+		attron(A_BOLD);
+		__ec_printf(screen, "string", "[");
+		__ec_printf(screen, "string", emoji.emoji);
+		__ec_printf(screen, "string", "]");
+		attroff(A_BOLD);
 	}
 }

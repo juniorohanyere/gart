@@ -8,6 +8,7 @@
  * __interrupt - interrupt handler that prompts for user input
  *
  * @screen: current terminal screen
+ * @tts_msg: the text to convert to speech
  *
  * Return: return nothing
 */

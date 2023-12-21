@@ -52,7 +52,4 @@ void __ec_tts(char *buffer)
 
 	/* synchronize the speech */
 	espeak_Synchronize();
-
-	/* clean up espeak */
-//	espeak_Terminate();
 }

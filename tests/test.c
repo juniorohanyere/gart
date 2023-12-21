@@ -26,11 +26,12 @@ int main(void)
 	ec_init();
 
 	/* ec_tts(); */
-	/* ec_remoji(); */
+	ec_emoji("u");
 	/* ec_scroll(0, 0, 0);	dur.dir.step. */
 
 	strcpy(str,
 		"An overview on ecraft library usage for create chat stories");
+
 	cstory = ec_cstory("Electronic Craft", "Chat Story", str, EC_CLI);
 
 	jun = c_cstory(cstory, "Junior Ohanyere", "Junior", "Ohanyere",

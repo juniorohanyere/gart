@@ -41,4 +41,4 @@ clean:
 clean-all: clean
 	-$(MAKE) -C src clean-all
 	-$(MAKE) -C src/cstory clean-all
-	rm -f tests/test tests/test-static
+	-rm -f tests/test tests/test-static

@@ -5,8 +5,7 @@
 
 void ec_start(char *title, char *subtitle, char *description);
 
-void ec_create(elem_t *elem, char *dname, char *fname, char *lname,
-	char *altnames);
+void ec_create(elem_t *elem, char *dname, char *fname, char *lname);
 
 int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb);
 int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,

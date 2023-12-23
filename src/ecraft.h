@@ -50,13 +50,12 @@
  * @__dname: display name
  * @__fname: first name
  * @__lname: last name
- * @__altnames: alternate names
 */
 
 typedef struct elem_s
 {
 	int __height, __weight, __gender;
-	char *__dname, *__fname, *__lname, *__altnames;
+	char *__dname, *__fname, *__lname;
 } elem_t;
 
 /**

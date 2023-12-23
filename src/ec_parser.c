@@ -6,7 +6,7 @@
 #include "ecraft.h"
 
 /**
- * __tokenise - splits up a string into tokens by a delimiter
+ * __ec_split - splits up a string into tokens by a delimiter
  *
  * @str: the string to split into tokens
  * @delim: the delimiter
@@ -16,7 +16,7 @@
  * Return: return a pointer to an array of the generated tokens
 */
 
-char **__tokenise(char *str, const char *delim, int size)
+char **__ec_split(char *str, const char *delim, int size)
 {
 	int i;
 	char *token;

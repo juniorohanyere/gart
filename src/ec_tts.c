@@ -15,7 +15,7 @@
 
 void ec_tts(void)
 {
-	__ec->tts = __EC_INIT;
+	__ec->tts = EC_INIT;
 }
 
 /**
@@ -34,20 +34,20 @@ void ec_ntts(void)
 /**
  * __ec_tts - enables text to speech mode if tts flag is set to true
  *
- * @buffer: the text to convert to speech
+ * @tts_msg: the text to convert to speech
  *
  * Description: tts flag (__ec->tts) is disabled by default
  *
  * Return: return nothing
 */
 
-void __ec_tts(char *buffer)
+void __ec_tts(char *tts_msg)
 {
 	if (__ec->tts == EC_NONE)
 		return;
 
 	/* synthesize the speech */
-	espeak_Synth(buffer, strlen(buffer) + 1, 0, POS_CHARACTER, 0,
+	espeak_Synth(tts_msg, strlen(tts_msg) + 1, 0, POS_CHARACTER, 0,
 		espeakCHARS_AUTO, NULL, NULL);
 
 	/* synchronize the speech */

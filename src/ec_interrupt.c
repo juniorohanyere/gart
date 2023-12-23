@@ -5,19 +5,19 @@
 #include "ecraft.h"
 
 /**
- * __interrupt - interrupt handler that prompts for user input
+ * __ec_interrupt - interrupt handler that prompts for user input
  *
  * @screen: current terminal screen
- * @tts_msg: the text to convert to speech
+ * @tts_msg: the text to convert to speech if tts is enabled
  *
  * Return: return nothing
 */
 
-void __interrupt(SCREEN *screen, char *tts_msg)
+void __ec_interrupt(char *tts_msg)
 {
 	char *line = malloc(sizeof(char) * 1024);
 
-	__ec_printf(screen, "string", "\n");
+	__ec_printf("string", "\n");
 
 	wattron(__ec->pmtscr, A_BOLD);
 	mvwprintw(__ec->pmtscr, 0, 0, "$ ");

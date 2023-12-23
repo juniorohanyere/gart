@@ -4,7 +4,7 @@
 #include <ecraft.h>
 
 /**
- * __emoji_list - list of emojis, their representation, and unicode values
+ * __ec_lemoji - list of emojis, their representation, and unicode values
  *
  * Description: the emojis are arranged in chronological order. The
  *		chronological order ranges from representation, to emoji, to
@@ -13,7 +13,7 @@
  * Return: return a pointer to the list of emojis
 */
 
-emoji_t *__emoji_list(void)
+emoji_t *__ec_lemoji(void)
 {
 	static emoji_t emoji[] = {	/* arrange in chronological order */
 		{"b-f-w-s-e", "0x1F601", "[beaming face with similing eyes]"},
@@ -72,19 +72,19 @@ emoji_t *__emoji_list(void)
  * Return: return nothing
 */
 
-void ec_emoji(const char *option)
+void ec_emoji(const char *mode)
 {
-	if (strcmp(option, "u") == 0)
+	if (strcmp(mode, "u") == 0)
 		__ec->emoji = __EC_EMOJI;
-	else if (strcmp(option, "n") == 0)
-		__ec->emoji = __EC_NEMOJI;
-	else if (strcmp(option, "w") == 0)
+	else if (strcmp(mode, "n") == 0)
+		__ec->emoji = EC_NONE;
+	else if (strcmp(mode, "w") == 0)
 		__ec->emoji = __EC_WEMOJI;
-	else if (strcmp(option, "s") == 0)
+	else if (strcmp(mode, "s") == 0)
 		__ec->emoji = __EC_SEMOJI;
 	else
 	{
-		__scr_cleanup();
-		assert(!option);
+		__ec_cleanup();
+		assert(!mode);
 	}
 }

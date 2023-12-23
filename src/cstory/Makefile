@@ -19,29 +19,29 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
 # dependency files
-DEP = ecraft.h
+DEP = ecraft.h cstory.h
 
 # prefix is based on system architecture
 PREFIX = /usr
 
 # inlcude path
-INCLUDE = -I.
+INCLUDE = -I. -I..
 
 # explicitly define macros
-MACRO = -D_CRAFT=0
+MACRO = -D_CRAFT=1
 
 # compiler flags
 CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
-	-Wdeclaration-after-statement -Werror -Wformat-security -Wextra
+	-Wdeclaration-after-statement -Werror -Wformat-security -Wextra -fPIC
 
 # target
 TARGET = target
 
 # target 1: dynamic/shared library
-TARGET1 = libecraft.so
+TARGET1 = libcstory.so
 
 # target 2: static libarary
-TARGET2 = libecraft.a
+TARGET2 = libcstory.a
 
 # phony target
 .PHONY: all clean clean-all
@@ -59,7 +59,7 @@ $(TARGET1): $(OBJ)
 
 # compiling each source file into an object file
 %.o: %.c $(DEP)
-	$(CC) $(CFLAGS) -fPIC -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # clean up generated object files
 clean:

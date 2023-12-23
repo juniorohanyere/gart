@@ -18,42 +18,34 @@
  * m_, __m_: meta, create/update a meta data for a given craft
 */
 
+#ifndef _CRAFT
+#define _CRAFT 0	/* ecraft => libecraft.* */
+#endif	/* _CRAFT */
+
 /* global variables */
 #define __EC ec_t *__ec	/* pointer to a structure for flags and placeholders */
 
 /* general */
 #define EC_NONE 0	/* none */
 
-#define __EC_INIT 1	/* init */
+#define EC_INIT 1	/* init */
+#define EC_START 2	/* start */
+#define EC_END 3	/* end */
+
+#define EC_CLI 1	/* command line interface */
+#define EC_GUI 2	/* graphical user interface */
 
 /* emoji switch */
-#define __EC_NEMOJI 0
 #define __EC_EMOJI 1	/* display real emoji */
 #define __EC_WEMOJI 2	/* word emoji */
 #define __EC_SEMOJI 3	/* shortend string emoji */
 
-/* interfaces */
-#define EC_CLI 1
-#define EC_GUI 2
+#include <stdint.h>
 
-#include <termbox.h>
 #include <ncurses.h>
 
 /**
- * union __interf_u - union for interfaces
- *
- * @cli: command line interface
- * @gui: graphical user interface
-*/
-
-typedef union __interf_u
-{
-	SCREEN *cli;
-	void *gui;
-} interf_t;
-
-/**
- * struct cast_s - data structure for casts of a craft
+ * struct elem_s - data structure for casts of a craft
  *
  * @__dname: display name
  * @__fname: first name
@@ -61,48 +53,28 @@ typedef union __interf_u
  * @__altnames: alternate names
 */
 
-typedef struct cast_s
+typedef struct elem_s
 {
-	/* int height, weight, gender, ... */
+	int __height, __weight, __gender;
 	char *__dname, *__fname, *__lname, *__altnames;
-} cast_t;
-
-/**
- * struct __meta_s - data structure for meta data for a given craft
- *
- * @nmemb: number of cast member to reference
- * @message: message body
- * @emoji: mode at which @message is based upon
- * @cast: cast responsible for @message
-*/
-
-typedef struct __meta_s
-{
-	int nmemb;
-	char *message;
-	char ***emoji;
-	cast_t **cast;
-} meta_t;
+} elem_t;
 
 /**
  * struct ecraft_s - data structure for crafts (placeholder)
  *
  * @__interface: interface of the craft
- * @__title: title for the craft
- * @__subtitle: subtitle for the craft
  * @__type: type of craft
  * @__interf: interface switch for the craft
  * @__cast: cast added to the craft
  * @__meta: metadata for a craft
 */
 
-typedef struct ecraft_s
+typedef struct __ecraft_s
 {
-	int __interface;
-	char *__title, *__subtitle, *__description, *__type;
-	interf_t __interf;
-	cast_t **__cast;
-	meta_t **__meta;
+	int64_t nmemb, ref;
+	char *string;
+	char ***emoji;
+	elem_t **elem;
 } ecraft_t;
 
 /**
@@ -119,11 +91,17 @@ typedef struct __emoji_s
 	char *emoji, *unicode, *string;
 } emoji_t;
 
+typedef union __scr_u
+{
+	void *gui;	/* TODO */
+	SCREEN *cli;
+} scr_t;
+
 /**
  * struct __ec_s - contains flags and placeholders for ecraft library
  *
- * @cli: flag for command line interface
- * @gui: flag for graphical user interface
+ * @title: title for the craft
+ * @subtitle: subtitle for the craft
  * @tts: flag for text to speech
  * @emoji: flag for emoji
  * @ecraft: top level placeholder for ecraft
@@ -132,69 +110,66 @@ typedef struct __emoji_s
 
 typedef struct __ec_s
 {
-	int cli, gui, tts, emoji;
+	int interf, status, tts, emoji;
+	char *title, *subtitle, *desc;
+	scr_t screen;
+	elem_t **elem;
 	ecraft_t **ecraft;
 	WINDOW *pmtscr;
 } ec_t;
 
 extern ec_t *__ec;
 
-void ec_init(void);
+/* include header file(s) for specific craft(s) */
+
+#if _CRAFT == 1	/* chat story or cstory => libcstory.* */
+#include <cstory.h>
+#endif	/* _CRAFT == 1 */
+
+/*
+ * some function prototypes are noted by commenting them out
+ * they are marked with '...' as the only parameter
+ * they can be found in header file(s) for some/a given craft(s)
+*/
+
+void ec_init(const int interface);
 void ec_free(void);
+
+/* void ec_start(...); */
+/* void ec_create(...); */
+void ec_end(void);
 
 void ec_tts(void);	/* enable text to speech mode */
 void ec_ntts(void);	/* disable text to speech mode */
-void ec_emoji(const char *option);	/* manipulate emoji modes */
 
-void ec_scroll(...);	/* TODO */
+void ec_emoji(const char *mode);	/* manipulate emoji modes */
 
-ecraft_t *ec_cstory(char *title, char *subtitle, char *description,
-	int interface);
-int s_cstory(ecraft_t *cstory, cast_t **cast, char **emoji, char *message,
-	int nmemb);
-cast_t *c_cstory(ecraft_t *cstory, char *dname, char *fname, char *lname,
-	char *altnames);
-void cstory_a(ecraft_t *cstory, int h, int e, int b);	/* TODO */
-void c_cstory_a(cast_t *cast, int height, int  weight, int gender, ...);
-void c_cstory_v(cast_t *cast, int ascent, int tone, int pitch, ...);
+void ec_scroll(int spd, ...);	/* TODO */
 
-/* yet to be implemented */
-ecraft_t *ec_story(char *title, char *subtitle, char *description,
-	int interface);	/* TODO */
-int s_story(ecraft_t *story, ...);	/* TODO */
-cast_t *c_story(ecraft_t *story, char *dname, char *fname, char *lname, ...);
-void story_a(ecraft_t *story, ...);	/* TODO */
-void c_story_a(cast_t *cast, ...);	/* TODO */
+/* int64_t ec_echo(...); */
+/* int64_t ec_recho(...); */
+
+void ec_add(elem_t **elem, int64_t nmemb);
+void ec_pop(elem_t **elem, int64_t nmemb);
+
+/* void ec_update(void); */
+void ec_print(const char *format, const char *filename);
 
 /*
- * below functions are meant for the library itself, so therefore, a user
- * should avoid the use of these functions
+ * below function prototypes are meant for the library itself, so therefore, a
+ * user should avoid the use of these functions
 */
 
-void __ec_printf(SCREEN *screen, const char *type, char *str);
-void __ec_tts(char *str);
+void __ec_printf(const char *type, char *str);
+void __ec_tts(char *tts_msg);
 
-void __set_interf(ecraft_t *craft);
-char **__tokenise(char *str, const char *delim, int size);
-void __interrupt(SCREEN *screen, char *tts_msg);
-void __free_craft(ecraft_t *craft);
-void __prompt_win(void);
-emoji_t *__emoji_list(void);
-void __scr_cleanup(void);
+void __ec_interf(void);
+char **__ec_split(char *str, const char *delim, int size);
+void __ec_interrupt(char *tts_msg);
+void __ec_pmtwin(void);
 
-void __c_add_cstory(ecraft_t *cstory, cast_t *cast);
-void __c_del_cstory(cast_t **cast);
+emoji_t *__ec_lemoji(void);
 
-void __s_cstory(ecraft_t *cstory, meta_t *meta, int ncast);
-void __s_cli_cstory(ecraft_t *cstory, meta_t *meta, int ncast);
-void __emoji_cstory(SCREEN *screen, char **emoji);
-void __emode_cstory(SCREEN *screen, emoji_t emoji);
-
-void __m_del_cstory(meta_t **meta);
-meta_t **__m_add_cstory(meta_t **meta, cast_t **cast, char **emoji,
-	char *message, int nmemb);
-
-void __h_cstory(ecraft_t *cstory);
-void __free_cstory(ecraft_t *cstory);
+void __ec_cleanup(void);
 
 #endif	/* __ECRAFT_H */

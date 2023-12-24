@@ -10,7 +10,7 @@
 
 int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 {
-	int64_t i;
+	int64_t i, j;
 	char *str = "";
 	char **emoji_dup;
 
@@ -35,6 +35,10 @@ int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 	ec_update();
 
 	__ec_interrupt(__ec->ecraft[i]->string);
+
+	for (j = 0; j < nmemb; j++)
+		free(emoji_dup[j]);
+	free(emoji_dup);
 
 	return (i);
 }

@@ -15,40 +15,57 @@
 int main(void)
 {
 	char *str, *emoji = "s-s-f:u-d-f:s-s-f", *em = "c-f:f-b-a-k:c-f";
-	elem_t *jun = malloc(sizeof(elem_t));
-	elem_t *sam = malloc(sizeof(elem_t));
-	elem_t *vic = malloc(sizeof(elem_t));
+	elem_t *jun, *sam, *vic;
 
 	ec_init(EC_CLI);
 	ec_emoji("u");	/* enable unicode emoji */
 
-	/* ec_tts(); */
+	ec_tts();
 
 	str = malloc(sizeof(char) * 1024);
 
-	ec_create(jun, "Junior Ohanyere", "Junior", "Ohanyere");
-	ec_create(sam, "Samson Sam", "Samson", "John");
-	ec_create(vic, "Jimmy Victor", "Jim", "Victor");
+	jun = ec_elem("Junior Ohanyere", "Junior", "Ohanyere");
+	sam = ec_elem("Samson Sam", "Samson", "John");
+	vic = ec_elem("Jimmy Victor", "Jim", "Victor");
 
 	strcpy(str,
-		"An overview on ecraft library usage for create chat stories");
+		"A dialogue on ecraft library usage for creating chat stories"
+	);
 	ec_start("Electronic Craft", "Chat Story", str);
 
-	ec_echo(&jun, &emoji, "Hi, welcome to ecraft", 1);
+	ec_echo(&jun, &emoji, "Do you know?", 1);
+	ec_echo(&sam, &em, "Know what?", 1);
 
-	ec_echo(&sam, &em, "Hi, friends", 1);
-	ec_echo(&vic, &emoji, "Hi, Junior", 1);
-	ec_echo(&jun, &emoji, "Hi", 1);
+	strcpy(str, "Do you know that everything going on here\n");
+	strcat(str, "is a programmed chat story?");
+	ec_echo(&jun, &emoji, str, 1);
 
-	ec_echo(&sam, &em, "who are u", 1);
-	ec_echo(&vic, &emoji, "I am a man", 1);
-	ec_echo(&jun, &emoji, "I am a boy", 1);
+	emoji = "s-s-f:u-d-f";
+	ec_echo(&vic, &emoji, "What do you mean?", 1);
 
-	ec_echo(&sam, &em, "Hi, friends", 1);
-	ec_echo(&vic, &emoji, "Hi, Junior", 1);
-	ec_echo(&jun, &emoji, "Hi, who", 1);
+	em = "f-w-p-e";
+	ec_echo(&sam, &em, NULL, 1);
+
+	emoji = "s-f-w-o-h";
+	ec_echo(&jun, &emoji, "Don't worry, I can explain.", 1);
+
+	em = "";
+	ec_echo(&sam, &em, "Please do, because I'm curious and nervous", 1);
+
+	strcpy(str, "Everything here is programmed ");
+	strcat(str, "from a programming library called ecraft.");
+	emoji = "s-f-w-o-h";
+	ec_echo(&jun, &emoji, str, 1);
+
+	emoji = "f-w-o-e-a-h-o-m";
+	ec_echo(&sam, &emoji, "ecraft???", 1);
+
+	emoji = "t-f";
+	ec_echo(&vic, &emoji, "What's ecraft?", 1);
 
 	ec_free();
+
+	free(str);
 
 	return (0);
 }

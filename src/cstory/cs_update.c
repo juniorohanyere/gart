@@ -63,7 +63,12 @@ int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 
 	__ec->ecraft[i]->elem = elem;
 
-	__ec->ecraft[i]->emoji = malloc(sizeof(char **) * nmemb + 1);
+	/*
+	 * this formula really works like magic for valgrind invalid read
+	 * and/or of size
+	*/
+	__ec->ecraft[i]->emoji = calloc(sizeof(char **),
+		base_size * (2 * nmemb + 3));
 	if (__ec->ecraft[i]->emoji == NULL)
 	{
 		free(__ec->ecraft[i]);

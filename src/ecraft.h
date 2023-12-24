@@ -118,41 +118,26 @@ typedef struct __ec_s
 	WINDOW *pmtscr;
 } ec_t;
 
+/* external variables */
+
 extern ec_t *__ec;
 
 /* include header file(s) for specific craft(s) */
 
-#if _CRAFT == 1	/* chat story or cstory => libcstory.* */
 #include <cstory.h>
-#endif	/* _CRAFT == 1 */
-
-/*
- * some function prototypes are noted by commenting them out
- * they are marked with '...' as the only parameter
- * they can be found in header file(s) for some/a given craft(s)
-*/
 
 void ec_init(const int interface);
 void ec_free(void);
-
-/* void ec_start(...); */
-/* void ec_create(...); */
-void ec_end(void);
 
 void ec_tts(void);	/* enable text to speech mode */
 void ec_ntts(void);	/* disable text to speech mode */
 
 void ec_emoji(const char *mode);	/* manipulate emoji modes */
 
+void ec_update(void);
 void ec_scroll(int spd, ...);	/* TODO */
 
-/* int64_t ec_echo(...); */
-/* int64_t ec_recho(...); */
-
-void ec_add(elem_t **elem, int64_t nmemb);
-void ec_pop(elem_t **elem, int64_t nmemb);
-
-void ec_update(void);
+void ec_end(void);
 
 void ec_print(const char *format, const char *filename);
 
@@ -171,8 +156,6 @@ void __ec_pmtwin(void);
 
 emoji_t *__ec_lemoji(void);
 
-void __del_elem(void);
-void __ec_del(void);
-void __ec_final(void);
+void  __ec_final(void);
 
 #endif	/* __ECRAFT_H */

@@ -25,7 +25,7 @@ DEP = ecraft.h
 PREFIX = /usr
 
 # inlcude path
-INCLUDE = -I.
+INCLUDE = -I. -Icstory
 
 # explicitly define macros
 MACRO = -D_CRAFT=0

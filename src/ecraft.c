@@ -59,18 +59,30 @@ void ec_init(const int interface)
 
 void ec_free(void)
 {
+	if (__ec == NULL)
+		return;
+
+	free(__ec->title), free(__ec->subtitle), free(__ec->desc);
+	if (__ec->interf == EC_CLI)
+	{
+		delscreen(__ec->screen.cli);
+		/* __del_elem(); */
+		/* __ec_del(); */
+
+		__ec_final();
+	}
 }
 
 /**
- * __ec_cleanup - clean up ncurses and termbox
- *		   this is by far the best clean up for ncurses I know of
- *		   any help on improving or making the ncurses clean up perfect
- *		   is highly appreciated
+ * __ec_final - clean up ncurses and termbox
+ *		this is by far the best clean up for ncurses I know of
+ *		any help on improving or making the ncurses clean up perfect is
+ *		highly appreciated
  *
  * Return: return nothing
 */
 
-void __ec_cleanup(void)
+void __ec_final(void)
 {
 	espeak_Terminate();
 	endwin();

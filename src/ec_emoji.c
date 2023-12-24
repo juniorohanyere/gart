@@ -84,7 +84,7 @@ void ec_emoji(const char *mode)
 		__ec->emoji = __EC_SEMOJI;
 	else
 	{
-		__ec_cleanup();
+		__ec_final();
 		assert(!mode);
 	}
 }

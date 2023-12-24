@@ -20,9 +20,9 @@ int main(void)
 	elem_t *vic = malloc(sizeof(elem_t));
 
 	ec_init(EC_CLI);
-	ec_emoji("w");	/* enable unicode emoji */
+	ec_emoji("u");	/* enable unicode emoji */
 
-	ec_tts();
+	/* ec_tts(); */
 
 	str = malloc(sizeof(char) * 1024);
 

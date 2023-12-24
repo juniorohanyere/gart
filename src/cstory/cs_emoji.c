@@ -24,7 +24,7 @@ void __cs_emoji(char **emoji)
 			/* do some clean up at least */
 			if (__ec->interf == EC_CLI)
 			{
-				delscreen(__ec->screen.cli), __ec_cleanup();
+				delscreen(__ec->screen.cli), __ec_final();
 				assert(emoji_size <= 3);
 			}
 		}
@@ -38,7 +38,7 @@ void __cs_emoji(char **emoji)
 				if (__ec->interf == EC_CLI)
 				{
 					delscreen(__ec->screen.cli);
-					__ec_cleanup();
+					__ec_final();
 					assert(emoji_check == 0);
 				}
 			}

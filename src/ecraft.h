@@ -171,6 +171,8 @@ void __ec_pmtwin(void);
 
 emoji_t *__ec_lemoji(void);
 
-void __ec_cleanup(void);
+void __del_elem(void);
+void __ec_del(void);
+void __ec_final(void);
 
 #endif	/* __ECRAFT_H */

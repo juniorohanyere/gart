@@ -17,8 +17,6 @@ void __ec_interrupt(char *tts_msg)
 {
 	char *line = malloc(sizeof(char) * 1024);
 
-	__ec_printf("string", "\n");
-
 	wattron(__ec->pmtscr, A_BOLD);
 	mvwprintw(__ec->pmtscr, 0, 0, "$ ");
 	wattroff(__ec->pmtscr, A_BOLD);

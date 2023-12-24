@@ -10,10 +10,9 @@ void ec_create(elem_t *elem, char *dname, char *fname, char *lname)
 {
 	if (elem == NULL)
 	{
-		/* initialise element */
-		elem = malloc(sizeof(elem_t));
-		if (elem == NULL)
-			return;
+		/* set error status TODO */
+
+		return;
 	}
 
 	if (dname == NULL)

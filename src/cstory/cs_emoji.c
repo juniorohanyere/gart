@@ -44,6 +44,7 @@ void __cs_emoji(char **emoji)
 			}
 			else if (emoji_check == 0)
 			{
+				__ec_printf("emoji", "0x00000");
 				__cs_pemoji(lemoji[i]);
 
 				break;	/* check next emoji */
@@ -70,7 +71,7 @@ void __cs_pemoji(emoji_t emoji)
 	{
 		attron(A_BOLD);
 		__ec_printf("emoji", emoji.unicode);
-		__ec_printf("string", "  ");	/* handle wide character */
+		move(getcury(stdscr), getcurx(stdscr) + 2);	/* handle wide character */
 		attroff(A_BOLD);
 	}
 	else if (__ec->emoji == __EC_WEMOJI)	/* emoji word mode enabled */

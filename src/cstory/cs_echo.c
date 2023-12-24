@@ -16,9 +16,6 @@ int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 
 	emoji_dup = malloc(sizeof(char *) * nmemb);
 
-	if (string == NULL)
-		string = "\r";	/* sentinel value to track NULL string */
-
 	for (i = 0; i < nmemb; i++)
 	{
 		if (emoji[i] == NULL)
@@ -26,9 +23,19 @@ int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 		else
 			emoji_dup[i] = strdup(emoji[i]);
 	}
+	if (string == NULL)
+	{
+		str = "\r";	/* sentinel value to track NULL string */
+		/* set last parameter to -1 for no ref */
+		i = __cs_load(elem, emoji_dup, str, nmemb, -1);
+	}
+	else
+		i = __cs_load(elem, emoji_dup, string, nmemb, -1);
 
-	/* set last parameter to -1 for no ref */
-	i = __cs_update(elem, emoji_dup, string, nmemb, -1);
+	clear();
+	ec_update();
+
+	__ec_interrupt(__ec->ecraft[i]->string);
 
 	return (i);
 }
@@ -37,13 +44,10 @@ int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref)
 {
 	int64_t i;
-	char *str = "";
+	char *str = "";	/* so as not to modify the original string(s) passed */
 	char **emoji_dup;
 
 	emoji_dup = malloc(sizeof(char *) * nmemb);
-
-	if (string == NULL)
-		string = "\r";	/* sentinel value to track NULL string */
 
 	for (i = 0; i < nmemb; i++)
 	{
@@ -53,9 +57,19 @@ int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 			emoji_dup[i] = strdup(emoji[i]);
 	}
 
-	/* set last parameter to value of @ref */
-	i = __cs_update(elem, emoji_dup, string, nmemb, ref);
-	__cs_display(__ec->ecraft[i]);
+	if (string == NULL)
+	{
+		str = "\r";	/* sentinel value to track NULL string */
+		/* set last parameter to value of @ref */
+		i = __cs_load(elem, emoji_dup, str, nmemb, ref);
+	}
+	else
+		i = __cs_load(elem, emoji_dup, string, nmemb, ref);
+
+	clear();
+	ec_update();
+
+	__ec_interrupt(__ec->ecraft[i]->string);
 
 	return (i);
 }
@@ -85,7 +99,7 @@ int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
  *	   return -1 on failure
 */
 
-int64_t __cs_update(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref)
 {
 	int64_t i = 0, j, ec_size, base_size = 4;	/* 4 bytes */
@@ -121,6 +135,15 @@ int64_t __cs_update(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 
 	__ec->ecraft[i]->elem = elem;
 
+	__ec->ecraft[i]->emoji = malloc(sizeof(char **) * nmemb + 1);
+	if (__ec->ecraft[i]->emoji == NULL)
+	{
+		free(__ec->ecraft[i]);
+		free(__ec->ecraft);
+
+		return (-1);
+	}
+
 	for (j = 0; j < nmemb; j++)
 	{
 		__ec->ecraft[i]->emoji[j] = __ec_split(emoji[j], " \t\r\n:", 4
@@ -128,6 +151,11 @@ int64_t __cs_update(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	}
 	__ec->ecraft[i]->emoji[j] = NULL;	/* NULL termination */
 
+	/*
+	 * TODO need to split up @string setting new line as the delimiter, and
+	 * assign the results to a new index of __ec->ecraft, so that ecraft
+	 * can support line buffering, and also for performance purpose
+	*/
 	__ec->ecraft[i]->string = strdup(string);
 	if (__ec->ecraft[i]->string == NULL)
 	{
@@ -142,33 +170,7 @@ int64_t __cs_update(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	return (i);
 }
 
-void __cs_display(ecraft_t *ecraft)
-{
-	switch (__ec->interf)
-	{
-		case EC_NONE:
-			break;	/* do nothing */
-		case EC_CLI:
-			__cs_display_cli(ecraft);
-
-			break;
-
-		case EC_GUI:
-			/* __ec_display_gui(ecraft); TODO */
-
-			break;
-
-		default:
-			dprintf(STDERR_FILENO,
-				"invalid interface: coundn't locate interface"
-			);
-			abort();
-
-			return;
-	}
-}
-
-void __cs_display_cli(ecraft_t *ecraft)
+void __cs_update_cli(ecraft_t *ecraft)
 {
 	int64_t i;
 
@@ -200,6 +202,5 @@ void __cs_display_cli(ecraft_t *ecraft)
 	__ec_printf("string", ecraft->string);
 	if (strcmp(ecraft->string, "\r") != 0)
 		__ec_printf("string", "\n");
-
-	__ec_interrupt(ecraft->string);
+	__ec_printf("string", "\n");
 }

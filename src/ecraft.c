@@ -43,6 +43,7 @@ void ec_init(const int interface)
 		__ec_interf();
 
 		__ec->status = EC_INIT;
+		__ec->top = 0;
 	}
 }
 

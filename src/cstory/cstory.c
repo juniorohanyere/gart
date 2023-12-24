@@ -26,6 +26,7 @@ void ec_start(char *title, char *subtitle, char *description)
 		dprintf(STDERR_FILENO,
 			"insufficient memory: coundn't start ecraft");
 	}
+	/* update screen with heading */
 }
 
 void ec_end(void)

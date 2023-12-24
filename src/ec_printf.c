@@ -30,13 +30,18 @@ void __ec_printf(const char *type, char *str)
 	x = getcurx(stdscr);
 	y = getcury(stdscr);
 
-	if (y == getmaxy(stdscr))
+	if (y == getmaxy(stdscr) - 1)
 	{
 		/*
 		 * manual management of scrolling might resolve the glitch with
 		 * printing emoji
 		*/
-		scroll(stdscr);
+
+		__ec->top++;
+
+		clear();
+		ec_update();
+
 		refresh();
 	}
 
@@ -51,6 +56,11 @@ void __ec_printf(const char *type, char *str)
 		assert(*s == '\0');
 
 		tb_change_cell(x, y, ch, TB_WHITE, TB_DEFAULT);
+		tb_change_cell(x + 1, y, 0x00000, TB_WHITE, TB_DEFAULT);
+		tb_change_cell(x + 2, y, 0x00000, TB_WHITE, TB_DEFAULT);
+		tb_change_cell(x + 3, y, 0x00000, TB_WHITE, TB_DEFAULT);
+		tb_change_cell(x + 4, y, 0x00000, TB_WHITE, TB_DEFAULT);
 		tb_present();
 	}
+
 }

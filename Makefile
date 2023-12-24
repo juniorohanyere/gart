@@ -24,7 +24,7 @@ all:
 
 # test dynamic library
 test:
-	@$(CC) tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=$(shell pwd)
+	@$(CC) -Isrc -Isrc/cstory -D_CRAFT=1 tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=$(shell pwd)/src,-rpath=$(shell pwd)/src/cstory
 	@tests/$@
 
 # test static library

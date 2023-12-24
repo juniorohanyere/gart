@@ -43,7 +43,7 @@ void __ec_interf(void)
 			refresh();
 			/* create new terminal screen */
 			__ec->screen.cli = newterm(NULL, stdout, stdin);
-			scrollok(stdscr, TRUE);
+			/* scrollok(stdscr, TRUE); */
 			__ec_pmtwin();	/* prompt screen */
 
 			break;

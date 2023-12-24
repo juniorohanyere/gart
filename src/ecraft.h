@@ -110,6 +110,7 @@ typedef union __scr_u
 typedef struct __ec_s
 {
 	int interf, status, tts, emoji;
+	int64_t top;
 	char *title, *subtitle, *desc;
 	scr_t screen;
 	elem_t **elem;
@@ -151,7 +152,8 @@ void ec_scroll(int spd, ...);	/* TODO */
 void ec_add(elem_t **elem, int64_t nmemb);
 void ec_pop(elem_t **elem, int64_t nmemb);
 
-/* void ec_update(void); */
+void ec_update(void);
+
 void ec_print(const char *format, const char *filename);
 
 /*

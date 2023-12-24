@@ -11,15 +11,16 @@ int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb);
 int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
 
+void ec_update(void);
+
 /*
  * below function prototypes are meant for the library itself, so therefore, a
  * user should avoid the use of these functions
 */
 
-int64_t __cs_update(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
-void __cs_display(ecraft_t *ecraft);
-void __cs_display_cli(ecraft_t *ecraft);
+void __cs_update_cli(ecraft_t *ecraft);
 
 void __cs_emoji(char **emoji);
 void __cs_pemoji(emoji_t emoji);

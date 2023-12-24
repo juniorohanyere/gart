@@ -110,7 +110,7 @@ typedef union __scr_u
 typedef struct __ec_s
 {
 	int interf, status, tts, emoji;
-	int64_t top;
+	int64_t top, bottom;
 	char *title, *subtitle, *desc;
 	scr_t screen;
 	elem_t **elem;

@@ -44,7 +44,8 @@ void __cs_emoji(char **emoji)
 			}
 			else if (emoji_check == 0)
 			{
-				__ec_printf("emoji", "0x00000");
+				if (__ec->emoji == __EC_EMOJI)
+					__ec_printf("emoji", "0x00000");
 				__cs_pemoji(lemoji[i]);
 
 				break;	/* check next emoji */

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <termbox.h>
 
-#include "ecraft.h"
+#include <ecraft.h>
 
 /**
  * __ec_interrupt - interrupt handler that prompts for user input

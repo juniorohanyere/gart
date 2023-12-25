@@ -75,7 +75,7 @@ void __cs_pemoji(emoji_t emoji)
 		move(getcury(stdscr), getcurx(stdscr) + 2);	/* handle wide character */
 		attroff(A_BOLD);
 	}
-	else if (__ec->emoji == __EC_WEMOJI)	/* emoji word mode enabled */
+	else if (__ec->emoji == __EC_LEMOJI)	/* long string mode enabled */
 	{
 		attron(A_BOLD);
 		__ec_printf("string", emoji.string);

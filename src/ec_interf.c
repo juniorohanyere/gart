@@ -9,9 +9,7 @@
 #include "ecraft.h"
 
 /**
- * __ec_interf - sets the interface for a given craft
- *
- * @craft: pointer to the given craft
+ * __ec_interf - sets the interface for a given chat story
  *
  * Return: return nothing
 */
@@ -24,7 +22,6 @@ void __ec_interf(void)
 	{
 		case EC_NONE:
 			break;	/* do nothing */
-
 		case EC_CLI:
 			/*
 			 * initialise termbox and ncurses
@@ -35,7 +32,6 @@ void __ec_interf(void)
 			*/
 			cli_init = tb_init();
 			assert(cli_init == 0);
-
 			initscr();
 			cbreak();
 			/* enable special key input */
@@ -45,21 +41,16 @@ void __ec_interf(void)
 			__ec->screen.cli = newterm(NULL, stdout, stdin);
 			scrollok(stdscr, TRUE);
 			__ec_pmtwin();	/* prompt screen */
-
 			set_term(__ec->screen.cli);
-
 			break;
 
 		case EC_GUI:
 			/* ecraft->interf.gui = TODO */
-
 			break;
-
 		default:
 			dprintf(STDERR_FILENO,
 				"invalid interface: couldn't set up interface"
 			);
-
 			abort();
 	}
 }

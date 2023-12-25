@@ -60,12 +60,12 @@ emoji_t *__ec_lemoji(void)
 /**
  * ec_emoji - switches emoji modes specified by the parameter passed to it
  *
- * @option: option that determines which emoji mode to switch to
+ * @mode: emoji mode to switch to
  *
- * Description: option 'u' switches to unicode mode
- *		option 'n' switches to no emoji mode
- *		option 'w' switches to word representation of emoji mode
- *		option 's' switches to shortened string rep of emoji mode
+ * Description: mode 'u' switches to unicode mode
+ *		mode 'n' switches to no emoji mode
+ *		mode 'l' switches to long string format of emoji
+ *		mode 's' switches to short string format of emoji
  *		passing wrong option causes the caller program to abort
  *		emoji is disabled by default
  *
@@ -78,8 +78,8 @@ void ec_emoji(const char *mode)
 		__ec->emoji = __EC_EMOJI;
 	else if (strcmp(mode, "n") == 0)
 		__ec->emoji = EC_NONE;
-	else if (strcmp(mode, "w") == 0)
-		__ec->emoji = __EC_WEMOJI;
+	else if (strcmp(mode, "l") == 0)
+		__ec->emoji = __EC_LEMOJI;
 	else if (strcmp(mode, "s") == 0)
 		__ec->emoji = __EC_SEMOJI;
 	else

@@ -13,8 +13,10 @@ int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb);
 int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
 
-void ec_add(elem_t **elem, int64_t nmemb);	/* TODO */
-void ec_pop(elem_t **elem, int64_t nmemb);	/* TODO */
+/* TODO */
+void ec_add(elem_t **elem, int64_t nmemb);
+/* TODO */
+void ec_pop(elem_t **elem, int64_t nmemb);
 
 /*
  * below function prototypes are meant for the library itself, so therefore, a
@@ -27,6 +29,8 @@ void __cs_decraft(void);
 
 int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
+int64_t __cs_load_index(ecraft_t *ecraft, elem_t **elem, char **emoji,
+	char *string, int64_t nmemb, int64_t ref);
 void __cs_update_cli(ecraft_t *ecraft);
 
 void __cs_emoji(char **emoji);

@@ -4,9 +4,16 @@
 
 #include <ecraft.h>
 
-#ifdef _CRAFT
-
-#if _CRAFT == 1
+/**
+ * ec_echo - echo a content to a given interface pointed to by __ec->interf
+ *
+ * @elem: double pointer to element(s) responsible for the echo
+ * @emoji: double pointer to emoji(s) to echo along
+ * @string: the content to echo
+ * @nmemb: number of elements to reference
+ *
+ * Return: return the integral location of the echo within __ec->ecraft
+*/
 
 int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 {
@@ -76,6 +83,3 @@ int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 
 	return (i);
 }
-#endif	/* _CRAFT == 1 */
-
-#endif	/* _CRAFT */

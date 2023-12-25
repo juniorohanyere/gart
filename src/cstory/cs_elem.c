@@ -48,6 +48,12 @@ elem_t *ec_elem(char *dname, char *fname, char *lname)
 	return (elem);
 }
 
+/**
+ * __cs_delem - frees memory for an element assigned by ec_elem function
+ *
+ * Return: return nothing
+*/
+
 void __cs_delem(void)
 {
 	int64_t i;
@@ -69,6 +75,14 @@ void __cs_delem(void)
 	}
 	free(elem);
 }
+
+/**
+ * __cs_elem - adds up a new element to the craft stack (__ec->elem)
+ *
+ * @elem: the new element to add
+ *
+ * Return: return nothing
+*/
 
 void __cs_elem(elem_t *elem)
 {

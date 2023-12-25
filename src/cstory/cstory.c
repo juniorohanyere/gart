@@ -8,6 +8,17 @@
 
 #include <ecraft.h>
 
+/**
+ * ec_start - begin a craft by assignig some variables to it passed as
+ *	      parameters to the function
+ *
+ * @title: the title of the craft
+ * @subtitle: subtitle of the craft
+ * @description: the description of the craft (can be a very short sentence)
+ *
+ * Return: return nothing
+*/
+
 void ec_start(char *title, char *subtitle, char *description)
 {
 	if (__ec == NULL)
@@ -28,6 +39,12 @@ void ec_start(char *title, char *subtitle, char *description)
 	}
 	/* update screen with heading */
 }
+
+/**
+ * ec_end - ends a craft that has been started, adds a special interrupt
+ *
+ * Return: return nothing
+*/
 
 void ec_end(void)
 {
@@ -89,6 +106,12 @@ void __ec_final(void)
 
 	free(__ec);
 }
+
+/**
+ * __cs_decraft - frees memory associtated with an ecarft
+ *
+ * Return: return nothing
+*/
 
 void __cs_decraft(void)
 {

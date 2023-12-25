@@ -37,8 +37,8 @@
 
 /* emoji switch */
 #define __EC_EMOJI 1	/* display real emoji */
-#define __EC_WEMOJI 2	/* word emoji */
-#define __EC_SEMOJI 3	/* shortend string emoji */
+#define __EC_LEMOJI 2	/* long string format of emoji */
+#define __EC_SEMOJI 3	/* short string format of emoji */
 
 #include <stdint.h>
 
@@ -47,9 +47,12 @@
 /**
  * struct elem_s - data structure for casts of a craft
  *
- * @__dname: display name
- * @__fname: first name
- * @__lname: last name
+ * @__height: height of the element
+ * @__weight: weight of the element
+ * @__gender: gender of the element
+ * @__dname: display name of the element
+ * @__fname: first name of the element
+ * @__lname: last name of the element
 */
 
 typedef struct elem_s
@@ -59,13 +62,13 @@ typedef struct elem_s
 } elem_t;
 
 /**
- * struct ecraft_s - data structure for crafts (placeholder)
+ * struct __ecraft_s - data structure for crafts (placeholder)
  *
- * @__interface: interface of the craft
- * @__type: type of craft
- * @__interf: interface switch for the craft
- * @__cast: cast added to the craft
- * @__meta: metadata for a craft
+ * @nmemb: number of elem and/or emoji pointers to access/reference
+ * @ref: reference number of content to re-echo to an interface
+ * @string: content to be displayed onto a screen
+ * @emoji: tripple pointer to emoji(s) to display
+ * @elem: element responsible for @string
 */
 
 typedef struct __ecraft_s
@@ -82,13 +85,20 @@ typedef struct __ecraft_s
  *
  * @emoji: the emoji
  * @unicode: the unicode representation of @emoji
- * @string: human readable string representation
+ * @string: human readable/long string representation/format
 */
 
 typedef struct __emoji_s
 {
 	char *emoji, *unicode, *string;
 } emoji_t;
+
+/**
+ * union __scr_u - union for the interface of the chat story
+ *
+ * @gui: graphical user interface
+ * @cli: command line interface
+*/
 
 typedef union __scr_u
 {
@@ -99,11 +109,19 @@ typedef union __scr_u
 /**
  * struct __ec_s - contains flags and placeholders for ecraft library
  *
+ * @interf: interface of the craft
+ * @status: return status of the craft at runtime
+ * @tts: text to speech flag
+ * @emoji: emoji flag
+ * @top: integer value representing the top buffer position of a screen
+ * @bottom: integer value representing the bottom buffer position of a
+ *	    screen
  * @title: title for the craft
  * @subtitle: subtitle for the craft
- * @tts: flag for text to speech
- * @emoji: flag for emoji
- * @ecraft: top level placeholder for ecraft
+ * @desc: description for the craft
+ * @screen: screen to print to
+ * @elem: pointer to elements of a craft
+ * @ecraft: pointer to the meta data for a craft
  * @pmtscr: prompt screen
 */
 
@@ -129,13 +147,17 @@ extern ec_t *__ec;
 void ec_init(const int interface);
 void ec_free(void);
 
-void ec_tts(void);	/* enable text to speech mode */
-void ec_ntts(void);	/* disable text to speech mode */
+/* enable text to speech mode */
+void ec_tts(void);
+/* disable text to speech mode */
+void ec_ntts(void);
 
-void ec_emoji(const char *mode);	/* manipulate emoji modes */
+/* manipulate emoji modes */
+void ec_emoji(const char *mode);
 
 void ec_update(void);
-void ec_scroll(int spd, ...);	/* TODO */
+/* TODO */
+void ec_scroll(int spd, ...);
 
 void ec_end(void);
 

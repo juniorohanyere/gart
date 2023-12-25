@@ -13,6 +13,8 @@ __EC;	/* bypass betty warining for use of global variables */
 /**
  * ec_init - initialise ecraft
  *
+ * @interface: EC_NONE, EC_CLI, or EC_GUI
+ *
  * Description: subsequent call to ec_init() is useless unless ec_free() has
  *		being called, initialisation only occur once
  *		hence, it's not an error to call ec_init() multiple times

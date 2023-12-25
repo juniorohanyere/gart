@@ -161,7 +161,7 @@ void ec_scroll(int spd, ...);
 
 void ec_end(void);
 
-void ec_print(const char *format, const char *filename);
+void ec_pull(const char *format, const char *filename);
 
 /*
  * below function prototypes are meant for the library itself, so therefore, a

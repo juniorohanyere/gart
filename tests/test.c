@@ -20,7 +20,7 @@ int main(void)
 	ec_init(EC_CLI);
 	ec_emoji("u");	/* enable unicode emoji */
 
-	/* ec_tts(); */
+	ec_tts();
 
 	str = malloc(sizeof(char) * 1024);
 
@@ -33,35 +33,35 @@ int main(void)
 	);
 	ec_start("Electronic Craft", "Chat Story", str);
 
-	ec_echo(&jun, &emoji, "Do you know?", 1);
-	ec_echo(&sam, &em, "Know what?", 1);
+	ec_load(&jun, &emoji, "Do you know?", 1);
+	ec_load(&sam, &em, "Know what?", 1);
 
 	strcpy(str, "Do you know that everything going on here\n");
 	strcat(str, "is a programmed chat story?");
-	ec_echo(&jun, &emoji, str, 1);
+	ec_load(&jun, &emoji, str, 1);
 
 	emoji = "s-s-f:u-d-f";
-	ec_echo(&vic, &emoji, "What do you mean?", 1);
+	ec_load(&vic, &emoji, "What do you mean?", 1);
 
 	em = "f-w-p-e";
-	ec_echo(&sam, &em, NULL, 1);
+	ec_load(&sam, &em, NULL, 1);
 
-	emoji = "s-f-w-o-h";
-	ec_echo(&jun, &emoji, "Don't worry, I can explain.", 1);
+	emoji = "s-f-w-o-h:b-f-w-s-e";
+	ec_load(&jun, &emoji, "Don't worry, I can explain.", 1);
 
 	em = "";
-	ec_echo(&sam, &em, "Please do, because I'm curious and nervous", 1);
+	ec_load(&sam, &em, "Please do, because I'm curious and nervous.", 1);
 
 	strcpy(str, "Everything here is programmed ");
 	strcat(str, "from a programming library called ecraft.");
 	emoji = "s-f-w-o-h";
-	ec_echo(&jun, &emoji, str, 1);
+	ec_load(&jun, &emoji, str, 1);
 
 	emoji = "f-w-o-e-a-h-o-m";
-	ec_echo(&sam, &emoji, "ecraft???", 1);
+	ec_load(&sam, &emoji, "ecraft???", 1);
 
-	emoji = "t-f";
-	ec_echo(&vic, &emoji, "What's ecraft?", 1);
+	emoji = "t-f:t-f:t-f";
+	ec_load(&vic, &emoji, "What's ecraft?", 1);
 
 	ec_free();
 

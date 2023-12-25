@@ -99,16 +99,18 @@ void __cs_elem(elem_t *elem)
 		if (__ec->elem == NULL)
 			return;
 	}
-
-	for (i = 0; __ec->elem[i] != NULL; i++)
-		;
-	elem_size = base_size * (2 * i + 3);
-	__ec->elem = realloc(__ec->elem, sizeof(elem_t *) * elem_size);
-	if (__ec->elem == NULL)
+	else
 	{
-		free(__ec->elem);
+		for (i = 0; __ec->elem[i] != NULL; i++)
+			;
+		elem_size = base_size * (2 * i + 3);
+		__ec->elem = realloc(__ec->elem, sizeof(elem_t *) * elem_size);
+		if (__ec->elem == NULL)
+		{
+			free(__ec->elem);
 
-		return;
+			return;
+		}
 	}
 
 	__ec->elem[i] = elem;

@@ -40,15 +40,19 @@ int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 		if (__ec->ecraft == NULL)
 			return (-1);	/* TODO set up error status */
 	}
-	/* get the size/number of the lines */
-	for (i = 0; __ec->ecraft[i] != NULL; i++)
-		;
-	ec_size = base_size * (2 * i + 3);	/* cool formula */
-	__ec->ecraft = realloc(__ec->ecraft, sizeof(ecraft_t *) * ec_size);
-	if (__ec->ecraft == NULL)
+	else
 	{
-		free(__ec->ecraft);	/* TODO handle error status */
-		return (-1);
+		/* get the size/number of the lines */
+		for (i = 0; __ec->ecraft[i] != NULL; i++)
+			;
+		ec_size = base_size * (2 * i + 3);	/* cool formula */
+		__ec->ecraft = realloc(__ec->ecraft,
+			sizeof(ecraft_t *) * ec_size);
+		if (__ec->ecraft == NULL)
+		{
+			free(__ec->ecraft);	/* TODO handle error status */
+			return (-1);
+		}
 	}
 
 	/* update screen buffer */

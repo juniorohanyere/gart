@@ -9,8 +9,8 @@ void ec_start(char *title, char *subtitle, char *description);
 
 elem_t *ec_elem(char *dname, char *fname, char *lname);
 
-int64_t ec_echo(elem_t **elem, char **emoji, char *string, int64_t nmemb);
-int64_t ec_recho(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb);
+int64_t ec_rload(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
 
 /* TODO */

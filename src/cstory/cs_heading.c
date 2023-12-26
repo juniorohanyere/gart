@@ -18,7 +18,7 @@ void __cs_heading_cli(void)
 	char *str = malloc(sizeof(char) * 1024);
 
 	attron(A_BOLD);
-	__ec_printf("string", "Title:\t");
+	__ec_printf("string", "Title:\t\t");
 	attroff(A_BOLD);
 	strcpy(str, "Title: ");
 
@@ -50,5 +50,7 @@ void __cs_heading_cli(void)
 	__ec_printf("string", "\n");	/* print extra new line */
 
 	__ec_interrupt(str);
+
 	clear();
+	free(str);
 }

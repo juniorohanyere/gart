@@ -43,11 +43,13 @@ void ec_ntts(void)
 
 void __ec_tts(char *tts_msg)
 {
+	espeak_POSITION_TYPE pos_type = POS_CHARACTER;
+
 	if (__ec->tts == EC_NONE)
 		return;
 
 	/* synthesize the speech */
-	espeak_Synth(tts_msg, strlen(tts_msg) + 1, 0, POS_CHARACTER, 0,
+	espeak_Synth(tts_msg, strlen(tts_msg) + 1, 0, pos_type, 0,
 		espeakCHARS_AUTO, NULL, NULL);
 
 	/* synchronize the speech */

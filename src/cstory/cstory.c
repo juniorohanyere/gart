@@ -9,7 +9,7 @@
 #include <ecraft.h>
 
 /**
- * ec_start - begin a craft by assignig some variables to it passed as
+ * ec_create - begin a craft by assignig some variables to it passed as
  *	      parameters to the function
  *
  * @title: the title of the craft
@@ -19,7 +19,7 @@
  * Return: return nothing
 */
 
-void ec_start(char *title, char *subtitle, char *description)
+void ec_create(char *title, char *subtitle, char *description)
 {
 	if (__ec == NULL)
 	{
@@ -42,25 +42,14 @@ void ec_start(char *title, char *subtitle, char *description)
 }
 
 /**
- * ec_end - ends a craft that has been started, adds a special interrupt
- *
- * Return: return nothing
-*/
-
-void ec_end(void)
-{
-	__ec->status = EC_END;
-}
-
-/**
- * ec_free - clean-up
+ * ec_final - clean-up
  *	     this function must be called at the end of the user's program
  *	     in order to clean up or free all allocated blocks of memory
  *
  * Return: return nothing
 */
 
-void ec_free(void)
+void ec_final(void)
 {
 	if (__ec == NULL)
 		return;
@@ -72,14 +61,18 @@ void ec_free(void)
 	if (__ec->desc != NULL)
 		free(__ec->desc);
 
+	espeak_Terminate();
+
 	if (__ec->interf == EC_CLI)
 	{
 		delscreen(__ec->screen.cli);
 		__cs_delem();	/* delete elements of the chat story */
 		__cs_decraft();
 
-		__ec_final();	/* final cleanup */
+		__ec_final_cli();	/* final cleanup */
 	}
+	free(__ec);
+	__ec = NULL;
 }
 
 /**
@@ -92,9 +85,8 @@ void ec_free(void)
  * Return: return nothing
 */
 
-void __ec_final(void)
+void __ec_final_cli(void)
 {
-	espeak_Terminate();
 	endwin();
 
 	del_curterm(cur_term);
@@ -104,8 +96,6 @@ void __ec_final(void)
 	delwin(curscr);
 
 	tb_shutdown();
-
-	free(__ec);
 }
 
 /**

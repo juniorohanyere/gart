@@ -5,7 +5,7 @@
 
 #include <ecraft.h>
 
-void ec_start(char *title, char *subtitle, char *description);
+void ec_create(char *title, char *subtitle, char *description);
 
 elem_t *ec_elem(char *dname, char *fname, char *lname);
 
@@ -17,6 +17,9 @@ int64_t ec_rload(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 void ec_add(elem_t **elem, int64_t nmemb);
 /* TODO */
 void ec_pop(elem_t **elem, int64_t nmemb);
+void ec_update(void);
+
+void ec_final(void);
 
 /*
  * below function prototypes are meant for the library itself, so therefore, a
@@ -38,6 +41,8 @@ void __cs_pemoji(emoji_t emoji);
 
 void __cs_heading(void);
 void __cs_heading_cli(void);
+
+void __ec_final_cli(void);
 
 #endif	/* _CRAFT */
 

@@ -37,6 +37,8 @@ void ec_create(char *title, char *subtitle, char *description)
 		dprintf(STDERR_FILENO,
 			"insufficient memory: coundn't start ecraft");
 	}
+
+	clear();
 	/* update screen with heading */
 	__cs_heading_cli();
 }

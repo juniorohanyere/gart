@@ -7,16 +7,16 @@
 
 void ec_create(char *title, char *subtitle, char *description);
 
-elem_t *ec_elem(char *dname, char *fname, char *lname);
+elem_t *ec_define(char *dname, char *fname, char *lname);
 
 int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb);
-int64_t ec_rload(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
 
 /* TODO */
-void ec_add(elem_t **elem, int64_t nmemb);
-/* TODO */
-void ec_pop(elem_t **elem, int64_t nmemb);
+int64_t ec_add(elem_t **elem, int64_t nmemb, ...);
+int64_t ec_pop(elem_t **elem, ...);
+
 void ec_update(void);
 
 void ec_final(void);
@@ -26,7 +26,7 @@ void ec_final(void);
  * user should avoid the use of these functions
 */
 
-void __cs_elem(elem_t *elem);
+void __cs_define(elem_t *elem);
 void __cs_delem(void);
 void __cs_decraft(void);
 

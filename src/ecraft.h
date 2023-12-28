@@ -140,10 +140,6 @@ typedef struct __ec_s
 
 extern ec_t *__ec;
 
-extern void ec_update(void);
-extern void ec_final(void);
-extern void __ec_final_cli(void);
-
 /* include header file(s) for specific craft(s) */
 
 #include <cstory.h>
@@ -158,10 +154,13 @@ void ec_ntts(void);
 /* manipulate emoji modes */
 void ec_emoji(const char *mode);
 
+void ec_final(void);
+
 /* TODO */
 void ec_scroll(int spd, ...);
-/* TODO */
-void ec_pull(const char *format, const char *filename);
+void ec_convert(const char *format, const char *filename);
+void ec_local(const char *local);
+void ec_lang(const char *lang);
 
 /*
  * below function prototypes are meant for the library itself, so therefore, a

@@ -4,7 +4,7 @@
 #include <cstory.h>
 
 /**
- * ec_elem - initialises a new element, adding it to the __ec stack
+ * ec_define - initialises a new element, adding it to the __ec stack
  *
  * @dname: display name of the element
  * @fname: first name of the element
@@ -16,7 +16,7 @@
  * Return: return a pointer to the new element created
 */
 
-elem_t *ec_elem(char *dname, char *fname, char *lname)
+elem_t *ec_define(char *dname, char *fname, char *lname)
 {
 	elem_t *elem = malloc(sizeof(elem_t));
 
@@ -43,7 +43,7 @@ elem_t *ec_elem(char *dname, char *fname, char *lname)
 		return (NULL);
 	}
 
-	__cs_elem(elem);
+	__cs_define(elem);
 
 	return (elem);
 }
@@ -77,14 +77,14 @@ void __cs_delem(void)
 }
 
 /**
- * __cs_elem - adds up a new element to the craft stack (__ec->elem)
+ * __cs_delem - adds up a new element to the craft stack (__ec->elem)
  *
  * @elem: the new element to add
  *
  * Return: return nothing
 */
 
-void __cs_elem(elem_t *elem)
+void __cs_define(elem_t *elem)
 {
 	int64_t i = 0, elem_size, base_size = 4;
 

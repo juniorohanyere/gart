@@ -78,7 +78,7 @@ void ec_final(void)
 }
 
 /**
- * __ec_final - clean up ncurses and termbox
+ * __ec_final_cli - clean up ncurses and termbox
  *
  *		this is by far the best clean up for ncurses I know of
  *		any help on improving or making the ncurses clean up perfect is

@@ -17,14 +17,16 @@ void __ec_interrupt(char *tts_msg)
 	char *line = malloc(sizeof(char) * 1024);
 
 	wattron(__ec->pmtscr, A_BOLD);
+
 	mvwprintw(__ec->pmtscr, 0, 0, "$ ");
-	wattroff(__ec->pmtscr, A_BOLD);
 	wrefresh(__ec->pmtscr);
 
 	__ec_tts(tts_msg);
 
-	wgetstr(__ec->pmtscr, line);
+	__ec_getstr(__ec->pmtscr, line);
 	werase(__ec->pmtscr);
+
+	wattroff(__ec->pmtscr, A_BOLD);
 
 	free(line);
 }

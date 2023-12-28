@@ -7,7 +7,7 @@
 /**
  * main - entry point
  *
- * Description: test the library
+ * Description: test the library (libecraft.so + libcstory.so)
  *
  * Return: always return 0
 */
@@ -57,7 +57,6 @@ int main(void)
 
 	em = "";
 	ec_load(&sam, &em, "Please do, because I'm curious and nervous.", 1);
-	ec_create("Electronic Craft", "Chat Story", str);
 
 	strcpy(str, "Everything here is programmed ");
 	strcat(str, "from a programming library called ecraft.");

@@ -77,7 +77,7 @@ void __cs_delem(void)
 }
 
 /**
- * __cs_delem - adds up a new element to the craft stack (__ec->elem)
+ * __cs_define - adds up a new element to the craft stack (__ec->elem)
  *
  * @elem: the new element to add
  *

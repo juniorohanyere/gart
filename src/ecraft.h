@@ -45,6 +45,19 @@
 #include <ncurses.h>
 
 /**
+ * struct __keymap_s - structure for key input
+ *
+ * @key: key input
+ * @func: function to execute when @key is encountered
+*/
+
+typedef struct __keymap_s
+{
+	int key;
+	int (*func)(char *buffer);
+} keymap_t;
+
+/**
  * struct elem_s - data structure for casts of a craft
  *
  * @__height: height of the element
@@ -176,5 +189,8 @@ void __ec_interrupt(char *tts_msg);
 void __ec_pmtwin(void);
 
 emoji_t *__ec_lemoji(void);
+int __ec_nl(char *buffer);
+keymap_t *__ec_keymap(void);
+int __ec_getstr(WINDOW *win, char *buffer);
 
 #endif	/* __ECRAFT_H */

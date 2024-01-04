@@ -173,7 +173,7 @@ void __ec_interf(void);
 char **__ec_split(char *str, const char *delim, int size);
 void __prompt_win(void);
 keymap_t *__keymap(void);
-void __bkspace(WINDOW *win, char *buffer, int ch, int length);
+int __bkspace(WINDOW *win, char *buffer, int ch, int length);
 void __ec_print(const char *type, char *str);
 int __ec_get(WINDOW *win, char *buffer);
 void __ec_read(int ref);

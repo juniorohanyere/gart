@@ -31,7 +31,8 @@ int __ec_get(WINDOW *win, char *buffer)
 			case '\n':
 				return (i);
 			case '\b':
-				__bkspace(win, buffer, ch, i);
+				i = __bkspace(win, buffer, ch, i);
+				wrefresh(win);
 
 				break;
 
@@ -57,7 +58,7 @@ int __ec_get(WINDOW *win, char *buffer)
 	return (i);
 }
 
-void __bkspace(WINDOW *win, char *buffer, int ch, int length)
+int __bkspace(WINDOW *win, char *buffer, int ch, int length)
 {
 	wprintw(win, "%s", (char *)&ch);
 	if (getcurx(win) == 1)
@@ -69,6 +70,8 @@ void __bkspace(WINDOW *win, char *buffer, int ch, int length)
 		buffer[length] = '\0';
 	}
 	wrefresh(win);
+
+	return (length);
 }
 
 void __ec_signal(int __attribute__((unused))signal)

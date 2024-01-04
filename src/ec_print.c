@@ -28,11 +28,12 @@ void __ec_print(const char *type, char *str)
 	x = getcurx(stdscr);
 	y = getcury(stdscr);
 
-	if (y == getmaxy(stdscr))
+	if (y == getmaxy(stdscr) - 1)
 	{
 		scrl(1);
 		refresh();
 		__ec->top++;
+		move(getcury(stdscr) - 1, 0);
 	}
 
 	if (strcmp(type, "s") == 0)

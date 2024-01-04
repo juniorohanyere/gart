@@ -18,36 +18,36 @@ void __ec_head(void)
 	char *str = malloc(sizeof(char) * 1024);
 
 	attron(A_BOLD);
-	__ec_print("string", "Title:\t\t");
+	__ec_print("s", "Title:\t\t");
 	attroff(A_BOLD);
 	strcpy(str, "Title: ");
 
-	__ec_print("string", __ec->title);
-	__ec_print("string", "\n");
+	__ec_print("s", __ec->title);
+	__ec_print("s", "\n");
 	strcat(str, __ec->title);
 	strcat(str, ". ");
 
 	attron(A_BOLD);
-	__ec_print("string", "Subtitle:\t");
+	__ec_print("s", "Subtitle:\t");
 	attroff(A_BOLD);
 	strcat(str, "Subtitle: ");
 
-	__ec_print("string", __ec->subtitle);
-	__ec_print("string", "\n");
+	__ec_print("s", __ec->subtitle);
+	__ec_print("s", "\n");
 	strcat(str, __ec->subtitle);
 	strcat(str, ". ");
 
 	attron(A_BOLD);
-	__ec_print("string", "Description:\t");
+	__ec_print("s", "Description:\t");
 	attroff(A_BOLD);
 	strcat(str, "Description: ");
 
-	__ec_print("string", __ec->desc);
-	__ec_print("string", "\n");
+	__ec_print("s", __ec->desc);
+	__ec_print("s", "\n");
 	strcat(str, __ec->desc);
 	strcat(str, ". ");
 
-	__ec_print("string", "\n");	/* print extra new line */
+	__ec_print("s", "\n");	/* print extra new line */
 
 	__ec_read(1);
 

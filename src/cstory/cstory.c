@@ -42,7 +42,7 @@ void ec_start(char *title, char *subtitle, char *description)
 
 	clear();
 	/* update screen with heading */
-	/* __cs_heading_cli(); */
+	__ec_head();
 }
 
 /**

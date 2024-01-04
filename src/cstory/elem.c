@@ -18,7 +18,7 @@
 
 elem_t *ec_define(char *dname, char *fname, char *lname)
 {
-	elem_t *elem = malloc(sizeof(elem_t));
+	elem_t *elem = calloc(sizeof(elem_t), 1);
 
 	if (elem == NULL)
 		return (NULL);
@@ -101,15 +101,11 @@ void __delem(void)
 	if (elem == NULL)
 		return;
 
-	for (i = 0; i < __ec->elem_size - 1; i++)
+	for (i = 0; i < __ec->elem_size; i++)
 	{
-		if (elem[i]->__dname != NULL)
-			free(elem[i]->__dname);
-		if (elem[i]->__fname != NULL)
-			free(elem[i]->__fname);
-		if (elem[i]->__lname != NULL)
-			free(elem[i]->__lname);
-
+		free(elem[i]->__dname);
+		free(elem[i]->__fname);
+		free(elem[i]->__lname);
 		free(elem[i]);
 	}
 	free(elem);

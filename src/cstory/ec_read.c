@@ -28,6 +28,7 @@ void __ec_read(int __attribute__((unused))step)
 
 	if (offset == size)
 	{
+		free(line);
 
 		return;
 	}
@@ -38,12 +39,13 @@ void __ec_read(int __attribute__((unused))step)
 
 	if (i == -1)
 	{
+		free(line);
 		ec_final();
 		exit(EXIT_SUCCESS);
 	}
 
 	__ec_exec(line);
+	free(line);
 	__ec_read(step);
 
-	free(line);
 }

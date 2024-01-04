@@ -168,6 +168,7 @@ int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
 	char *string, int64_t nmemb, int64_t __attribute__((unused))ref)
 {
+	int length;
 	int64_t i, size, r = __ec->ref;
 
 	if (elem != NULL)
@@ -185,6 +186,9 @@ int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
 			else
 				ecraft[size]->string = strdup(
 					elem[i]->__dname);
+			length = strlen(ecraft[size]->string);
+			ecraft[size]->string = realloc(ecraft[size]->string,
+				sizeof(char) * length + 2);
 			strcat(ecraft[size]->string, ":");
 
 			ecraft[size]->unicode = __ec_split(emoji[i],
@@ -218,7 +222,7 @@ int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
 	ecraft[size]->attrs = EC_NORMAL;
 	ecraft[size]->ref = -1;
 
-	__ec->ec_size++;
+	ecraft[++__ec->ec_size] = NULL;
 	__ec->ref++;
 
 	return (r);

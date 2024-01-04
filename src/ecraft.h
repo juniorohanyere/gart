@@ -106,19 +106,6 @@ typedef struct __emoji_s
 } emoji_t;
 
 /**
- * union __scr_u - union for the interface of the chat story
- *
- * @gui: graphical user interface
- * @cli: command line interface
-*/
-
-typedef union __scr_u
-{
-	void *gui;	/* TODO */
-	SCREEN *cli;
-} scr_t;
-
-/**
  * struct __ec_s - contains flags and placeholders for ecraft library
  *
  * @interf: interface of the craft
@@ -142,7 +129,6 @@ typedef struct __ec_s
 	int interf, status, tts, emoji;
 	int64_t ec_size, elem_size, top, bottom, ref;
 	char *title, *subtitle, *desc;
-	scr_t screen;
 	elem_t **elem;
 	ecraft_t **ecraft;
 	WINDOW *pmtscr;

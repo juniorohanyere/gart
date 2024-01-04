@@ -32,9 +32,10 @@ void __ec_exec(char *cmd)
 		move(getcury(stdscr) + 1, 0);
 		__ec->bottom++;
 
-		if (__ec->ecraft[offset + 1] != NULL &&
-			__ec->ecraft[offset + 1]->ref == -1)
+		offset = __ec->bottom;
+
+		if (__ec->ecraft[offset] != NULL &&
+			__ec->ecraft[offset]->ref == -1)
 			__ec_exec(str);
 	}
-
 }

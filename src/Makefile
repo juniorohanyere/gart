@@ -47,7 +47,7 @@ TARGET2 = libecraft.a
 .PHONY: all clean clean-all
 
 # default target
-all:
+all: $(DEP)
 	-$(MAKE) $(TARGET)
 #	$(AR) x $(LIBNCURSES)
 #	$(AR) x $(LIBESPEAK)

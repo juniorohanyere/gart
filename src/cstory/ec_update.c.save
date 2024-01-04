@@ -1,0 +1,180 @@
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <ecraft.h>
+
+/**
+ * __scrollup - updates the interface screen
+ *
+ * Return: return nothing
+*/
+
+void __scrollup(void)
+{
+	switch (__ec->interf)
+	{
+		case EC_NONE:
+			break;	/* do nothing */
+
+		case EC_CLI:
+			#ifdef _CRAFT
+
+			#if _CRAFT == 1
+			__scrollup_cli(__ec->ecraft[__ec->bottom]);
+			#endif	/* _CRAFT == 1 */
+
+			#endif	/* _CRAFT */
+
+			break;
+
+		case EC_GUI:
+			/* TODO */
+
+			break;
+
+		default:
+			dprintf(STDERR_FILENO,
+				"invalid interface: no such interface");
+			abort();
+
+			return;
+	}
+}
+
+/**
+ * ___srollup_cli - scrolls the screen up
+ *
+ * @ecraft: pointer to a meta data
+ *
+ * Return: return nothing
+*/
+
+void __scrollup_cli(ecraft_t *ecraft)
+{
+	int64_t i;
+
+	/* display names should be printed in bold */
+	if (ecraft->elem != NULL)
+	{
+		for (i = 0; i < ecraft->nmemb; i++)
+		{
+			/* ecraft->ref check should be here */
+			attron(A_BOLD);
+			if (ecraft->elem[i] == NULL)
+			{
+				/* unknown element */
+				__ec_print("string", "<Unknown>");
+			}
+			else
+			{
+				__ec_print("string",
+					ecraft->elem[i]->__dname);
+			}
+			__ec_print("string", ": ");
+			attroff(A_BOLD);
+			if (ecraft->emoji != NULL && ecraft->emoji[i] != NULL)
+				__cs_emoji(ecraft->emoji[i]);
+			__ec_print("string", "\n");
+			/* next element */
+		}
+	}	/* if element is NULL, just print the string message */
+	__ec_print("string", ecraft->string);
+	if (strcmp(ecraft->string, "\r") != 0)
+		__ec_print("string", "\n");
+	__ec_print("string", "\n");
+
+	__ec_interrupt(ecraft->string);
+
+	__ec->bottom++;
+}
+
+/**
+ * __cs_scrolldown - updates the interface screen
+ *
+ * Return: return nothing
+*/
+
+void __scrolldown(void)
+{
+	switch (__ec->interf)
+	{
+		case EC_NONE:
+			break;	/* do nothing */
+
+		case EC_CLI:
+			#ifdef _CRAFT
+
+			#if _CRAFT == 1
+			if (__ec->top == 0)
+				return;
+
+			__scrolldown_cli(__ec->ecraft[__ec->top - 1]);
+			#endif	/* _CRAFT == 1 */
+
+			#endif	/* _CRAFT */
+
+			break;
+
+		case EC_GUI:
+			/* TODO */
+
+			break;
+
+		default:
+			dprintf(STDERR_FILENO,
+				"invalid interface: no such interface");
+			abort();
+
+			return;
+	}
+}
+
+/**
+ * __srolldown_cli - scrolls the screen up
+ *
+ * @ecraft: pointer to a meta data
+ *
+ * Return: return nothing
+*/
+
+void __scrolldown_cli(ecraft_t *ecraft)
+{
+	int64_t i;
+
+	scrl(-1);
+	__ec->top--;
+	__ec->bottom--;
+
+	/* display names should be printed in bold */
+	if (ecraft->elem != NULL)
+	{
+		for (i = 0; i < ecraft->nmemb; i++)
+		{
+			/* ecraft->ref check should be here */
+			attron(A_BOLD);
+			if (ecraft->elem[i] == NULL)
+			{
+				/* unknown element */
+				__ec_print("string", "<Unknown>");
+			}
+			else
+			{
+				__ec_print("string",
+					ecraft->elem[i]->__dname);
+			}
+			__ec_print("string", ": ");
+			attroff(A_BOLD);
+			if (ecraft->emoji != NULL && ecraft->emoji[i] != NULL)
+				__cs_emoji(ecraft->emoji[i]);
+			__ec_print("string", "\n");
+			/* next element */
+		}
+	}	/* if element is NULL, just print the string message */
+	__ec_print("string", ecraft->string);
+	if (strcmp(ecraft->string, "\r") != 0)
+		__ec_print("string", "\n");
+	__ec_print("string", "\n");
+
+	__ec_interrupt(ecraft->string);
+}

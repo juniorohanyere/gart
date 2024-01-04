@@ -13,7 +13,7 @@
  * Return: return a pointer to the list of emojis
 */
 
-emoji_t *__ec_lemoji(void)
+emoji_t *__emoji_list(void)
 {
 	static emoji_t emoji[] = {	/* arrange in chronological order */
 		{"b-f-w-s-e", "0x1F601", "[beaming face with similing eyes]"},
@@ -75,13 +75,13 @@ emoji_t *__ec_lemoji(void)
 void ec_emoji(const char *mode)
 {
 	if (strcmp(mode, "u") == 0)
-		__ec->emoji = __EC_EMOJI;
+		__ec->emoji = __EC_UNICODE;
 	else if (strcmp(mode, "n") == 0)
 		__ec->emoji = EC_NONE;
-	else if (strcmp(mode, "l") == 0)
-		__ec->emoji = __EC_LEMOJI;
 	else if (strcmp(mode, "s") == 0)
-		__ec->emoji = __EC_SEMOJI;
+		__ec->emoji = __EC_STRING;
+	else if (strcmp(mode, "ss") == 0)
+		__ec->emoji = __EC_SSTRING;
 	else
 	{
 		ec_final();

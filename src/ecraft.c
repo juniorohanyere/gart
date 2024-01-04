@@ -23,7 +23,7 @@ __EC;	/* bypass betty warining for use of global variables */
  * Return: return nothing
 */
 
-void ec_init(const int interface)
+void ec_init(int interface)
 {
 	int tts_init, buffer_size = 500, opts = 0;
 	char *path = NULL;
@@ -46,7 +46,10 @@ void ec_init(const int interface)
 		__ec_interf();
 
 		__ec->status = EC_INIT;
+
+		__ec->ec_size = 0;
 		__ec->top = 0;
-		__ec->bottom = -1;
+		__ec->bottom = 0;
+		__ec->ref = 0;
 	}
 }

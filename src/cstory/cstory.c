@@ -9,17 +9,19 @@
 #include <ecraft.h>
 
 /**
- * ec_create - begin a craft by assignig some variables to it passed as
- *	      parameters to the function
+ * ec_start - begins new page for the craft, setting up headers base on
+ *	      parameters passed to the function
  *
  * @title: the title of the craft
  * @subtitle: subtitle of the craft
  * @description: the description of the craft (can be a very short sentence)
  *
+ * Description: setting all parameters to NULL discards header set up
+ *
  * Return: return nothing
 */
 
-void ec_create(char *title, char *subtitle, char *description)
+void ec_start(char *title, char *subtitle, char *description)
 {
 	if (__ec == NULL)
 	{
@@ -37,8 +39,10 @@ void ec_create(char *title, char *subtitle, char *description)
 		dprintf(STDERR_FILENO,
 			"insufficient memory: coundn't start ecraft");
 	}
+
+	clear();
 	/* update screen with heading */
-	__cs_heading_cli();
+	/* __cs_heading_cli(); */
 }
 
 /**
@@ -65,11 +69,10 @@ void ec_final(void)
 
 	if (__ec->interf == EC_CLI)
 	{
-		delscreen(__ec->screen.cli);
-		__cs_delem();	/* delete elements of the chat story */
-		__cs_decraft();
+		__delem();	/* delete elements of the chat story */
+		__decraft();
 
-		__ec_final_cli();	/* final cleanup */
+		__ec_final();	/* final cleanup */
 	}
 	free(__ec);
 	__ec = NULL;
@@ -85,7 +88,7 @@ void ec_final(void)
  * Return: return nothing
 */
 
-void __ec_final_cli(void)
+void __ec_final(void)
 {
 	endwin();
 
@@ -99,29 +102,26 @@ void __ec_final_cli(void)
 }
 
 /**
- * __cs_decraft - frees memory associtated with an ecarft
+ * __decraft - frees memory associtated with an ecarft
  *
  * Return: return nothing
 */
 
-void __cs_decraft(void)
+void __decraft(void)
 {
 	int64_t i, j;
 
 	ecraft_t **ecraft = __ec->ecraft;
 
-	for (i = 0; ecraft[i] != NULL; i++)
+	for (i = 0; i < __ec->ec_size; i++)
 	{
 		if (ecraft[i]->string != NULL)
 			free(ecraft[i]->string);
 
-		for (j = 0; j < ecraft[i]->nmemb; j++)
-		{
-			if (ecraft[i]->emoji[j] != NULL)
-				free(ecraft[i]->emoji[j]);
-		}
+		for (j = 0; ecraft[i]->unicode[j] != NULL; j++)
+			free(ecraft[i]->unicode[j]);
 
-		free(ecraft[i]->emoji);
+		free(ecraft[i]->unicode);
 		free(ecraft[i]);
 	}
 	free(ecraft);

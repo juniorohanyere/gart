@@ -6,20 +6,15 @@
  *	 beginning with double underscore (__) should be avoided by user
  *	 programs
  *	 tampering with __EC_INIT may break the library or introduce bugs
- *
- * Prefixing - variables, functions, macros, structs, unions, and/or enums
- *	       beginning with <prefix>_ or __<prefix>_ in the case of
- *	       library-only variables, or functions, or the likes, are
- *	       described below
- * ec_, __ec_: ecraft/e-craft/electronic craft
- *	       create a new craft usually of ecraft_t data type
- * s_, __s_: stage, stage/display an input buffer to a specified interface
- * c_, __c_: cast, create a new cast for a given craft
- * m_, __m_: meta, create/update a meta data for a given craft
 */
 
+#define __ECRAFT 0
+#define __EC_CSTORY 1
+#define __EC_STORY 2
+#define __EC_MUSIC 3
+
 #ifndef _CRAFT
-#define _CRAFT 0	/* ecraft => libecraft.* */
+#define _CRAFT __ECRAFT	/* default to ecraft => libecraft.* */
 #endif	/* _CRAFT */
 
 /* global variables */
@@ -36,13 +31,30 @@
 #define EC_GUI 2	/* graphical user interface */
 
 /* emoji switch */
-#define __EC_EMOJI 1	/* display real emoji */
-#define __EC_LEMOJI 2	/* long string format of emoji */
-#define __EC_SEMOJI 3	/* short string format of emoji */
+#define __EC_UNICODE 1	/* display real emoji */
+#define __EC_STRING 2	/* long string format of emoji */
+#define __EC_SSTRING 3	/* short string format of emoji */
+
+#define EC_BOLD A_BOLD
+#define EC_NORMAL A_NORMAL
+#define EC_UNDERLINE A_UNDERLINE
 
 #include <stdint.h>
 
 #include <ncurses.h>
+
+/**
+ * struct __keymap_s - structure for key input
+ *
+ * @key: key input
+ * @func: function to execute when @key is encountered
+*/
+
+typedef struct __keymap_s
+{
+	int key;
+	int (*func)(WINDOW *, int, int);
+} keymap_t;
 
 /**
  * struct elem_s - data structure for casts of a craft
@@ -73,10 +85,10 @@ typedef struct elem_s
 
 typedef struct __ecraft_s
 {
-	int64_t nmemb, ref;
+	int attrs, tts;
+	int64_t ref;
 	char *string;
-	char ***emoji;
-	elem_t **elem;
+	char **unicode;
 } ecraft_t;
 
 /**
@@ -128,7 +140,7 @@ typedef union __scr_u
 typedef struct __ec_s
 {
 	int interf, status, tts, emoji;
-	int64_t top, bottom;
+	int64_t ec_size, elem_size, top, bottom, ref;
 	char *title, *subtitle, *desc;
 	scr_t screen;
 	elem_t **elem;
@@ -136,46 +148,41 @@ typedef struct __ec_s
 	WINDOW *pmtscr;
 } ec_t;
 
-/* externals */
-
+/* external variables */
 extern ec_t *__ec;
 
-extern void ec_update(void);
-extern void ec_final(void);
-extern void __ec_final_cli(void);
-
-/* include header file(s) for specific craft(s) */
-
+/* include header files for specific libraries */
 #include <cstory.h>
 
-void ec_init(const int interface);
-
-/* enable text to speech mode */
+/* function prototypes */
+void ec_init(int interface);
 void ec_tts(void);
-/* disable text to speech mode */
 void ec_ntts(void);
-
-/* manipulate emoji modes */
 void ec_emoji(const char *mode);
-
-/* TODO */
-void ec_scroll(int spd, ...);
-/* TODO */
-void ec_pull(const char *format, const char *filename);
-
+void ec_final(void);
 /*
- * below function prototypes are meant for the library itself, so therefore, a
- * user should avoid the use of these functions
+ * void ec_scroll(int spd, ...);
+ * void ec_convert(const char *format, const char *filename);
+ * void ec_local(const char *local);
+ * void ec_lang(const char *lang);
 */
 
-void __ec_printf(const char *type, char *str);
+/* library only */
 void __ec_tts(char *tts_msg);
-
 void __ec_interf(void);
 char **__ec_split(char *str, const char *delim, int size);
-void __ec_interrupt(char *tts_msg);
-void __ec_pmtwin(void);
-
-emoji_t *__ec_lemoji(void);
+void __prompt_win(void);
+keymap_t *__keymap(void);
+void __bkspace(WINDOW *win, char *buffer, int ch, int length);
+void __ec_print(const char *type, char *str);
+int __ec_get(WINDOW *win, char *buffer);
+void __ec_read(int ref);
+void __ec_signal(int signal);
+void __scrollup(void);
+void __scrollup_cli(ecraft_t *ecraft);
+void __scrolldown(void);
+void __scrolldown_cli(ecraft_t *ecraft);
+void __ec_emoji(char *emoji, int64_t index);
+void __ec_exec(char *cmd);
 
 #endif	/* __ECRAFT_H */

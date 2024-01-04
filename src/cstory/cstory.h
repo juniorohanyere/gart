@@ -23,11 +23,13 @@ int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
 int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
 	char *string, int64_t nmemb, int64_t ref);
+void __ec_read(int ref);
+void __ec_exec(char *cmd);
 void __ec_add(elem_t *elem);
 void __delem(void);
 void __decraft(void);
 void __ec_mvprint(const char *type, char *str, int x, int y);
-emoji_t *__emoji_list(void);
+void __ec_emoji(char *emoji, int64_t index);
 void __pemoji(emoji_t emoji);
 void __ec_head(void);
 void __ec_head_cli(void);

@@ -90,11 +90,12 @@ void ec_final(void)
 
 void __ec_final(void)
 {
+	set_term(NULL);
 	endwin();
 
 	del_curterm(cur_term);
 
-	/* delwin(__pmtscr); why segmentation fault */
+	delwin(__ec->pmtscr);
 	delwin(stdscr);
 	delwin(curscr);
 
@@ -118,7 +119,8 @@ void __decraft(void)
 		if (ecraft[i]->string != NULL)
 			free(ecraft[i]->string);
 
-		for (j = 0; ecraft[i]->unicode[j] != NULL; j++)
+		for (j = 0; ecraft[i]->unicode != NULL &&
+			ecraft[i]->unicode[j] != NULL; j++)
 			free(ecraft[i]->unicode[j]);
 
 		free(ecraft[i]->unicode);

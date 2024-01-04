@@ -70,7 +70,7 @@ int main(void)
 	emoji = "t-f:t-f:t-f";
 	ec_load(&vic, &emoji, "What's ecraft?", 1);
 
-	//ec_final();
+	ec_final();
 
 	free(str);
 	free(emojis);

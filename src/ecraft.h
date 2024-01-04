@@ -176,13 +176,11 @@ keymap_t *__keymap(void);
 int __bkspace(WINDOW *win, char *buffer, int ch, int length);
 void __ec_print(const char *type, char *str);
 int __ec_get(WINDOW *win, char *buffer);
-void __ec_read(int ref);
 void __ec_signal(int signal);
 void __scrollup(void);
 void __scrollup_cli(ecraft_t *ecraft);
 void __scrolldown(void);
 void __scrolldown_cli(ecraft_t *ecraft);
-void __ec_emoji(char *emoji, int64_t index);
-void __ec_exec(char *cmd);
+emoji_t *__emoji_list(void);
 
 #endif	/* __ECRAFT_H */

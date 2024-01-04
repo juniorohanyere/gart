@@ -19,7 +19,7 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
 # dependency files
-DEP = ecraft.h cstory.h
+DEP = ../ecraft.h cstory.h
 
 # prefix is based on system architecture
 PREFIX = /usr
@@ -47,7 +47,7 @@ TARGET2 = libcstory.a
 .PHONY: all clean clean-all
 
 # default target
-all:
+all: $(DEP)
 	-$(MAKE) $(TARGET)
 #	$(AR) x $(LIBNCURSES)
 #	$(AR) x $(LIBESPEAK)

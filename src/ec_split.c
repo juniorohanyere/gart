@@ -40,7 +40,7 @@ char **__ec_split(char *str, const char *delim, int size)
 
 	for (i = 0; token != NULL; i++)
 	{
-		tokens[i] = token;
+		tokens[i] = strdup(token);
 		token = strtok(NULL, delim);
 	}
 	tokens[i] = NULL;

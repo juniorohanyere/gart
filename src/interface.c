@@ -11,6 +11,12 @@
 /**
  * __ec_interf - sets the interface for a given chat story
  *
+ * Description: initialise termbox and ncurses in cli mode
+ *		termbox is used to handle unicode characters since
+ *		ncurses only supports unicode for some specific
+ *		range of terminal or terminal configuration
+ *		termbox does the magic!
+ *
  * Return: return nothing
 */
 
@@ -23,25 +29,24 @@ void __ec_interf(void)
 		case EC_NONE:
 			break;	/* do nothing */
 		case EC_CLI:
-			/*
-			 * initialise termbox and ncurses
-			 * termbox is used to handle unicode characters since
-			 * ncurses only supports unicode for some specific
-			 * range of terminal or terminal configuration
-			 * termbox does the magic!
-			*/
 			cli_init = tb_init();
 			assert(cli_init == 0);
+
 			initscr();
+
+			curs_set(1);
+
+			raw();
 			cbreak();
-			/* enable special key input */
+
+			/* enable special key input and scrolling effect */
 			keypad(stdscr, TRUE);
-			refresh();
-			/* create new terminal screen */
-			__ec->screen.cli = newterm(NULL, stdout, stdin);
 			scrollok(stdscr, TRUE);
-			__ec_pmtwin();	/* prompt screen */
-			set_term(__ec->screen.cli);
+
+			refresh();
+
+			__prompt_win();	/* prompt screen */
+
 			break;
 
 		case EC_GUI:
@@ -56,13 +61,13 @@ void __ec_interf(void)
 }
 
 /**
- * __ec_pmtwin - creates a new window screen for prompt at the bottom of the
+ * __prompt_win - creates a new window screen for prompt at the bottom of the
  *		  stdscr
  *
  * Return: return nothing
 */
 
-void __ec_pmtwin(void)
+void __prompt_win(void)
 {
 	int x, y;
 
@@ -70,5 +75,15 @@ void __ec_pmtwin(void)
 
 	/* set the height of the prompt screen to 1 */
 	__ec->pmtscr = newwin(1, x, y - 1, 0);
-	/* noecho(); */
+
+	raw();
+	cbreak();
+	noecho();
+
+	/* enable special key input */
+	keypad(__ec->pmtscr, TRUE);
+
+	wattron(__ec->pmtscr, EC_BOLD);
+
+	wrefresh(__ec->pmtscr);
 }

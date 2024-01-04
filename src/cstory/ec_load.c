@@ -5,7 +5,7 @@
 #include <ecraft.h>
 
 /**
- * ec_load - loads a content to a given interface pointed to by __ec->interf
+ * ec_load - loads a content onto a screen buffer
  *
  * @elem: double pointer to element(s) responsible for the echo
  * @emoji: double pointer to emoji(s) to echo along
@@ -32,16 +32,13 @@ int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 	}
 	if (string == NULL)
 	{
-		str = "\r";	/* sentinel value to track NULL string */
 		/* set last parameter to -1 for no ref */
-		i = __cs_load(elem, emoji_dup, str, nmemb, -1);
+		i = __ec_load(elem, emoji_dup, str, nmemb, -1);
 	}
 	else
-		i = __cs_load(elem, emoji_dup, string, nmemb, -1);
+		i = __ec_load(elem, emoji_dup, string, nmemb, -1);
 
-	ec_update();
-
-	__ec_interrupt(__ec->ecraft[i]->string);
+	__ec_read(1);
 
 	for (j = 0; j < nmemb; j++)
 		free(emoji_dup[j]);
@@ -84,21 +81,18 @@ int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	{
 		str = "\r";	/* sentinel value to track NULL string */
 		/* set last parameter to value of @ref */
-		i = __cs_load(elem, emoji_dup, str, nmemb, ref);
+		i = __ec_load(elem, emoji_dup, str, nmemb, ref);
 	}
 	else
-		i = __cs_load(elem, emoji_dup, string, nmemb, ref);
+		i = __ec_load(elem, emoji_dup, string, nmemb, ref);
 
-	clear();
-	ec_update();
-
-	__ec_interrupt(__ec->ecraft[i]->string);
+	/* __scrollup(); */
 
 	return (i);
 }
 
 /**
- * __cs_load - updates __ec->ecraft placeholder for a chat story
+ * __ec_load - updates __ec->ecraft placeholder for a chat story
  *
  * @elem: pointer to an array of elements for the craft
  * @emoji: state of the element at the moment
@@ -120,27 +114,23 @@ int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
  *	   return -1 on failure
 */
 
-int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref)
 {
-	int64_t i = 0, j, ec_size, base_size = 4;	/* 4 bytes */
+	int64_t i = __ec->ec_size, size, base_size = 4;	/* 4 bytes */
 
-	if (__ec->ecraft == NULL)
+	size = base_size * (2 * i + 3);
+
+	if (size == 0)
 	{
-		/* initialise the ecraft screen buffer */
-		ec_size = base_size * (2 * i + 3);
-		__ec->ecraft = calloc(sizeof(ecraft_t *), ec_size);
+		/* initialise the ecraft screen placeholder */
+		__ec->ecraft = calloc(sizeof(ecraft_t *), size);
 		if (__ec->ecraft == NULL)
 			return (-1);	/* TODO set up error status */
 	}
 	else
 	{
-		/* get the size/number of the lines */
-		for (i = 0; __ec->ecraft[i] != NULL; i++)
-			;
-		ec_size = base_size * (2 * i + 3);	/* cool formula */
-		__ec->ecraft = realloc(__ec->ecraft,
-			sizeof(ecraft_t *) * ec_size);
+		__ec->ecraft = realloc(__ec->ecraft, sizeof(ecraft_t *) * size);
 		if (__ec->ecraft == NULL)
 		{
 			free(__ec->ecraft);	/* TODO handle error status */
@@ -148,13 +138,10 @@ int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 		}
 	}
 
-	/* update screen buffer */
-	__ec->ecraft[i] = calloc(sizeof(ecraft_t), 1);
-	if (__ec->ecraft[i] == NULL)
-		return (-1);
+	/* update screen placeholder by adding a new line buffer */
+	i = __ec_load_index(__ec->ecraft, elem, emoji, string, nmemb, ref);
 
-	j = __cs_load_index(__ec->ecraft[i], elem, emoji, string, nmemb, ref);
-	if (j == -1)
+	if (i == -1)
 	{
 		free(__ec->ecraft);
 
@@ -178,46 +165,61 @@ int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
  *	   return -1 on failure
 */
 
-int64_t __cs_load_index(ecraft_t *ecraft, elem_t **elem, char **emoji,
-	char *string, int64_t nmemb, int64_t ref)
+int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
+	char *string, int64_t nmemb, int64_t __attribute__((unused))ref)
 {
-	int64_t i, base_size = 4;
+	int64_t i, size, r = __ec->ref;
 
-	ecraft->elem = elem;
-
-	/*
-	 * this formula really works like magic for valgrind invalid read
-	 * and/or of size
-	*/
-	ecraft->emoji = calloc(sizeof(char **), base_size * (2 * nmemb + 3));
-	if (ecraft->emoji == NULL)
+	if (elem != NULL)
 	{
-		free(ecraft);
+		for (i = 0; i < nmemb; i++)
+		{
+			size = __ec->ec_size;
 
-		return (-1);
+			ecraft[size] = calloc(sizeof(ecraft_t), 1);
+			if (elem[i] == NULL)
+			{
+				/* unknown element */
+				ecraft[size]->string = strdup("<Unknown>");
+			}
+			else
+				ecraft[size]->string = strdup(
+					elem[i]->__dname);
+			strcat(ecraft[size]->string, ":");
+
+			ecraft[size]->unicode = __ec_split(emoji[i],
+				" \t\r\n:", 4);
+			ecraft[size]->ref = r;
+			ecraft[size]->attrs = EC_BOLD | EC_UNDERLINE;
+			ecraft[size]->tts = EC_NONE;
+
+			__ec->ec_size++;
+		}
 	}
-	for (i = 0; i < nmemb; i++)
+	/* TODO handle @ref here */
+	/* @string always have a value, can't be NULL */
+	size = __ec->ec_size;
+
+	if (strcmp(string, "") != 0)
 	{
-		ecraft->emoji[i] = __ec_split(emoji[i], " \t\r\n:", 4);
+		ecraft[size] = calloc(sizeof(ecraft_t), 1);
+		ecraft[size]->string = strdup(string);
+		ecraft[size]->attrs = EC_NORMAL;
+		ecraft[size]->tts = EC_INIT;
+		ecraft[size]->ref = r;
+
+		__ec->ec_size++;
 	}
-	ecraft->emoji[i] = NULL;	/* NULL termination */
 
-	/*
-	 * TODO need to split up @string setting new line as the delimiter, and
-	 * assign the results to a new index of __ec->ecraft, so that ecraft
-	 * can support line buffering, and also for performance purpose
-	*/
-	ecraft->string = strdup(string);
-	if (ecraft->string == NULL)
-	{
-		free(ecraft);
+	size = __ec->ec_size;
 
-		return (-1);
-	}
-	ecraft->nmemb = nmemb;
-	ecraft->ref = ref;
+	ecraft[size] = calloc(sizeof(ecraft_t), 1);
+	ecraft[size]->string = strdup("");
+	ecraft[size]->attrs = EC_NORMAL;
+	ecraft[size]->ref = -1;
 
-	__ec->bottom++;
+	__ec->ec_size++;
+	__ec->ref++;
 
-	return (0);
+	return (r);
 }

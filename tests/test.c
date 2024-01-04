@@ -22,7 +22,7 @@ int main(void)
 	ec_init(EC_CLI);
 	ec_emoji("u");	/* enable unicode emoji */
 
-	/* ec_tts(); */
+	ec_tts();
 
 	str = malloc(sizeof(char) * 1024);
 
@@ -37,7 +37,7 @@ int main(void)
 	strcpy(str,
 		"A dialogue on ecraft library usage for creating chat stories"
 	);
-	ec_create("Electronic Craft", "Chat Story", str);
+	ec_start("Electronic Craft", "Chat Story", str);
 
 	ec_load(&jun, &emoji, "Do you know?", 1);
 	ec_load(&sam, &em, "Know what?", 1);
@@ -70,7 +70,7 @@ int main(void)
 	emoji = "t-f:t-f:t-f";
 	ec_load(&vic, &emoji, "What's ecraft?", 1);
 
-	ec_final();
+	//ec_final();
 
 	free(str);
 	free(emojis);

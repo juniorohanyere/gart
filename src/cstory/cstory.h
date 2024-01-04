@@ -1,48 +1,37 @@
 #ifndef __CSTORY_H
 #define __CSTORY_H
 
-#if _CRAFT == 1
+#if _CRAFT == __EC_CSTORY
 
 #include <ecraft.h>
 
-void ec_create(char *title, char *subtitle, char *description);
+void ec_start(char *title, char *subtitle, char *description);
 
 elem_t *ec_define(char *dname, char *fname, char *lname);
 
 int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb);
 int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
-
-/* TODO */
-int64_t ec_add(elem_t **elem, int64_t nmemb, ...);
-int64_t ec_pop(elem_t **elem, ...);
-
-void ec_update(void);
-
 void ec_final(void);
-
 /*
- * below function prototypes are meant for the library itself, so therefore, a
- * user should avoid the use of these functions
+ * int64_t ec_pack(elem_t **elemp, elem_t *elem, char *emoji);
+ * int64_t ec_pop(elem_t **elemp, int64_t ref);
 */
 
-void __cs_define(elem_t *elem);
-void __cs_delem(void);
-void __cs_decraft(void);
-
-int64_t __cs_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+/* library only function prototypes */
+int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
-int64_t __cs_load_index(ecraft_t *ecraft, elem_t **elem, char **emoji,
+int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
 	char *string, int64_t nmemb, int64_t ref);
-void __cs_update_cli(ecraft_t *ecraft);
-
-void __cs_emoji(char **emoji);
-void __cs_pemoji(emoji_t emoji);
-
-void __cs_heading(void);
-void __cs_heading_cli(void);
-
-void __ec_final_cli(void);
+void __ec_add(elem_t *elem);
+void __delem(void);
+void __decraft(void);
+void __ec_mvprint(const char *type, char *str, int x, int y);
+emoji_t *__emoji_list(void);
+void __pemoji(emoji_t emoji);
+void __ec_head(void);
+void __ec_head_cli(void);
+void __ec_final(void);
 
 #endif	/* _CRAFT */
 

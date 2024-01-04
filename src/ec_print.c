@@ -6,7 +6,7 @@
 #include <ecraft.h>
 
 /**
- * __ec_printf - prints a string, or emoji to the stdscr of the current
+ * __ec_print - prints a string, or emoji to the stdscr of the current
  *		terminal screen
  *
  * @type: type include string, emoji
@@ -16,7 +16,7 @@
  * Return: return nothing
 */
 
-void __ec_printf(const char *type, char *str)
+void __ec_print(const char *type, char *str)
 {
 	int x, y;
 	uint32_t ch;
@@ -28,12 +28,19 @@ void __ec_printf(const char *type, char *str)
 	x = getcurx(stdscr);
 	y = getcury(stdscr);
 
-	if (strcmp(type, "string") == 0)
+	if (y == getmaxy(stdscr))
+	{
+		scrl(1);
+		refresh();
+		__ec->top++;
+	}
+
+	if (strcmp(type, "s") == 0)
 	{
 		printw("%s", str);
 		refresh();	/* force characters to output -> fflush */
 	}
-	else if (strcmp(type, "emoji") == 0)
+	else if (strcmp(type, "u") == 0)
 	{
 		ch = strtoul(str, &s, 16);
 		assert(*s == '\0');
@@ -45,5 +52,4 @@ void __ec_printf(const char *type, char *str)
 		tb_change_cell(x + 4, y, 0x00000, TB_WHITE, TB_DEFAULT);
 		tb_present();
 	}
-
 }

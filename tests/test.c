@@ -22,8 +22,6 @@ int main(void)
 	ec_init(EC_CLI);
 	ec_emoji("u");	/* enable unicode emoji */
 
-	/* ec_tts(); */
-
 	str = malloc(sizeof(char) * 1024);
 
 	jun = ec_define("Junior Ohanyere", "Junior", "Ohanyere");
@@ -42,7 +40,7 @@ int main(void)
 	ec_load(&jun, &emoji, "Do you know?", 1);
 	ec_load(&sam, &em, "Know what?", 1);
 
-	strcpy(str, "Do you know that everything going on here\n");
+	strcpy(str, "Do you know that everything going on here");
 	strcat(str, "is a programmed chat story?");
 	ec_load(&jun, &emoji, str, 1);
 

@@ -49,3 +49,45 @@ void __ec_read(int __attribute__((unused))step)
 	__ec_read(step);
 
 }
+
+void __key_up(void)
+{
+	int i = 0, x, y;
+	int64_t offset;
+	ecraft_t **ecraft = __ec->ecraft;
+
+	if (__ec->top < 0)
+		return;
+
+	x = getcurx(stdscr);
+	y = getcury(stdscr);
+
+	scrl(-1);
+	refresh();
+
+	offset = __ec->top--;
+	__ec->bottom--;
+
+	move(0, 0);
+	attron(ecraft[offset]->attrs);
+	__ec_print("s", ecraft[offset]->string);
+	attroff(ecraft[offset]->attrs);
+	__ec_print("s", " ");
+
+	while (ecraft[offset]->unicode != NULL &&
+		ecraft[offset]->unicode[i] != NULL)
+	{
+		attron(ecraft[offset]->attrs);
+		__ec_emoji(ecraft[offset]->unicode[i], i);
+		attroff(ecraft[offset]->attrs);
+		move(0, getcurx(stdscr) + 2);
+		refresh();
+		i++;
+	}
+	werase(__ec->pmtscr);
+	mvwprintw(__ec->pmtscr, 0, 0, "$ ");
+	wrefresh(__ec->pmtscr);
+	if (ecraft[offset]->tts == EC_INIT)
+		__ec_tts(ecraft[offset]->string);
+	move(y, x);
+}

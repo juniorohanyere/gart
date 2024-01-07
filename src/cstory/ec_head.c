@@ -51,6 +51,6 @@ void __ec_head(void)
 
 	__ec_read(1);
 
-	clear();
+	erase();
 	free(str);
 }

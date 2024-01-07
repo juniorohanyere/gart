@@ -44,6 +44,11 @@ int __ec_get(WINDOW *win, char *buffer)
 
 				break;
 
+			case KEY_UP:
+				__key_up();
+
+				break;
+
 			default:
 				wprintw(win, "%s", (char *)&ch);
 				wrefresh(win);
@@ -76,11 +81,5 @@ int __bkspace(WINDOW *win, char *buffer, int ch, int length)
 
 void __ec_signal(int __attribute__((unused))signal)
 {
-	int i;
-
-	for (i = 0; __ec->ecraft[i] != NULL; i++)
-		;
-
-	//__cs_scrolldown();
-	scrl(-1);
+	/* dummy */
 }

@@ -168,5 +168,6 @@ void __scrollup_cli(ecraft_t *ecraft);
 void __scrolldown(void);
 void __scrolldown_cli(ecraft_t *ecraft);
 emoji_t *__emoji_list(void);
+void __key_up(void);
 
 #endif	/* __ECRAFT_H */

@@ -34,6 +34,7 @@ void __pemoji(emoji_t emoji);
 void __ec_head(void);
 void __ec_head_cli(void);
 void __ec_final(void);
+void __key_up(void);
 
 #endif	/* _CRAFT */
 

@@ -152,7 +152,7 @@ int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 }
 
 /**
- * __cs_load_index - loads the index of __ec->ecraft, (see __cs_load)
+ * __ec_load_index - loads the index of __ec->ecraft, (see __cs_load)
  *
  * @ecraft: an index of __ec->ecraft
  * @elem: element to load into @ecraft

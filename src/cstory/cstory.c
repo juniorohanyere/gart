@@ -40,7 +40,7 @@ void ec_start(char *title, char *subtitle, char *description)
 			"insufficient memory: coundn't start ecraft");
 	}
 
-	clear();
+	erase();
 	/* update screen with heading */
 	__ec_head();
 }

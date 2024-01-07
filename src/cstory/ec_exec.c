@@ -3,6 +3,14 @@
 
 #include <ecraft.h>
 
+/**
+ * __ec_exec - runs a function based on the value of the parameter passed
+ *
+ * @cmd: command
+ *
+ * Return: return nothing
+*/
+
 void __ec_exec(char *cmd)
 {
 	int i = 0;
@@ -35,7 +43,8 @@ void __ec_exec(char *cmd)
 		offset = __ec->bottom;
 
 		if (__ec->ecraft[offset] != NULL &&
-			__ec->ecraft[offset]->ref == -1)
+			__ec->ecraft[offset]->ref == -1 &&
+			getcury(stdscr) < getmaxy(stdscr) - 2)
 			__ec_exec(str);
 	}
 }

@@ -7,6 +7,7 @@
  * __ec_emoji - validates emoji for a chat story
  *
  * @emoji: pointer to an array of emoji to validate
+ * @index: location of @emoji within an array of emojis
  *
  * Return: return nothing
 */

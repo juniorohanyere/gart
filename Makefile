@@ -12,7 +12,7 @@ CFLAGS = -shared
 # libraries for test target:
 # should later use ecraft-config when it will be available
 LIBS = -Lsrc -lecraft -Lsrc/cstory -lcstory \
-	$(shell ncurses6-config --cflags --libs) -ltermbox -lespeak
+	$(shell ncurses6-config --cflags --libs) -ltermbox
 
 # phony target
 .PHONY: all clean clean-all

@@ -9,12 +9,12 @@
 /**
  * __ec_read - interrupt handler that prompts for user input
  *
- * @tts_msg: the text to convert to speech if tts is enabled
+ * @step: flag to set up number of lines to print before accepting input
  *
  * Return: return nothing
 */
 
-void __ec_read(int __attribute__((unused))step)
+void __ec_read(int step)
 {
 	int i;
 	int64_t offset, size;
@@ -49,6 +49,12 @@ void __ec_read(int __attribute__((unused))step)
 	__ec_read(step);
 
 }
+
+/**
+ * __key_up - handles key-up button press
+ *
+ * Return: return nothing
+*/
 
 void __key_up(void)
 {

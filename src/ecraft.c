@@ -25,18 +25,10 @@ __EC;	/* bypass betty warining for use of global variables */
 
 void ec_init(int interface)
 {
-	int tts_init, buffer_size = 500, opts = 0;
-	char *path = NULL;
-	espeak_AUDIO_OUTPUT audio = AUDIO_OUTPUT_PLAYBACK;
-
 	/* initialise ecraft, do not reinitialise */
 	if (__ec == NULL)
 	{
 		__ec = calloc(sizeof(ec_t), 1);
-
-		/* initialise text to speach (espeak) */
-		tts_init = espeak_Initialize(audio, buffer_size, path, opts);
-		assert(tts_init != -1);
 
 		/* disable tts and emoji by default */
 		__ec->tts = EC_NONE;

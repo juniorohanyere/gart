@@ -76,11 +76,11 @@ typedef struct elem_s
 /**
  * struct __ecraft_s - data structure for crafts (placeholder)
  *
- * @nmemb: number of elem and/or emoji pointers to access/reference
+ * @attrs: attributes like color...
+ * @tts: flag for text to speech
  * @ref: reference number of content to re-echo to an interface
  * @string: content to be displayed onto a screen
- * @emoji: tripple pointer to emoji(s) to display
- * @elem: element responsible for @string
+ * @unicode: double pointer to emoji(s) to display
 */
 
 typedef struct __ecraft_s
@@ -112,13 +112,15 @@ typedef struct __emoji_s
  * @status: return status of the craft at runtime
  * @tts: text to speech flag
  * @emoji: emoji flag
+ * @ec_size: size of ecraft pointer to allocate
+ * @elem_size: size of elem size to allocate
  * @top: integer value representing the top buffer position of a screen
  * @bottom: integer value representing the bottom buffer position of a
  *	    screen
+ * @ref: reference value of each ec_load call
  * @title: title for the craft
  * @subtitle: subtitle for the craft
  * @desc: description for the craft
- * @screen: screen to print to
  * @elem: pointer to elements of a craft
  * @ecraft: pointer to the meta data for a craft
  * @pmtscr: prompt screen

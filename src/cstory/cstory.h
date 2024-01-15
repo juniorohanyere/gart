@@ -21,8 +21,9 @@ void ec_final(void);
 /* library only function prototypes */
 int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
-int64_t __ec_load_index(ecraft_t **ecraft, elem_t **elem, char **emoji,
+int64_t __ec_load_1(ecraft_t **ecraft, elem_t **elem, char **emoji,
 	char *string, int64_t nmemb, int64_t ref);
+void __ec_load_2(ecraft_t **ecraft, char *string, int64_t ref);
 void __ec_read(int ref);
 void __ec_exec(char *cmd);
 void __ec_add(elem_t *elem);

@@ -21,6 +21,7 @@ int main(void)
 
 	ec_init(EC_CLI);
 	ec_emoji("u");	/* enable unicode emoji */
+	ec_tts();
 
 	str = malloc(sizeof(char) * 1024);
 

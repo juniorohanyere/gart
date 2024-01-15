@@ -4,7 +4,7 @@
 #include <ecraft.h>
 
 /**
- * __ec_lemoji - list of emojis, their representation, and unicode values
+ * __emoji_list - list of emojis, their representation, and unicode values
  *
  * Description: the emojis are arranged in chronological order. The
  *		chronological order ranges from representation, to emoji, to

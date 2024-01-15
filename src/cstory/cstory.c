@@ -65,8 +65,6 @@ void ec_final(void)
 	if (__ec->desc != NULL)
 		free(__ec->desc);
 
-	espeak_Terminate();
-
 	if (__ec->interf == EC_CLI)
 	{
 		__delem();	/* delete elements of the chat story */

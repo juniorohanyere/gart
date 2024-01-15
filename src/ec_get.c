@@ -33,7 +33,6 @@ int __ec_get(WINDOW *win, char *buffer)
 			case '\b':
 				i = __bkspace(win, buffer, ch, i);
 				wrefresh(win);
-
 				break;
 
 			case 4:	/* end of file condition (CTRL + D) */
@@ -41,12 +40,10 @@ int __ec_get(WINDOW *win, char *buffer)
 					return (-1);
 
 				i--;
-
 				break;
 
 			case KEY_UP:
 				__key_up();
-
 				break;
 
 			default:
@@ -55,13 +52,23 @@ int __ec_get(WINDOW *win, char *buffer)
 
 				strcat(buffer, (char *)&ch);
 				i++;
-
 				break;
 		}
 	}
 
 	return (i);
 }
+
+/**
+ * __bkspace - handles backspace character
+ *
+ * @win: the window screen to handle the character from
+ * @buffer: the buffer to manipulate based on the backspace character
+ * @ch: the character
+ * @length: the length of the @buffer
+ *
+ * Return: return the new length of @buffer
+*/
 
 int __bkspace(WINDOW *win, char *buffer, int ch, int length)
 {
@@ -78,6 +85,14 @@ int __bkspace(WINDOW *win, char *buffer, int ch, int length)
 
 	return (length);
 }
+
+/**
+ * __ec_signal - handles the signint signal
+ *
+ * @signal: the signal to handle
+ *
+ * Return: return nothing
+*/
 
 void __ec_signal(int __attribute__((unused))signal)
 {

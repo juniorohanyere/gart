@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <espeak/speak_lib.h>
 
 #include <ecraft.h>
 
@@ -43,15 +42,14 @@ void ec_ntts(void)
 
 void __ec_tts(char *tts_msg)
 {
-	espeak_POSITION_TYPE pos_type = POS_CHARACTER;
+	char *command = malloc(sizeof(char) * 1024);
 
-	if (__ec->tts == EC_NONE)
-		return;
+	strcpy(command, _TTSPATH);
+	strcat(command, " \"");
+	strcat(command, tts_msg);
+	strcat(command, "\"");
 
-	/* synthesize the speech */
-	espeak_Synth(tts_msg, strlen(tts_msg) + 1, 0, pos_type, 0,
-		espeakCHARS_AUTO, NULL, NULL);
+	system(command);
 
-	/* synchronize the speech */
-	espeak_Synchronize();
+	free(command);
 }

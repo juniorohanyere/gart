@@ -4,30 +4,11 @@
 
 Welcome to the era of programming these craft with your favourite programming language as an electronic craft
 
-# expected features
-
-- story writing (short stories, novels, etc)
-- comics
-- letter writing
-- speech
-- text to speech (tts) & speech to text
-- essay writing
-- drawing and painting
-- video & photo making and manipulation
-- export as a .pdf, .txt, .doc, .png, long image, etc, file
-- share your craft to anyone in form of executables or any document format of your choice
-- command line interface (cli)
-- graphical user interface (gui)
-- support on multipl operating systems
-- support on multiple programming languages (Python, C, Rust, Java, etc)
-- much more to come...
-
 # current features
 
-the ecraft library is currently under construction with `not much to try features`
-## programming languages currently supported on
+>> the ecraft library is currently under construction with `not much to try features`
 
-- **`C`** support in progress
+- **Chat Story** - **`C`**
 
 # try the demo
 

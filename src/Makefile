@@ -18,18 +18,24 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 # object files
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
+# header file
+HEADER = ecraft.h
+
 # dependency files
-DEP = ecraft.h
+DEP = $(HEADER)
 
 # prefix is based on system architecture
 PREFIX = /usr
 
-# inlcude path
+# inlcude directories
 INCLUDE = -I. -Icstory
+
+# include path
+INC = ../include
 
 # explicitly define macros
 MACRO = -D_CRAFT=0 \
-	-D_TTSPATH="\"/home/twinj/juniorohanyere/ecraft/src/ec_tts.py\""
+	-D_RPATH_TTS="\"/home/twinj/juniorohanyere/ecraft/src/ec_tts.py\""
 
 # compiler flags
 CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
@@ -51,11 +57,11 @@ TARGET2 = libecraft.a
 all: $(DEP)
 	-$(MAKE) $(TARGET)
 #	$(AR) x $(LIBNCURSES)
-#	$(AR) x $(LIBESPEAK)
 
 $(TARGET): $(TARGET1)
 
 $(TARGET1): $(OBJ)
+	@cp -v $(HEADER) $(INC)
 	$(CC) -shared $^ -o $@
 
 # compiling each source file into an object file
@@ -64,8 +70,8 @@ $(TARGET1): $(OBJ)
 
 # clean up generated object files
 clean:
-	-rm -f $(wildcard *.o)
+	@-rm -fv $(wildcard *.o)
 
 # clean up all generated files
 clean-all: clean
-	-rm -f $(TARGET1)
+	@-rm -fv $(TARGET1)

@@ -11,7 +11,7 @@
 __EC;	/* bypass betty warining for use of global variables */
 
 /**
- * ec_init - initialise ecraft
+ * initcraft - initialise ecraft
  *
  * @interface: EC_NONE, EC_CLI, or EC_GUI
  *
@@ -23,25 +23,24 @@ __EC;	/* bypass betty warining for use of global variables */
  * Return: return nothing
 */
 
-void ec_init(int interface)
+void initcraft(int interface)
 {
 	/* initialise ecraft, do not reinitialise */
 	if (__ec == NULL)
 	{
-		__ec = calloc(sizeof(ec_t), 1);
+		__ec = calloc(sizeof(ec_t *), 1024);
 
+		*__ec = calloc(sizeof(ec_t), 1);
 		/* disable tts and emoji by default */
-		__ec->tts = EC_NONE;
-		__ec->emoji = EC_NONE;
-		__ec->interf = interface;
+		(*__ec)->tts = EC_NONE;
+		(*__ec)->emoji = EC_NONE;
 
+		(*__ec)->interf = interface;
 		__ec_interf();
 
-		__ec->status = EC_INIT;
-
-		__ec->ec_size = 0;
-		__ec->top = -1;
-		__ec->bottom = 0;
-		__ec->ref = 0;
+		(*__ec)->status = EC_INIT;
+		(*__ec)->size = 0;
+		(*__ec)->index = (*__ec)->size;
+		(*__ec)->elem_size = 0;
 	}
 }

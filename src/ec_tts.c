@@ -14,7 +14,7 @@
 
 void ec_tts(void)
 {
-	__ec->tts = EC_INIT;
+	(*__ec)->tts = EC_INIT;
 }
 
 /**
@@ -27,7 +27,7 @@ void ec_tts(void)
 
 void ec_ntts(void)
 {
-	__ec->tts = EC_NONE;
+	(*__ec)->tts = EC_NONE;
 }
 
 /**
@@ -42,9 +42,14 @@ void ec_ntts(void)
 
 void __ec_tts(char *tts_msg)
 {
-	char *command = malloc(sizeof(char) * 1024);
+	char *command;
 
-	strcpy(command, _TTSPATH);
+	if ((*__ec)->tts == EC_NONE)
+		return;
+
+	command = malloc(sizeof(char) * 1024);
+
+	strcpy(command, _RPATH_TTS);
 	strcat(command, " \"");
 	strcat(command, tts_msg);
 	strcat(command, "\"");

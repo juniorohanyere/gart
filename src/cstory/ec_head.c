@@ -14,6 +14,7 @@
 
 void __ec_head(void)
 {
+	int64_t i = (*__ec)->index;
 	/* TODO calculate the lenght of the strings to determine malloc size */
 	char *str = malloc(sizeof(char) * 1024);
 
@@ -22,9 +23,9 @@ void __ec_head(void)
 	attroff(A_BOLD);
 	strcpy(str, "Title: ");
 
-	__ec_print("s", __ec->title);
+	__ec_print("s", __ec[i]->title);
 	__ec_print("s", "\n");
-	strcat(str, __ec->title);
+	strcat(str, __ec[i]->title);
 	strcat(str, ". ");
 
 	attron(A_BOLD);
@@ -32,9 +33,9 @@ void __ec_head(void)
 	attroff(A_BOLD);
 	strcat(str, "Subtitle: ");
 
-	__ec_print("s", __ec->subtitle);
+	__ec_print("s", __ec[i]->subtitle);
 	__ec_print("s", "\n");
-	strcat(str, __ec->subtitle);
+	strcat(str, __ec[i]->subtitle);
 	strcat(str, ". ");
 
 	attron(A_BOLD);
@@ -42,9 +43,9 @@ void __ec_head(void)
 	attroff(A_BOLD);
 	strcat(str, "Description: ");
 
-	__ec_print("s", __ec->desc);
+	__ec_print("s", __ec[i]->desc);
 	__ec_print("s", "\n");
-	strcat(str, __ec->desc);
+	strcat(str, __ec[i]->desc);
 	strcat(str, ". ");
 
 	__ec_print("s", "\n");	/* print extra new line */

@@ -23,9 +23,9 @@ void __ec_emoji(char *emoji, int64_t index)
 		if (emoji_size > 3)
 		{
 			/* do some clean up at least */
-			if (__ec->interf == EC_CLI)
+			if ((*__ec)->interf == EC_CLI)
 			{
-				ec_final();
+				decraft();
 				assert(emoji_size <= 3);
 			}
 		}
@@ -35,15 +35,15 @@ void __ec_emoji(char *emoji, int64_t index)
 			/* end of dictionary, yet couldn't validate emoji */
 			if (lemoji[i + 1].emoji == NULL && emoji_check != 0)
 			{
-				if (__ec->interf == EC_CLI)
+				if ((*__ec)->interf == EC_CLI)
 				{
-					ec_final();
+					decraft();
 					assert(emoji_check == 0);
 				}
 			}
 			else if (emoji_check == 0)
 			{
-				if (__ec->emoji == __EC_UNICODE)
+				if ((*__ec)->emoji == __EC_UNICODE)
 					__ec_print("u", "0x00000");
 				__pemoji(lemoji[i]);
 
@@ -64,10 +64,10 @@ void __ec_emoji(char *emoji, int64_t index)
 
 void __pemoji(emoji_t emoji)
 {
-	if (__ec->interf != EC_CLI)	/* TODO to be ammended */
+	if ((*__ec)->interf != EC_CLI)	/* TODO to be ammended */
 		return;
 
-	if (__ec->emoji == __EC_UNICODE)	/* emoji mode is enabled */
+	if ((*__ec)->emoji == __EC_UNICODE)	/* emoji mode is enabled */
 	{
 		attron(A_BOLD);
 		__ec_print("u", emoji.unicode);
@@ -78,13 +78,13 @@ void __pemoji(emoji_t emoji)
 		*/
 		attroff(A_BOLD);
 	}
-	else if (__ec->emoji == __EC_STRING)	/* long string mode enabled */
+	else if ((*__ec)->emoji == __EC_STRING)	/* long string mode enabled */
 	{
 		attron(A_BOLD);
 		__ec_print("s", emoji.string);
 		attroff(A_BOLD);
 	}
-	else if (__ec->emoji == __EC_SSTRING)	/* short string mode enabled */
+	else if ((*__ec)->emoji == __EC_SSTRING)	/* short string mode */
 	{
 		attron(A_BOLD);
 		__ec_print("s", "[");

@@ -18,14 +18,20 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 # object files
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
+# header file
+HEADER = cstory.h
+
 # dependency files
-DEP = ../ecraft.h cstory.h
+DEP = ../ecraft.h $(HEADER)
 
 # prefix is based on system architecture
 PREFIX = /usr
 
-# inlcude path
+# inlcude directories
 INCLUDE = -I. -I..
+
+# include path
+INC = ../../include
 
 # explicitly define macros
 MACRO = -D_CRAFT=1
@@ -50,11 +56,11 @@ TARGET2 = libcstory.a
 all: $(DEP)
 	-$(MAKE) $(TARGET)
 #	$(AR) x $(LIBNCURSES)
-#	$(AR) x $(LIBESPEAK)
 
 $(TARGET): $(TARGET1)
 
 $(TARGET1): $(OBJ)
+	@cp -v $(HEADER) $(INC)
 	$(CC) -shared $^ -o $@
 
 # compiling each source file into an object file
@@ -63,8 +69,8 @@ $(TARGET1): $(OBJ)
 
 # clean up generated object files
 clean:
-	-rm -f $(wildcard *.o)
+	@-rm -fv $(wildcard *.o)
 
 # clean up all generated files
 clean-all: clean
-	-rm -f $(TARGET1)
+	@-rm -fv $(TARGET1)

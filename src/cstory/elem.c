@@ -4,7 +4,7 @@
 #include <ecraft.h>
 
 /**
- * ec_define - initialises a new element, adding it to the __ec stack
+ * set_elem - initialises a new element, adding it to the __ec stack
  *
  * @dname: display name of the element
  * @fname: first name of the element
@@ -16,7 +16,7 @@
  * Return: return a pointer to the new element created
 */
 
-elem_t *ec_define(char *dname, char *fname, char *lname)
+elem_t *set_elem(char *dname, char *fname, char *lname)
 {
 	elem_t *elem = calloc(sizeof(elem_t), 1);
 
@@ -43,48 +43,49 @@ elem_t *ec_define(char *dname, char *fname, char *lname)
 		return (NULL);
 	}
 
-	__ec_add(elem);
+	__add_elem(elem);
 
 	return (elem);
 }
 
 /**
- * __ec_add - adds up a new element to the __ec placeholder (__ec->elem)
+ * __add_elem - adds up a new element to the __ec placeholder (__ec->elem)
  *
  * @elem: the new element to add
  *
  * Return: return nothing
 */
 
-void __ec_add(elem_t *elem)
+void __add_elem(elem_t *elem)
 {
 	int64_t i, size, base_size = 4;
 
-	if (__ec == NULL || elem == NULL)
+	if ((*__ec) == NULL || elem == NULL)
 		return;
 
-	i = __ec->elem_size;
+	i = (*__ec)->elem_size;
 	size = base_size * (2 * i + 3);
 
 	if (i == 0)
 	{
-		__ec->elem = calloc(sizeof(elem_t *), size);
-		if (__ec->elem == NULL)
+		(*__ec)->elem = calloc(sizeof(elem_t *), size);
+		if ((*__ec)->elem == NULL)
 			return;
 	}
 	else
 	{
-		__ec->elem = realloc(__ec->elem, sizeof(elem_t *) * size);
-		if (__ec->elem == NULL)
+		(*__ec)->elem = realloc((*__ec)->elem,
+			sizeof(elem_t *) * size);
+		if ((*__ec)->elem == NULL)
 		{
-			free(__ec->elem);
+			free((*__ec)->elem);
 
 			return;
 		}
 	}
-	__ec->elem[i] = elem;
+	(*__ec)->elem[i] = elem;
 
-	__ec->elem_size++;
+	(*__ec)->elem_size++;
 }
 
 /**
@@ -96,12 +97,12 @@ void __ec_add(elem_t *elem)
 void __delem(void)
 {
 	int64_t i;
-	elem_t **elem = __ec->elem;
+	elem_t **elem = (*__ec)->elem;
 
 	if (elem == NULL)
 		return;
 
-	for (i = 0; i < __ec->elem_size; i++)
+	for (i = 0; i < (*__ec)->elem_size; i++)
 	{
 		free(elem[i]->__dname);
 		free(elem[i]->__fname);

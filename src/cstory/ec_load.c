@@ -5,7 +5,7 @@
 #include <ecraft.h>
 
 /**
- * ec_load - loads a content onto a screen buffer
+ * loadcraft - loads a content onto a screen buffer
  *
  * @elem: double pointer to element(s) responsible for the echo
  * @emoji: double pointer to emoji(s) to echo along
@@ -15,7 +15,7 @@
  * Return: return the integral location of the echo within __ec->ecraft
 */
 
-int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
+int64_t loadcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 {
 	int64_t i, j;
 	char *str = "";
@@ -48,7 +48,7 @@ int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 }
 
 /**
- * ec_pull - loads a content to the display/interface, while referencing a
+ * pullcraft - loads a content to the display/interface, while referencing a
  *	      previous content
  *
  * @elem: double pointer to element(s) responsible for the echo
@@ -60,7 +60,7 @@ int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
  * Return: return the integral location of the echo within __ec->ecraft
 */
 
-int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t pullcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref)
 {
 	int64_t i;
@@ -117,33 +117,36 @@ int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref)
 {
-	int64_t i = __ec->ec_size, size, base_size = 4;	/* 4 bytes */
+	int64_t i, j = (*__ec)->index, size;
+	int64_t base_size = 4;	/* 4 bytes */
 
+	i = __ec[j]->ec_size;
 	size = base_size * (2 * i + 3);
 
 	if (size == 0)
 	{
 		/* initialise the ecraft screen placeholder */
-		__ec->ecraft = calloc(sizeof(ecraft_t *), size);
-		if (__ec->ecraft == NULL)
+		__ec[j]->ecraft = calloc(sizeof(ecraft_t *), size);
+		if (__ec[j]->ecraft == NULL)
 			return (-1);	/* TODO set up error status */
 	}
 	else
 	{
-		__ec->ecraft = realloc(__ec->ecraft, sizeof(ecraft_t *) * size);
-		if (__ec->ecraft == NULL)
+		__ec[j]->ecraft = realloc(__ec[j]->ecraft,
+			sizeof(ecraft_t *) * size);
+		if (__ec[j]->ecraft == NULL)
 		{
-			free(__ec->ecraft);	/* TODO handle error status */
+			free(__ec[j]->ecraft);	/* TODO handle error status */
 			return (-1);
 		}
 	}
 
 	/* update screen placeholder by adding a new line buffer */
-	i = __ec_load_1(__ec->ecraft, elem, emoji, string, nmemb, ref);
+	i = __ec_load_1(__ec[j]->ecraft, elem, emoji, string, nmemb, ref);
 
 	if (i == -1)
 	{
-		free(__ec->ecraft);
+		free(__ec[j]->ecraft);
 
 		return (-1);
 	}
@@ -169,13 +172,15 @@ int64_t __ec_load_1(ecraft_t **ecraft, elem_t **elem, char **emoji,
 	char *string, int64_t nmemb, int64_t __attribute__((unused))ref)
 {
 	int length;
-	int64_t i, size, r = __ec->ref;
+	int64_t i, j = (*__ec)->index, size, r;
+
+	r = __ec[j]->ref;
 
 	if (elem != NULL)
 	{
 		for (i = 0; i < nmemb; i++)
 		{
-			size = __ec->ec_size;
+			size = __ec[j]->ec_size;
 
 			ecraft[size] = calloc(sizeof(ecraft_t), 1);
 			if (elem[i] == NULL)
@@ -197,15 +202,15 @@ int64_t __ec_load_1(ecraft_t **ecraft, elem_t **elem, char **emoji,
 			ecraft[size]->attrs = EC_BOLD | EC_UNDERLINE;
 			ecraft[size]->tts = EC_NONE;
 
-			__ec->ec_size++;
+			__ec[j]->ec_size++;
 		}
 	}
 	/* TODO handle @ref here */
 
 	__ec_load_2(ecraft, string, ref);
 
-	ecraft[++__ec->ec_size] = NULL;
-	__ec->ref++;
+	ecraft[++__ec[j]->ec_size] = NULL;
+	__ec[j]->ref++;
 
 	return (r);
 }
@@ -222,9 +227,9 @@ int64_t __ec_load_1(ecraft_t **ecraft, elem_t **elem, char **emoji,
 
 void __ec_load_2(ecraft_t **ecraft, char *string, int64_t ref)
 {
-	int64_t size;
+	int64_t i = (*__ec)->index, size;
 
-	size = __ec->ec_size;
+	size = __ec[i]->ec_size;
 
 	/* @string always have a value, can't be NULL */
 	if (strcmp(string, "") != 0)
@@ -235,10 +240,10 @@ void __ec_load_2(ecraft_t **ecraft, char *string, int64_t ref)
 		ecraft[size]->tts = EC_INIT;
 		ecraft[size]->ref = ref;
 
-		__ec->ec_size++;
+		__ec[i]->ec_size++;
 	}
 
-	size = __ec->ec_size;
+	size = __ec[i]->ec_size;
 	ecraft[size] = calloc(sizeof(ecraft_t), 1);
 	ecraft[size]->string = strdup("");
 	ecraft[size]->attrs = EC_NORMAL;

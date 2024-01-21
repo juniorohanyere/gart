@@ -24,7 +24,7 @@ void __ec_interf(void)
 {
 	int cli_init;
 
-	switch (__ec->interf)
+	switch ((*__ec)->interf)
 	{
 		case EC_NONE:
 			break;	/* do nothing */
@@ -74,16 +74,16 @@ void __prompt_win(void)
 	getmaxyx(stdscr, y, x);
 
 	/* set the height of the prompt screen to 1 */
-	__ec->pmtscr = newwin(1, x, y - 1, 0);
+	(*__ec)->pmtscr = newwin(1, x, y - 1, 0);
 
 	raw();
 	cbreak();
 	noecho();
 
 	/* enable special key input */
-	keypad(__ec->pmtscr, TRUE);
+	keypad((*__ec)->pmtscr, TRUE);
 
-	wattron(__ec->pmtscr, EC_BOLD);
+	wattron((*__ec)->pmtscr, EC_BOLD);
 
-	wrefresh(__ec->pmtscr);
+	wrefresh((*__ec)->pmtscr);
 }

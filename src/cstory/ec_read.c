@@ -16,15 +16,15 @@
 
 void __ec_read(int step)
 {
-	int i;
-	int64_t offset, size;
+	int flag;
+	int64_t i = (*__ec)->index, offset, size;
 	char *line = malloc(sizeof(char) * 1024);
 
-	offset = __ec->bottom;
-	size = __ec->ec_size;
+	offset = __ec[i]->bottom;
+	size = __ec[i]->ec_size;
 
-	mvwprintw(__ec->pmtscr, 0, 0, "$ ");
-	wrefresh(__ec->pmtscr);
+	mvwprintw((*__ec)->pmtscr, 0, 0, "$ ");
+	wrefresh((*__ec)->pmtscr);
 
 	if (offset == size)
 	{
@@ -33,14 +33,14 @@ void __ec_read(int step)
 		return;
 	}
 
-	i = __ec_get(__ec->pmtscr, line);
+	flag = __ec_get((*__ec)->pmtscr, line);
 
-	werase(__ec->pmtscr);
+	werase((*__ec)->pmtscr);
 
-	if (i == -1)
+	if (flag == -1)
 	{
 		free(line);
-		ec_final();
+		decraft();
 		exit(EXIT_SUCCESS);
 	}
 
@@ -59,10 +59,10 @@ void __ec_read(int step)
 void __key_up(void)
 {
 	int i = 0, x, y;
-	int64_t offset;
-	ecraft_t **ecraft = __ec->ecraft;
+	int64_t index = (*__ec)->index, offset;
+	ecraft_t **ecraft = __ec[index]->ecraft;
 
-	if (__ec->top < 0)
+	if (__ec[index]->top < 0)
 		return;
 
 	x = getcurx(stdscr);
@@ -71,8 +71,8 @@ void __key_up(void)
 	scrl(-1);
 	refresh();
 
-	offset = __ec->top--;
-	__ec->bottom--;
+	offset = __ec[index]->top--;
+	__ec[index]->bottom--;
 
 	move(0, 0);
 	attron(ecraft[offset]->attrs);
@@ -90,9 +90,10 @@ void __key_up(void)
 		refresh();
 		i++;
 	}
-	werase(__ec->pmtscr);
-	mvwprintw(__ec->pmtscr, 0, 0, "$ ");
-	wrefresh(__ec->pmtscr);
+	werase((*__ec)->pmtscr);
+	mvwprintw((*__ec)->pmtscr, 0, 0, "$ ");
+	wrefresh((*__ec)->pmtscr);
+
 	if (ecraft[offset]->tts == EC_INIT)
 		__ec_tts(ecraft[offset]->string);
 	move(y, x);

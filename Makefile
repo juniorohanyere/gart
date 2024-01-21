@@ -14,6 +14,18 @@ CFLAGS = -shared
 LIBS = -Lsrc -lecraft -Lsrc/cstory -lcstory \
 	$(shell ncurses6-config --cflags --libs) -ltermbox
 
+# include path
+INC = include
+
+# include directories
+INCLUDE = -I$(INC)
+
+# macro
+MACRO = -D_CRAFT=1
+
+# header files
+HEADERS = src/ecraft.h src/cstory/cstory.h
+
 # phony target
 .PHONY: all clean clean-all
 
@@ -24,7 +36,8 @@ all:
 
 # test dynamic library
 test:
-	@$(CC) -Isrc -Isrc/cstory -D_CRAFT=1 tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=$(shell pwd)/src,-rpath=$(shell pwd)/src/cstory
+	@$(CC) $(INCLUDE) $(MACRO) tests/test.c $(LIBS) -o tests/$@ \
+	-Wl,-rpath=$(shell pwd)/src,-rpath=$(shell pwd)/src/cstory
 	@tests/$@
 
 # test static library
@@ -41,4 +54,4 @@ clean:
 clean-all: clean
 	-$(MAKE) -C src clean-all
 	-$(MAKE) -C src/cstory clean-all
-	-rm -f tests/test tests/test-static
+	@-rm -fv tests/test tests/test-static

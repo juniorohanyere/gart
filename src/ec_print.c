@@ -19,10 +19,11 @@
 void __ec_print(const char *type, char *str)
 {
 	int x, y;
+	int64_t i = (*__ec)->index;
 	uint32_t ch;
 	char *s;
 
-	if (__ec->interf != EC_CLI)	/* TODO to be amended */
+	if ((*__ec)->interf != EC_CLI)	/* TODO to be amended */
 		return;
 
 	x = getcurx(stdscr);
@@ -31,9 +32,11 @@ void __ec_print(const char *type, char *str)
 	if (y == getmaxy(stdscr) - 1)
 	{
 		scrl(1);
-		refresh();
-		__ec->top++;
+		__ec[i]->top++;
 		move(getcury(stdscr) - 1, 0);
+
+		refresh();
+		wrefresh((*__ec)->pmtscr);
 	}
 
 	if (strcmp(type, "s") == 0)

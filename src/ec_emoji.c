@@ -75,16 +75,16 @@ emoji_t *__emoji_list(void)
 void ec_emoji(const char *mode)
 {
 	if (strcmp(mode, "u") == 0)
-		__ec->emoji = __EC_UNICODE;
+		(*__ec)->emoji = __EC_UNICODE;
 	else if (strcmp(mode, "n") == 0)
-		__ec->emoji = EC_NONE;
+		(*__ec)->emoji = EC_NONE;
 	else if (strcmp(mode, "s") == 0)
-		__ec->emoji = __EC_STRING;
+		(*__ec)->emoji = __EC_STRING;
 	else if (strcmp(mode, "ss") == 0)
-		__ec->emoji = __EC_SSTRING;
+		(*__ec)->emoji = __EC_SSTRING;
 	else
 	{
-		ec_final();
+		decraft();
 		assert(!mode);
 	}
 }

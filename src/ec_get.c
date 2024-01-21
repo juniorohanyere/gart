@@ -25,10 +25,13 @@ int __ec_get(WINDOW *win, char *buffer)
 
 	while (1)
 	{
+		curs_set(1);
 		ch = wgetch(win);
 		switch (ch)
 		{
 			case '\n':
+				curs_set(0);
+
 				return (i);
 			case '\b':
 				i = __bkspace(win, buffer, ch, i);
@@ -37,7 +40,11 @@ int __ec_get(WINDOW *win, char *buffer)
 
 			case 4:	/* end of file condition (CTRL + D) */
 				if (getcurx(win) == 2)
+				{
+					curs_set(0);
+
 					return (-1);
+				}
 
 				i--;
 				break;
@@ -55,6 +62,7 @@ int __ec_get(WINDOW *win, char *buffer)
 				break;
 		}
 	}
+	curs_set(0);
 
 	return (i);
 }

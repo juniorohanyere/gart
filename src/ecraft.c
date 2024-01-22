@@ -13,8 +13,6 @@ __EC;	/* bypass betty warining for use of global variables */
 /**
  * initcraft - initialise ecraft
  *
- * @interface: EC_NONE, EC_CLI, or EC_GUI
- *
  * Description: subsequent call to ec_init() is useless unless ec_free() has
  *		being called, initialisation only occur once
  *		hence, it's not an error to call ec_init() multiple times
@@ -23,7 +21,7 @@ __EC;	/* bypass betty warining for use of global variables */
  * Return: return nothing
 */
 
-void initcraft(int interface)
+void initcraft(void)
 {
 	/* initialise ecraft, do not reinitialise */
 	if (__ec == NULL)
@@ -35,7 +33,7 @@ void initcraft(int interface)
 		(*__ec)->tts = EC_NONE;
 		(*__ec)->emoji = EC_NONE;
 
-		(*__ec)->interf = interface;
+		(*__ec)->interf = _INTERFACE;
 		__ec_interf();
 
 		(*__ec)->status = EC_INIT;

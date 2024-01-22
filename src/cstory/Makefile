@@ -43,11 +43,11 @@ CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
 # target
 TARGET = target
 
-# target 1: dynamic/shared library
-TARGET1 = libcstory.so
+# target 0: dynamic/shared libarary
+TARGET0 = libcstory.so
 
-# target 2: static libarary
-TARGET2 = libcstory.a
+# target 1: dynamic/shared library
+TARGET1 = libcstory-cli.so
 
 # phony target
 .PHONY: all clean clean-all
@@ -73,4 +73,4 @@ clean:
 
 # clean up all generated files
 clean-all: clean
-	@-rm -fv $(TARGET1)
+	@-rm -fv $(wildcard *.so)

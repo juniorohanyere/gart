@@ -19,7 +19,8 @@ int main(void)
 	elem_t *jun, *sam, *vic;
 	elem_t **elems = malloc(sizeof(elem_t *) * 1024);
 
-	initcraft(EC_CLI);
+	initcraft();
+
 	ec_emoji("u");	/* enable unicode emoji */
 	ec_ntts();
 

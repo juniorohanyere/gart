@@ -146,7 +146,7 @@ extern ec_t **__ec;
 #include <cstory.h>
 
 /* function prototypes */
-void initcraft(int interface);
+void initcraft(void);
 void ec_tts(void);
 void ec_ntts(void);
 void ec_emoji(const char *mode);

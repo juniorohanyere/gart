@@ -11,7 +11,7 @@ CFLAGS = -shared
 
 # libraries for test target:
 # should later use ecraft-config when it will be available
-LIBS = -Lsrc -lecraft -Lsrc/cstory -lcstory \
+LIBS = -Lsrc -lecraft-cli -Lsrc/cstory -lcstory-cli \
 	$(shell ncurses6-config --cflags --libs) -ltermbox
 
 # include path

@@ -34,7 +34,7 @@ INCLUDE = -I. -Icstory
 INC = ../include
 
 # explicitly define macros
-MACRO = -D_CRAFT=0 \
+MACRO = -D_CRAFT=0 -D_INTERFACE=1 \
 	-D_RPATH_TTS="\"/home/twinj/juniorohanyere/ecraft/src/ec_tts.py\""
 
 # compiler flags
@@ -44,11 +44,11 @@ CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
 # target
 TARGET = target
 
-# target 1: dynamic/shared library
-TARGET1 = libecraft.so
+# target 0: dynamic/shared libarary
+TARGET0 = libecraft.so
 
-# target 2: static libarary
-TARGET2 = libecraft.a
+# target 1: dynamic/shared library
+TARGET1 = libecraft-cli.so
 
 # phony target
 .PHONY: all clean clean-all
@@ -74,4 +74,4 @@ clean:
 
 # clean up all generated files
 clean-all: clean
-	@-rm -fv $(TARGET1)
+	@-rm -fv $(wildcard *.so)

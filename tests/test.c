@@ -19,7 +19,7 @@ int main(void)
 	elem_t *jun, *sam, *vic;
 	elem_t **elems = malloc(sizeof(elem_t *) * 1024);
 
-	initcraft();
+	ec_init();
 
 	ec_emoji("u");	/* enable unicode emoji */
 	ec_ntts();
@@ -37,40 +37,40 @@ int main(void)
 	strcpy(str,
 		"A dialogue on ecraft library usage for creating chat stories"
 	);
-	startcraft("Electronic Craft", "Chat Story", str);
+	ec_start("Electronic Craft", "Chat Story", str);
 
-	loadcraft(&jun, &emoji, "Do you know?", 1);
-	loadcraft(&sam, &em, "Know what?", 1);
+	ec_load(&jun, &emoji, "Do you know?", 1);
+	ec_load(&sam, &em, "Know what?", 1);
 
 	strcpy(str, "Do you know that everything going on here");
 	strcat(str, "is a programmed chat story?");
-	loadcraft(&jun, &emoji, str, 1);
+	ec_load(&jun, &emoji, str, 1);
 
 	emoji = "s-s-f:u-d-f";
-	loadcraft(&vic, &emoji, "What do you mean?", 1);
+	ec_load(&vic, &emoji, "What do you mean?", 1);
 
 	em = "f-w-p-e";
-	loadcraft(&sam, &em, NULL, 1);
+	ec_load(&sam, &em, NULL, 1);
 
 	emoji = "s-f-w-o-h:b-f-w-s-e";
-	loadcraft(&jun, &emoji, "Don't worry, I can explain.", 1);
+	ec_load(&jun, &emoji, "Don't worry, I can explain.", 1);
 
 	em = "";
-	loadcraft(&sam, &em, "Please do, because I'm curious and nervous.", 1);
+	ec_load(&sam, &em, "Please do, because I'm curious and nervous.", 1);
 
 	strcpy(str, "Everything here is programmed ");
 	strcat(str, "from a programming library called ecraft.");
 	emoji = "s-f-w-o-h";
-	loadcraft(&jun, &emoji, str, 1);
+	ec_load(&jun, &emoji, str, 1);
 
 	emojis[0] = "f-w-o-e-a-h-o-m";
 	emojis[1] = NULL;
-	loadcraft(elems, emojis, "ecraft???", 2);
+	ec_load(elems, emojis, "ecraft???", 2);
 
 	emoji = "t-f:t-f:t-f";
-	loadcraft(&vic, &emoji, "What's ecraft?", 1);
+	ec_load(&vic, &emoji, "What's ecraft?", 1);
 
-	decraft();
+	ec_final();
 
 	free(str);
 	free(emojis);

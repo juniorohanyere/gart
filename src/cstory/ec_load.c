@@ -5,7 +5,7 @@
 #include <ecraft.h>
 
 /**
- * loadcraft - loads a content onto a screen buffer
+ * ec_load - loads a content onto a screen buffer
  *
  * @elem: double pointer to element(s) responsible for the echo
  * @emoji: double pointer to emoji(s) to echo along
@@ -15,7 +15,7 @@
  * Return: return the integral location of the echo within __ec->ecraft
 */
 
-int64_t loadcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb)
+int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 {
 	int64_t i, j;
 	char *str = "";
@@ -48,8 +48,8 @@ int64_t loadcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb)
 }
 
 /**
- * pullcraft - loads a content to the display/interface, while referencing a
- *	      previous content
+ * ec_pull - loads a content to the display/interface, while referencing a
+ *	     previous content
  *
  * @elem: double pointer to element(s) responsible for the echo
  * @emoji: double pointer to emoji(s) to echo along
@@ -60,7 +60,7 @@ int64_t loadcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb)
  * Return: return the integral location of the echo within __ec->ecraft
 */
 
-int64_t pullcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref)
 {
 	int64_t i;

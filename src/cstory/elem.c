@@ -4,7 +4,7 @@
 #include <ecraft.h>
 
 /**
- * set_elem - initialises a new element, adding it to the __ec stack
+ * ec_elem - initialises a new element, adding it to the __ec stack
  *
  * @dname: display name of the element
  * @fname: first name of the element
@@ -16,7 +16,7 @@
  * Return: return a pointer to the new element created
 */
 
-elem_t *set_elem(char *dname, char *fname, char *lname)
+elem_t *ec_elem(char *dname, char *fname, char *lname)
 {
 	elem_t *elem = calloc(sizeof(elem_t), 1);
 

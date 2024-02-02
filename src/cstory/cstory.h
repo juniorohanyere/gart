@@ -5,14 +5,14 @@
 
 #include <ecraft.h>
 
-int64_t startcraft(char *title, char *subtitle, char *description);
+int64_t ec_start(char *title, char *subtitle, char *description);
 
-elem_t *set_elem(char *dname, char *fname, char *lname);
+elem_t *ec_elem(char *dname, char *fname, char *lname);
 
-int64_t loadcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb);
-int64_t pullcraft(elem_t **elem, char **emoji, char *string, int64_t nmemb,
+int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb);
+int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	int64_t ref);
-void decraft(void);
+void ec_final(void);
 /*
  * int64_t ec_pack(elem_t **elemp, elem_t *elem, char *emoji);
  * int64_t ec_pop(elem_t **elemp, int64_t ref);

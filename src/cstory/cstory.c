@@ -9,8 +9,8 @@
 #include <ecraft.h>
 
 /**
- * startcraft - begins new page for the craft, setting up headers base on
- *		parameters passed to the function
+ * ec_start - begins new page for the craft, setting up headers base on
+ *	      parameters passed to the function
  *
  * @title: the title of the craft
  * @subtitle: subtitle of the craft
@@ -21,7 +21,7 @@
  * Return: return nothing
 */
 
-int64_t startcraft(char *title, char *subtitle, char *description)
+int64_t ec_start(char *title, char *subtitle, char *description)
 {
 	int64_t i = ++(*__ec)->size;
 
@@ -58,14 +58,14 @@ int64_t startcraft(char *title, char *subtitle, char *description)
 }
 
 /**
- * decraft - clean-up
+ * ec_final - clean-up
  *	     this function must be called at the end of the user's program
  *	     in order to clean up or free all allocated blocks of memory
  *
  * Return: return nothing
 */
 
-void decraft(void)
+void ec_final(void)
 {
 	int64_t i;
 

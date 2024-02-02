@@ -4,14 +4,13 @@
 
 #include <term.h>
 #include <termbox.h>
-#include <espeak/speak_lib.h>
 
 #include <ecraft.h>
 
 __EC;	/* bypass betty warining for use of global variables */
 
 /**
- * initcraft - initialise ecraft
+ * ec_init - initialise ecraft
  *
  * Description: subsequent call to ec_init() is useless unless ec_free() has
  *		being called, initialisation only occur once
@@ -21,7 +20,7 @@ __EC;	/* bypass betty warining for use of global variables */
  * Return: return nothing
 */
 
-void initcraft(void)
+void ec_init(void)
 {
 	/* initialise ecraft, do not reinitialise */
 	if (__ec == NULL)

@@ -146,11 +146,11 @@ extern ec_t **__ec;
 #include <cstory.h>
 
 /* function prototypes */
-void initcraft(void);
+void ec_init(void);
 void ec_tts(void);
 void ec_ntts(void);
 void ec_emoji(const char *mode);
-void decraft(void);
+void ec_final(void);
 /*
  * void ec_scroll(int spd, ...);
  * void ec_convert(const char *format, const char *filename);

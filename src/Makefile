@@ -28,8 +28,9 @@ PREFIX = /usr
 INCLUDE = -I. -Icstory
 
 # explicitly define macros
+# -D_TTSPATH still under construction (to be later well defined)
 MACRO = -D_CRAFT=0 \
-	-D_TTSPATH="\"/home/twinj/juniorohanyere/ecraft/src/ec_tts.py\""
+	-D_TTSPATH="\"/home/kali/juniorohanyere/ecraft/src/ec_tts.py\""
 
 # compiler flags
 CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \

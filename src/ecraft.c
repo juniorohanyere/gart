@@ -4,7 +4,7 @@
 
 #include <term.h>
 #include <termbox.h>
-#include <espeak/speak_lib.h>
+/* #include <espeak/speak_lib.h> */
 
 #include <ecraft.h>
 

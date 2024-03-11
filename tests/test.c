@@ -38,37 +38,37 @@ int main(void)
 	);
 	ec_start("Electronic Craft", "Chat Story", str);
 
-	ec_load(&jun, &emoji, "Do you know?", 1);
-	ec_load(&sam, &em, "Know what?", 1);
+	ec_load(jun, emoji, "Do you know?");
+	ec_load(sam, em, "Know what?");
 
-	strcpy(str, "Do you know that everything going on here");
+	strcpy(str, "Do you know that everything going on here ");
 	strcat(str, "is a programmed chat story?");
-	ec_load(&jun, &emoji, str, 1);
+	ec_load(jun, emoji, str);
 
 	emoji = "s-s-f:u-d-f";
-	ec_load(&vic, &emoji, "What do you mean?", 1);
+	ec_load(vic, emoji, "What do you mean?");
 
 	em = "f-w-p-e";
-	ec_load(&sam, &em, NULL, 1);
+	ec_load(sam, em, " ");
 
 	emoji = "s-f-w-o-h:b-f-w-s-e";
-	ec_load(&jun, &emoji, "Don't worry, I can explain.", 1);
+	ec_load(jun, emoji, "Don't worry, I can explain.");
 
 	em = "";
-	ec_load(&sam, &em, "Please do, because I'm curious and nervous.", 1);
+	ec_load(sam, em, "Please do, because I'm curious and nervous.");
 
 	strcpy(str, "Everything here is programmed ");
 	strcat(str, "from a programming library called ecraft.");
 	emoji = "s-f-w-o-h";
-	ec_load(&jun, &emoji, str, 1);
-
+	ec_load(jun, emoji, str);
+/*
 	emojis[0] = "f-w-o-e-a-h-o-m";
 	emojis[1] = NULL;
 	ec_load(elems, emojis, "ecraft???", 2);
 
 	emoji = "t-f:t-f:t-f";
 	ec_load(&vic, &emoji, "What's ecraft?", 1);
-
+*/
 	ec_final();
 
 	free(str);

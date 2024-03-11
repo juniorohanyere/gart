@@ -43,7 +43,6 @@ void __ec_exec(char *cmd)
 		offset = __ec->bottom;
 
 		if (__ec->ecraft[offset] != NULL &&
-			__ec->ecraft[offset]->ref == -1 &&
 			getcury(stdscr) < getmaxy(stdscr) - 2)
 			__ec_exec(str);
 	}

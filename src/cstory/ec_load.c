@@ -10,45 +10,37 @@
  * @elem: double pointer to element(s) responsible for the echo
  * @emoji: double pointer to emoji(s) to echo along
  * @string: the content to echo
- * @nmemb: number of elements to reference
  *
  * Return: return the integral location of the echo within __ec->ecraft
 */
 
-int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
+int64_t ec_load(elem_t *elem, char *emoji, char *string)
 {
-	int64_t i, j;
-	char *str = "";
-	char **emoji_dup;
+	int64_t i;
+	char *str = "", *string_dup, *emoji_dup;
 
-	emoji_dup = malloc(sizeof(char *) * nmemb);
-
-	for (i = 0; i < nmemb; i++)
-	{
-		if (emoji[i] == NULL)
-			emoji_dup[i] = strdup(str);
-		else
-			emoji_dup[i] = strdup(emoji[i]);
-	}
-	if (string == NULL)
-	{
-		/* set last parameter to -1 for no ref */
-		i = __ec_load(elem, emoji_dup, str, nmemb, -1);
-	}
+	if (emoji == NULL)
+		emoji_dup = strdup(str);
 	else
-		i = __ec_load(elem, emoji_dup, string, nmemb, -1);
+		emoji_dup = strdup(emoji);
+
+	if (string == NULL)
+		string_dup = strdup(str);
+	else
+		string_dup = strdup(string);
+
+	i = __ec_load(elem, emoji_dup, string_dup);
 
 	__ec_read(1);
 
-	for (j = 0; j < nmemb; j++)
-		free(emoji_dup[j]);
+	free(string_dup);
 	free(emoji_dup);
 
 	return (i);
 }
 
 /**
- * ec_pull - loads a content to the display/interface, while referencing a
+ * ec_tag - loads a content to the display/interface, while referencing a
  *	      previous content
  *
  * @elem: double pointer to element(s) responsible for the echo
@@ -60,36 +52,6 @@ int64_t ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb)
  * Return: return the integral location of the echo within __ec->ecraft
 */
 
-int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
-	int64_t ref)
-{
-	int64_t i;
-	char *str = "";	/* so as not to modify the original string(s) passed */
-	char **emoji_dup;
-
-	emoji_dup = malloc(sizeof(char *) * nmemb);
-
-	for (i = 0; i < nmemb; i++)
-	{
-		if (emoji[i] == NULL)
-			emoji_dup[i] = strdup(str);
-		else
-			emoji_dup[i] = strdup(emoji[i]);
-	}
-
-	if (string == NULL)
-	{
-		str = "\r";	/* sentinel value to track NULL string */
-		/* set last parameter to value of @ref */
-		i = __ec_load(elem, emoji_dup, str, nmemb, ref);
-	}
-	else
-		i = __ec_load(elem, emoji_dup, string, nmemb, ref);
-
-	/* __scrollup(); */
-
-	return (i);
-}
 
 /**
  * __ec_load - updates __ec->ecraft placeholder for a chat story
@@ -114,8 +76,7 @@ int64_t ec_pull(elem_t **elem, char **emoji, char *string, int64_t nmemb,
  *	   return -1 on failure
 */
 
-int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
-	int64_t ref)
+int64_t __ec_load(elem_t *elem, char *emoji, char *string)
 {
 	int64_t i = __ec->ec_size, size, base_size = 4;	/* 4 bytes */
 
@@ -139,13 +100,13 @@ int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
 	}
 
 	/* update screen placeholder by adding a new line buffer */
-	i = __ec_load_1(__ec->ecraft, elem, emoji, string, nmemb, ref);
+	i = __ec_load_1(__ec->ecraft, elem, emoji, string);
 
 	if (i == -1)
 	{
 		free(__ec->ecraft);
 
-		return (-1);
+		return (i);
 	}
 
 	return (i);
@@ -165,44 +126,35 @@ int64_t __ec_load(elem_t **elem, char **emoji, char *string, int64_t nmemb,
  *	   return -1 on failure
 */
 
-int64_t __ec_load_1(ecraft_t **ecraft, elem_t **elem, char **emoji,
-	char *string, int64_t nmemb, int64_t __attribute__((unused))ref)
+int64_t __ec_load_1(ecraft_t **ecraft, elem_t *elem, char *emoji, char *string)
 {
-	int length;
-	int64_t i, size, r = __ec->ref;
+	int i;
+	int64_t size, r = __ec->ref;
 
-	if (elem != NULL)
+	size = __ec->ec_size;
+
+	ecraft[size] = calloc(sizeof(ecraft_t), 1);
+	if (elem == NULL)
 	{
-		for (i = 0; i < nmemb; i++)
-		{
-			size = __ec->ec_size;
-
-			ecraft[size] = calloc(sizeof(ecraft_t), 1);
-			if (elem[i] == NULL)
-			{
-				/* unknown element */
-				ecraft[size]->string = strdup("<Unknown>");
-			}
-			else
-				ecraft[size]->string = strdup(
-					elem[i]->__dname);
-			length = strlen(ecraft[size]->string);
-			ecraft[size]->string = realloc(ecraft[size]->string,
-				sizeof(char) * length + 2);
-			strcat(ecraft[size]->string, ":");
-
-			ecraft[size]->unicode = __ec_split(emoji[i],
-				" \t\r\n:", 4);
-			ecraft[size]->ref = r;
-			ecraft[size]->attrs = EC_BOLD | EC_UNDERLINE;
-			ecraft[size]->tts = EC_NONE;
-
-			__ec->ec_size++;
-		}
+		/* unknown element */
+		ecraft[size]->string = strdup("<Unknown>");
 	}
-	/* TODO handle @ref here */
+	else
+		ecraft[size]->string = strdup(
+			elem->__dname);
+	i = strlen(ecraft[size]->string);
+	ecraft[size]->string = realloc(ecraft[size]->string,
+		sizeof(char) * i + 2);
+	strcat(ecraft[size]->string, ":");
 
-	__ec_load_2(ecraft, string, ref);
+	ecraft[size]->unicode = __ec_split(emoji, " \t\r\n:", 4);
+	ecraft[size]->ref = r;
+	ecraft[size]->attrs = EC_BOLD | EC_UNDERLINE;
+	ecraft[size]->tts = EC_NONE;
+
+	__ec->ec_size++;
+
+	__ec_load_2(ecraft, string, r);
 
 	ecraft[++__ec->ec_size] = NULL;
 	__ec->ref++;
@@ -226,7 +178,6 @@ void __ec_load_2(ecraft_t **ecraft, char *string, int64_t ref)
 
 	size = __ec->ec_size;
 
-	/* @string always have a value, can't be NULL */
 	if (strcmp(string, "") != 0)
 	{
 		ecraft[size] = calloc(sizeof(ecraft_t), 1);

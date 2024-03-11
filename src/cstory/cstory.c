@@ -3,8 +3,8 @@
 #include <unistd.h>
 
 #include <term.h>
-#include <espeak/speak_lib.h>
 #include <termbox.h>
+/* #include <espeak/speak_lib.h> */
 
 #include <ecraft.h>
 

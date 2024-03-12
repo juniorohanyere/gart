@@ -1,1 +1,1 @@
-# ecraft-config
+# gart-config

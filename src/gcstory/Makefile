@@ -1,4 +1,4 @@
-# makefile to build object files from source files in src/
+# makefile to build object files from source files in src/cstory/
 
 # compiler
 CC = gcc
@@ -19,31 +19,29 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
 # dependency files
-DEP = gart.h
+DEP = ../gart.h gcstory.h
 
 # prefix is based on system architecture
 PREFIX = /usr
 
 # include path
-INCLUDE = -I. -Igcstory
+INCLUDE = -I. -I..
 
 # explicitly define macros
-# -D_TTSPATH still under construction (to be later well defined)
-MACRO = -D_ART=0 \
-	-D_TTSPATH="\"/home/kali/juniorohanyere/gart/src/gtts.py\""
+MACRO = -D_ART=1
 
 # compiler flags
 CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
-	 -Wdeclaration-after-statement -Werror -Wformat-security -Wextra
+	 -Wdeclaration-after-statement -Werror -Wformat-security -Wextra -fPIC
 
 # target
 TARGET = target
 
 # target 1: dynamic/shared library
-TARGET1 = libgart.so
+TARGET1 = libgcstory.so
 
 # target 2: static library
-TARGET2 = libgart.a
+TARGET2 = libgcstory.a
 
 # phony target
 .PHONY: all clean clean-all
@@ -61,7 +59,7 @@ $(TARGET1): $(OBJ)
 
 # compiling each source file into a corresponding object file
 %.o: %.c $(DEP)
-	$(CC) $(CFLAGS) -fPIC -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # clean up generated object files
 clean:

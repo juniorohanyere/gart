@@ -6,36 +6,35 @@
 
 #include <termbox.h>
 
-#include "ecraft.h"
+#include <gart.h>
 
 /**
- * __ec_interf - sets the interface for a given chat story
+ * __ginterf - set the interface for a given chat story
  *
  * Description: initialise termbox and ncurses in cli mode
- *		termbox is used to handle unicode characters since
- *		ncurses only supports unicode for some specific
- *		range of terminal or terminal configuration
+ *		termbox is used to handle unicode characters since ncurses only
+ *		supports unicode for some specific range of terminal or
+ *		terminal configurations
  *		termbox does the magic!
  *
  * Return: return nothing
 */
 
-void __ec_interf(void)
+void __ginterf(void)
 {
-	int cli_init;
+	int init;
 
-	switch (__ec->interf)
+	switch (__art->interf)
 	{
-		case EC_NONE:
+		case GNONE:
 			break;	/* do nothing */
-		case EC_CLI:
-			cli_init = tb_init();
-			assert(cli_init == 0);
+
+		case GCLI:
+			init = tb_init();
+			assert(init == 0);
 
 			initscr();
-
 			curs_set(1);
-
 			raw();
 			cbreak();
 
@@ -45,13 +44,14 @@ void __ec_interf(void)
 
 			refresh();
 
-			__prompt_win();	/* prompt screen */
+			__prompt_win();	/* prompt window */
 
 			break;
 
-		case EC_GUI:
-			/* ecraft->interf.gui = TODO */
+		case GGUI:
+			/* gbuffer->interf.gui = TODO */
 			break;
+
 		default:
 			dprintf(STDERR_FILENO,
 				"invalid interface: couldn't set up interface"
@@ -61,8 +61,7 @@ void __ec_interf(void)
 }
 
 /**
- * __prompt_win - creates a new window screen for prompt at the bottom of the
- *		  stdscr
+ * __prompt_win - create a new window for prompt at the bottom of the stdscr
  *
  * Return: return nothing
 */
@@ -73,17 +72,17 @@ void __prompt_win(void)
 
 	getmaxyx(stdscr, y, x);
 
-	/* set the height of the prompt screen to 1 */
-	__ec->pmtscr = newwin(1, x, y - 1, 0);
+	/* set the height of the prompt window to 1 */
+	__art->pmtwin = newwin(1, x, y - 1, 0);
 
 	raw();
 	cbreak();
 	noecho();
 
 	/* enable special key input */
-	keypad(__ec->pmtscr, TRUE);
+	keypad(__art->pmtwin, TRUE);
 
-	wattron(__ec->pmtscr, EC_BOLD);
+	wattron(__art->pmtwin, GBOLD);
 
-	wrefresh(__ec->pmtscr);
+	wrefresh(__art->pmtwin);
 }

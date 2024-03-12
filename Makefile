@@ -1,4 +1,4 @@
-# makefile to build object files from source files within the src directory
+# makefile to build object files from source files
 
 # compiler
 CC = gcc
@@ -10,9 +10,9 @@ AR = ar
 CFLAGS = -shared
 
 # libraries for test target:
-# should later use ecraft-config when it will be available
-LIBS = -Lsrc -lecraft -Lsrc/cstory -lcstory \
-	$(shell ncurses6-config --cflags --libs) -ltermbox
+# should later use gart-config when it will be available
+LIBS = -Lsrc -lgart -Lsrc/gcstory -lgcstory \
+       $(shell ncurses6-config --cflags --libs) -ltermbox
 
 # phony target
 .PHONY: all clean clean-all
@@ -20,25 +20,26 @@ LIBS = -Lsrc -lecraft -Lsrc/cstory -lcstory \
 # default
 all:
 	-$(MAKE) -C src
-	-$(MAKE) -C src/cstory
+	-$(MAKE) -C src/gcstory
 
 # test dynamic library
 test:
-	@$(CC) -Isrc -Isrc/cstory -D_CRAFT=1 tests/test.c $(LIBS) -o tests/$@ -Wl,-rpath=$(shell pwd)/src,-rpath=$(shell pwd)/src/cstory
+	@$(CC) -Isrc -Isrc/gcstory -D_ART=1 tests/test.c $(LIBS) -o tests/$@ \
+	-Wl,-rpath=$(shell pwd)/src,-rpath=$(shell pwd)/src/gcstory
 	@tests/$@
 
 # test static library
-test-static:
-	@$(CC) -static tests/test.c $(LIBS) -o tests/$@
-	@./tests/$@
+# test-static:
+#	@$(CC) -static tests/test.c $(LIBS) -o tests/$@
+#	@./tests/$@
 
-# clean generated object files
+# clean up generated object files
 clean:
 	-$(MAKE) -C src clean
-	-$(MAKE) -C src/cstory clean
+	-$(MAKE) -C src/gcstory clean
 
 # clean up all generated files
 clean-all: clean
 	-$(MAKE) -C src clean-all
-	-$(MAKE) -C src/cstory clean-all
+	-$(MAKE) -C src/gcstory clean-all
 	-rm -f tests/test tests/test-static

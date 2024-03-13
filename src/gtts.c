@@ -14,7 +14,7 @@
 
 void gtts(void)
 {
-	__art->tts = GINIT;
+	(*__art)->tts = GINIT;
 }
 
 /**
@@ -27,7 +27,7 @@ void gtts(void)
 
 void gntts(void)
 {
-	__art->tts = GNONE;
+	(*__art)->tts = GNONE;
 }
 
 /**
@@ -42,7 +42,12 @@ void gntts(void)
 
 void __gtts(char *str)
 {
-	char *command = malloc(sizeof(char) * 1024);
+	char *command;
+
+	if ((*__art)->tts == GNONE)
+		return;
+
+	command = malloc(sizeof(char) * 1024);
 
 	strcpy(command, _TTSPATH);
 	strcat(command, " \"");

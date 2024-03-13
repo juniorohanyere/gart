@@ -14,34 +14,35 @@
 void __gexec(char *cmd)
 {
 	int i = 0;
-	int64_t offset = __art->bottom;
-	char *str = "", *string = __art->gbuffer[offset]->string;
-	char **unicode = __art->gbuffer[offset]->unicode;
+	int64_t index = (*__art)->index, offset = __art[index]->bottom;
+	char *str = "", *string = __art[index]->gbuffer[offset]->string;
+	char **unicode = __art[index]->gbuffer[offset]->unicode;
 
 	if (cmd == NULL || strcmp(cmd, str) == 0)
 	{
-		attron(__art->gbuffer[offset]->attrs);
+		attron(__art[index]->gbuffer[offset]->attrs);
 		__gprint("s", string);
-		attroff(__art->gbuffer[offset]->attrs);
+		attroff(__art[index]->gbuffer[offset]->attrs);
 		__gprint("s", " ");
 
 		while (unicode != NULL && unicode[i] != NULL)
 		{
-			attron(__art->gbuffer[offset]->attrs);
+			attron(__art[index]->gbuffer[offset]->attrs);
 			__gemoji(unicode[i], i);
-			attroff(__art->gbuffer[offset]->attrs);
+			attroff(__art[index]->gbuffer[offset]->attrs);
 			move(getcury(stdscr), getcurx(stdscr) + 2);
 			i++;
 		}
-		mvwprintw(__art->pmtwin, 0, 0, "$ ");
-		wrefresh(__art->pmtwin);
-		if (__art->gbuffer[offset]->tts == GINIT)
+		mvwprintw((*__art)->pmtwin, 0, 0, "$ ");
+		wrefresh((*__art)->pmtwin);
+		if (__art[index]->gbuffer[offset]->tts == GINIT)
 			__gtts(string);
 		move(getcury(stdscr) + 1, 0);
 
-		offset = ++__art->bottom;
+		offset = ++__art[index]->bottom;
 
-		if (__art->gbuffer[offset] != NULL &&
+		if (__art[index]->gbuffer[offset] != NULL &&
+			__art[index]->gbuffer[offset]->ref == -1 &&
 			getcury(stdscr) < getmaxy(stdscr) - 2)
 			__gexec(str);
 	}

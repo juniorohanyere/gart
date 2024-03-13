@@ -49,6 +49,7 @@ int __gget(WINDOW *win, char *buffer)
 				break;
 		}
 	}
+	curs_set(0);
 
 	return (i);
 }

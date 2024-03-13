@@ -77,13 +77,13 @@ emoji_t *__emoji_list(void)
 void gemoji(const char *style)
 {
 	if (strcmp(style, "u") == 0)
-		__art->emoji = __GUNICODE;
+		(*__art)->emoji = __GUNICODE;
 	else if (strcmp(style, "n") == 0)
-		__art->emoji = GNONE;
+		(*__art)->emoji = GNONE;
 	else if (strcmp(style, "s") == 0)
-		__art->emoji = __GSTRING;
+		(*__art)->emoji = __GSTRING;
 	else if (strcmp(style, "ss") == 0)
-		__art->emoji = __GSSTRING;
+		(*__art)->emoji = __GSSTRING;
 	else
 	{
 		gfinal();

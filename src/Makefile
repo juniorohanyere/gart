@@ -18,19 +18,25 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 # object files
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
+# header file
+HEADER = gart.h
+
 # dependency files
-DEP = gart.h
+DEP = $(HEADER)
 
 # prefix is based on system architecture
 PREFIX = /usr
 
 # include path
-INCLUDE = -I. -Igcstory
+INC = ../include
+
+# include directories
+INCLUDE = -I$(INC)
 
 # explicitly define macros
 # -D_TTSPATH still under construction (to be later well defined)
-MACRO = -D_ART=0 \
-	-D_TTSPATH="\"/home/kali/juniorohanyere/gart/src/gtts.py\""
+MACRO = -D_ART=0 -D_INTERFACE=1 \
+	-D_TTSPATH="\"$(shell pwd)/gtts.py"\"
 
 # compiler flags
 CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
@@ -39,25 +45,29 @@ CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
 # target
 TARGET = target
 
-# target 1: dynamic/shared library
-TARGET1 = libgart.so
+# target 0: dynamic/shared library
+TARGET0 = libgart.so
 
-# target 2: static library
-TARGET2 = libgart.a
+# target 1: dynamic/shared library (graphical user interface)
+TARGET1 = libgart-gui.so
 
 # phony target
 .PHONY: all clean clean-all
 
 # default target
-all: $(DEP)
+all: headers
 	-$(MAKE) $(TARGET)
 #	$(AR) x $(LIBNCURSES)
 #	$(AR) x $(LIBTERMBOX)
 
-$(TARGET): $(TARGET1)
+$(TARGET): $(TARGET0)
 
-$(TARGET1): $(OBJ)
+$(TARGET0): $(OBJ)
 	$(CC) -shared $^ -o $@
+
+# copy headers to $(INC)
+headers: $(DEP)
+	@cp -v $^ $(INC)
 
 # compiling each source file into a corresponding object file
 %.o: %.c $(DEP)

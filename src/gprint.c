@@ -19,10 +19,11 @@
 void __gprint(const char *type, char *str)
 {
 	int x, y;
+	int64_t i = (*__art)->index;
 	uint32_t ch;
 	char *s;
 
-	if (__art->interf != GCLI)	/* TODO to be amended */
+	if ((*__art)->interf != GCLI)	/* TODO to be amended */
 		return;
 
 	x = getcurx(stdscr);
@@ -32,7 +33,8 @@ void __gprint(const char *type, char *str)
 	{
 		scrl(1);
 		refresh();
-		__art->top++;
+		__art[i]->top++;
+		refresh();
 		move(getcury(stdscr) - 1, 0);
 	}
 

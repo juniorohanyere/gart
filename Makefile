@@ -14,6 +14,12 @@ CFLAGS = -shared
 LIBS = -Lsrc -lgart -Lsrc/gcstory -lgcstory \
        $(shell ncurses6-config --cflags --libs) -ltermbox
 
+# include path
+INC = include
+
+# include directories
+INCLUDE = -I$(INC)
+
 # phony target
 .PHONY: all clean clean-all
 
@@ -24,7 +30,7 @@ all:
 
 # test dynamic library
 test:
-	@$(CC) -Isrc -Isrc/gcstory -D_ART=1 tests/test.c $(LIBS) -o tests/$@ \
+	@$(CC) $(INCLUDE) -D_ART=1 tests/test.c $(LIBS) -o tests/$@ \
 	-Wl,-rpath=$(shell pwd)/src,-rpath=$(shell pwd)/src/gcstory
 	@tests/$@
 

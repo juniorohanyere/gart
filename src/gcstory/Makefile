@@ -1,4 +1,4 @@
-# makefile to build object files from source files in src/cstory/
+# makefile to build object files from source files in src/gcstory/
 
 # compiler
 CC = gcc
@@ -18,14 +18,20 @@ SRC = $(filter-out $(EXCLUDE), $(SRCS))
 # object files
 OBJ = $(patsubst %.c, %.o, $(SRC))
 
+# header file
+HEADER = gcstory.h
+
 # dependency files
-DEP = ../gart.h gcstory.h
+DEP = ../gart.h $(HEADER)
 
 # prefix is based on system architecture
 PREFIX = /usr
 
 # include path
-INCLUDE = -I. -I..
+INC = ../../include
+
+# include directories
+INCLUDE = -I$(INC)
 
 # explicitly define macros
 MACRO = -D_ART=1
@@ -37,25 +43,29 @@ CFLAGS = $(INCLUDE) $(MACRO) -pedantic -std=gnu2x -Wall \
 # target
 TARGET = target
 
-# target 1: dynamic/shared library
-TARGET1 = libgcstory.so
+# target 0: dynamic/shared library
+TARGET0 = libgcstory.so
 
-# target 2: static library
-TARGET2 = libgcstory.a
+# target 1: dynamic/shared library (graphical user interface)
+TARGET1 = libgcstory-gui.so
 
 # phony target
 .PHONY: all clean clean-all
 
 # default target
-all: $(DEP)
+all: headers
 	-$(MAKE) $(TARGET)
 #	$(AR) x $(LIBNCURSES)
 #	$(AR) x $(LIBTERMBOX)
 
-$(TARGET): $(TARGET1)
+$(TARGET): $(TARGET0)
 
-$(TARGET1): $(OBJ)
+$(TARGET0): $(OBJ)
 	$(CC) -shared $^ -o $@
+
+# copy headers to $(INC)
+headers: $(DEP)
+	@cp -v $^ $(INC)
 
 # compiling each source file into a corresponding object file
 %.o: %.c $(DEP)

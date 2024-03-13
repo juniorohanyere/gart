@@ -16,15 +16,15 @@
 
 void __gread(int step)
 {
-	int i;
-	int64_t offset, size;
+	int flag;
+	int64_t i = (*__art)->index, offset, size;
 	char *line = malloc(sizeof(char) * 1024);
 
-	offset = __art->bottom;
-	size = __art->vertice;
+	offset = __art[i]->bottom;
+	size = __art[i]->vertice;
 
-	mvwprintw(__art->pmtwin, 0, 0, "$ ");
-	wrefresh(__art->pmtwin);
+	mvwprintw((*__art)->pmtwin, 0, 0, "$ ");
+	wrefresh((*__art)->pmtwin);
 
 	if (offset == size)
 	{
@@ -33,11 +33,11 @@ void __gread(int step)
 		return;
 	}
 
-	i = __gget(__art->pmtwin, line);
+	flag = __gget((*__art)->pmtwin, line);
 
-	werase(__art->pmtwin);
+	werase((*__art)->pmtwin);
 
-	if (i == - 1)
+	if (flag == - 1)
 	{
 		free(line);
 		gfinal();
@@ -58,10 +58,10 @@ void __gread(int step)
 void __key_up(void)
 {
 	int i = 0, x, y;
-	int64_t offset;
-	gbuffer_t **gbuffer = __art->gbuffer;
+	int64_t index = (*__art)->index, offset;
+	gbuffer_t **gbuffer = __art[index]->gbuffer;
 
-	if (__art->top < 0)
+	if (__art[index]->top < 0)
 		return;
 
 	x = getcurx(stdscr);
@@ -70,8 +70,8 @@ void __key_up(void)
 	scrl(-1);
 	refresh();
 
-	offset = __art->top--;
-	__art->bottom--;
+	offset = __art[index]->top--;
+	__art[index]->bottom--;
 
 	move(0, 0);
 	attron(gbuffer[offset]->attrs);
@@ -89,9 +89,9 @@ void __key_up(void)
 		refresh();
 		i++;
 	}
-	werase(__art->pmtwin);
-	mvwprintw(__art->pmtwin, 0, 0, "$ ");
-	wrefresh(__art->pmtwin);
+	werase((*__art)->pmtwin);
+	mvwprintw((*__art)->pmtwin, 0, 0, "$ ");
+	wrefresh((*__art)->pmtwin);
 
 	if (gbuffer[offset]->tts == GINIT)
 		__gtts(gbuffer[offset]->string);

@@ -13,6 +13,7 @@
 
 void __ghead(void)
 {
+	int64_t i = (*__art)->index;
 	/* TODO calculate the length of the strings to determine malloc size */
 	char *str = malloc(sizeof(char) * 1024);
 
@@ -21,9 +22,9 @@ void __ghead(void)
 	attroff(A_BOLD);
 	strcpy(str, "Title: ");
 
-	__gprint("s", __art->title);
+	__gprint("s", __art[i]->title);
 	__gprint("s", "\n");
-	strcat(str, __art->title);
+	strcat(str, __art[i]->title);
 	strcat(str, ". ");
 
 	attron(A_BOLD);
@@ -31,9 +32,9 @@ void __ghead(void)
 	attroff(A_BOLD);
 	strcat(str, "Subtitle: ");
 
-	__gprint("s", __art->subtitle);
+	__gprint("s", __art[i]->subtitle);
 	__gprint("s", "\n");
-	strcat(str, __art->subtitle);
+	strcat(str, __art[i]->subtitle);
 	strcat(str, ". ");
 
 	attron(A_BOLD);
@@ -41,9 +42,9 @@ void __ghead(void)
 	attroff(A_BOLD);
 	strcat(str, "Description: ");
 
-	__gprint("s", __art->desc);
+	__gprint("s", __art[i]->desc);
 	__gprint("s", "\n");
-	strcat(str, __art->desc);
+	strcat(str, __art[i]->desc);
 	strcat(str, ". ");
 
 	__gprint("s", "\n");  /* print extra new line */

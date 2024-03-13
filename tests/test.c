@@ -17,9 +17,9 @@ int main(void)
 	char *str, *emoji = "s-s-f:u-d-f:s-s-f", *em = "c-f:f-b-a-k:c-f";
 	elem_t *jun, *sam, *vic;
 
-	ginit(GCLI);
+	ginit();
 	gemoji("u");	/* enable pictorial emoji */
-	gtts();
+	gntts();
 
 	str = malloc(sizeof(char) * 1024);
 

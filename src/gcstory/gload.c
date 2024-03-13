@@ -61,33 +61,34 @@ int64_t gload(elem_t *elem, char *emoji, char *string)
 
 int64_t __gload(elem_t *elem, char *emoji, char *string)
 {
-	int64_t i = __art->vertice, size, base_size = 4;	/* 4 bytes */
+	int64_t index = (*__art)->index, size, base_size = 4;	/* 4 bytes */
+	int64_t i = __art[index]->vertice;
 
 	size = base_size * (2 * i + 3);
 
 	if (size == 0)
 	{
 		/* initialise the screen buffer */
-		__art->gbuffer = calloc(sizeof(gbuffer_t *), size);
-		if (__art->gbuffer == NULL)
+		__art[index]->gbuffer = calloc(sizeof(gbuffer_t *), size);
+		if (__art[index]->gbuffer == NULL)
 			return (-1);	/* TODO set up error status */
 	}
 	else
 	{
-		__art->gbuffer = realloc(__art->gbuffer,
+		__art[index]->gbuffer = realloc(__art[index]->gbuffer,
 			sizeof(gbuffer_t *) * size);
-		if (__art->gbuffer == NULL)
+		if (__art[index]->gbuffer == NULL)
 		{
-			free(__art->gbuffer);
+			free(__art[index]->gbuffer);
 
 			return (-1);
 		}
 	}
 
 	/* update screen buffer by adding a new line buffer */
-	i = __gload_1(__art->gbuffer, elem, emoji, string);
+	i = __gload_1(__art[index]->gbuffer, elem, emoji, string);
 	if (i == -1)
-		free(__art->gbuffer);
+		free(__art[index]->gbuffer);
 
 	return (i);
 }
@@ -107,9 +108,9 @@ int64_t __gload(elem_t *elem, char *emoji, char *string)
 int64_t __gload_1(gbuffer_t **gbuffer, elem_t *elem, char *emoji, char *string)
 {
 	int i;
-	int64_t size, r = __art->ref;
+	int64_t index = (*__art)->index, size, r = __art[index]->ref;
 
-	size = __art->vertice;
+	size = __art[index]->vertice;
 
 	gbuffer[size] = calloc(sizeof(gbuffer_t), 1);
 	if (elem == NULL)
@@ -132,12 +133,12 @@ int64_t __gload_1(gbuffer_t **gbuffer, elem_t *elem, char *emoji, char *string)
 	gbuffer[size]->attrs = GBOLD | GUNDERLINE;
 	gbuffer[size]->tts = GNONE;
 
-	__art->vertice++;
+	__art[index]->vertice++;
 
 	__gload_2(gbuffer, string, r);
 
-	gbuffer[++__art->vertice] = NULL;
-	__art->ref++;
+	gbuffer[++__art[index]->vertice] = NULL;
+	__art[index]->ref++;
 
 	return (r);
 }
@@ -154,9 +155,9 @@ int64_t __gload_1(gbuffer_t **gbuffer, elem_t *elem, char *emoji, char *string)
 
 void __gload_2(gbuffer_t **gbuffer, char *string, int64_t ref)
 {
-	int64_t size;
+	int64_t index = (*__art)->index, size;
 
-	size = __art->vertice;
+	size = __art[index]->vertice;
 
 	if (strcmp(string, "") != 0)
 	{
@@ -166,10 +167,10 @@ void __gload_2(gbuffer_t **gbuffer, char *string, int64_t ref)
 		gbuffer[size]->tts = GINIT;
 		gbuffer[size]->ref = ref;
 
-		__art->vertice++;
+		__art[index]->vertice++;
 	}
 
-	size = __art->vertice;
+	size = __art[index]->vertice;
 	gbuffer[size] = calloc(sizeof(gbuffer_t), 1);
 	gbuffer[size]->string = strdup("");
 	gbuffer[size]->attrs = GNORMAL;

@@ -24,7 +24,7 @@ void __ginterf(void)
 {
 	int init;
 
-	switch (__art->interf)
+	switch ((*__art)->interf)
 	{
 		case GNONE:
 			break;	/* do nothing */
@@ -73,16 +73,16 @@ void __prompt_win(void)
 	getmaxyx(stdscr, y, x);
 
 	/* set the height of the prompt window to 1 */
-	__art->pmtwin = newwin(1, x, y - 1, 0);
+	(*__art)->pmtwin = newwin(1, x, y - 1, 0);
 
 	raw();
 	cbreak();
 	noecho();
 
 	/* enable special key input */
-	keypad(__art->pmtwin, TRUE);
+	keypad((*__art)->pmtwin, TRUE);
 
-	wattron(__art->pmtwin, GBOLD);
+	wattron((*__art)->pmtwin, GBOLD);
 
-	wrefresh(__art->pmtwin);
+	wrefresh((*__art)->pmtwin);
 }

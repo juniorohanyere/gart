@@ -20,28 +20,44 @@
  * Return: return nothing
 */
 
-void gstart(char *title, char *subtitle, char *description)
+int64_t gstart(char *title, char *subtitle, char *description)
 {
-	if (__art == NULL)
+	int64_t i = ++(*__art)->size;
+
+	__art[i] = calloc(sizeof(art_t), 1);
+	if (__art[i] == NULL)
 	{
-		dprintf(STDERR_FILENO,
-			"invalid start: generative art not initialised\n");
+		dprintf(STDERR_FILENO, "fatal: insufficient memory\n");
 
-		abort();
+		return (-1);
 	}
-	__art->title = strdup(title);
-	__art->subtitle = strdup(subtitle);
-	__art->desc = strdup(description);
 
-	if (__art->title == NULL || __art->subtitle == NULL ||
-		__art->desc == NULL)
+	__art[i]->status = GINIT;
+
+	__art[i]->vertice = 0;
+	__art[i]->top = -1;
+	__art[i]->bottom = 0;
+	__art[i]->ref = 0;
+
+	__art[i]->title = strdup(title);
+	__art[i]->subtitle = strdup(subtitle);
+	__art[i]->desc = strdup(description);
+
+	if (__art[i]->title == NULL || __art[i]->subtitle == NULL ||
+		__art[i]->desc == NULL)
 	{
 		dprintf(STDERR_FILENO,
 			"insufficient memory: couldn't start generative art");
+
+		return (-1);
 	}
+
+	(*__art)->index = i;
 
 	erase();
 	__ghead();	/* update screen with headers */
+
+	return (i);
 }
 
 /**
@@ -56,23 +72,31 @@ void gstart(char *title, char *subtitle, char *description)
 
 void gfinal(void)
 {
+	int64_t i;
+
 	if (__art == NULL)
 		return;
 
-	if (__art->title != NULL)
-		free(__art->title);
-	if (__art->subtitle != NULL)
-		free(__art->subtitle);
-	if (__art->desc != NULL)
-		free(__art->desc);
-
-	if (__art->interf == GCLI)
+	for (i = 1; i <= (*__art)->size; i++)
 	{
-		__delem();	/* delete elements of the chat story */
-		__dgbuffer();
+		if (__art[i] == NULL)
+			return;
 
-		__gfinal();	/* final cleanup */
+		if (__art[i]->title != NULL)
+			free(__art[i]->title);
+		if (__art[i]->subtitle != NULL)
+			free(__art[i]->subtitle);
+		if (__art[i]->desc != NULL)
+			free(__art[i]->desc);
+
+		if ((*__art)->interf == GCLI)
+		{
+			__dgbuffer(i);
+		}
+		free(__art[i]);
+		__art[i] = NULL;
 	}
+	__gfinal();	/* final cleanup */
 	free(__art);
 	__art = NULL;
 }
@@ -89,16 +113,20 @@ void gfinal(void)
 
 void __gfinal(void)
 {
+	__delem();	/* delete elements of the chat story */
+
 	set_term(NULL);
 	endwin();
 
 	del_curterm(cur_term);
 
-	delwin(__art->pmtwin);
+	delwin((*__art)->pmtwin);
 	delwin(stdscr);
 	delwin(curscr);
 
 	tb_shutdown();
+
+	free(*__art);
 }
 
 /**
@@ -107,12 +135,12 @@ void __gfinal(void)
  * Return: return nothing
 */
 
-void __dgbuffer(void)
+void __dgbuffer(int64_t index)
 {
 	int64_t i, j;
-	gbuffer_t **gbuffer = __art->gbuffer;
+	gbuffer_t **gbuffer = __art[index]->gbuffer;
 
-	for (i = 0; i < __art->vertice; i++)
+	for (i = 0; i < __art[index]->vertice; i++)
 	{
 		if (gbuffer[i]->string != NULL)
 			free(gbuffer[i]->string);

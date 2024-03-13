@@ -20,24 +20,24 @@ __ART;	/* bypass betty warning for use of global variables */
  * Return: return nothing
 */
 
-void ginit(int interface)
+void ginit(void)
 {
 	/* initialise generative art, do not reinitailise */
 	if (__art == NULL)
 	{
-		__art = calloc(sizeof(art_t), 1);
+		__art = calloc(sizeof(art_t *), 1024);
 
+		*__art = calloc(sizeof(art_t), 1);
 		/* disable tts and emoji by default */
-		__art->tts = GNONE;
-		__art->emoji = GNONE;
-		__art->interf = interface;
+		(*__art)->tts = GNONE;
+		(*__art)->emoji = GNONE;
 
+		(*__art)->interf = _INTERFACE;
 		__ginterf();
 
-		__art->status = GINIT;
-		__art->vertice = 0;
-		__art->top = -1;
-		__art->bottom = 0;
-		__art->ref = 0;
+		(*__art)->status = GINIT;
+		(*__art)->size = 0;
+		(*__art)->index = (*__art)->size;
+		(*__art)->elem_size = 0;
 	}
 }

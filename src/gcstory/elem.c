@@ -61,30 +61,31 @@ void __gadd(elem_t *elem)
 {
 	int64_t i, size, base_size = 4;
 
-	if (__art == NULL || elem == NULL)
+	if ((*__art) == NULL || elem == NULL)
 		return;
 
-	i = __art->elem_size;
+	i = (*__art)->elem_size;
 	size = base_size * (2 * i + 3);
 
 	if (i == 0)
 	{
-		__art->elem = calloc(sizeof(elem_t *), size);
-		if (__art->elem == NULL)
+		(*__art)->elem = calloc(sizeof(elem_t *), size);
+		if ((*__art)->elem == NULL)
 			return;
 	}
 	else
 	{
-		__art->elem = realloc(__art->elem, sizeof(elem_t *) * size);
-		if (__art->elem == NULL)
+		(*__art)->elem = realloc((*__art)->elem,
+			sizeof(elem_t *) * size);
+		if ((*__art)->elem == NULL)
 		{
-			free(__art->elem);
+			free((*__art)->elem);
 
 			return;
 		}
 	}
-	__art->elem[i] = elem;
-	__art->elem_size++;
+	(*__art)->elem[i] = elem;
+	(*__art)->elem_size++;
 }
 
 /**
@@ -96,12 +97,12 @@ void __gadd(elem_t *elem)
 void __delem(void)
 {
 	int64_t i;
-	elem_t **elem = __art->elem;
+	elem_t **elem = (*__art)->elem;
 
 	if (elem == NULL)
 		return;
 
-	for (i = 0; i < __art->elem_size; i++)
+	for (i = 0; i < (*__art)->elem_size; i++)
 	{
 		free(elem[i]->__dname);
 		free(elem[i]->__fname);

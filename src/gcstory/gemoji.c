@@ -23,7 +23,7 @@ void __gemoji(char *emoji, int64_t index)
 		if (emoji_size > 3)
 		{
 			/* do some clean up at least */
-			if (__art->interf == GCLI)
+			if ((*__art)->interf == GCLI)
 			{
 				gfinal();
 				assert(emoji_size <= 3);
@@ -35,7 +35,7 @@ void __gemoji(char *emoji, int64_t index)
 			/* end of dictionary, yet couldn't validate emoji */
 			if (lemoji[i + 1].emoji == NULL && emoji_check != 0)
 			{
-				if (__art->interf == GCLI)
+				if ((*__art)->interf == GCLI)
 				{
 					gfinal();
 					assert(emoji_check == 0);
@@ -43,7 +43,7 @@ void __gemoji(char *emoji, int64_t index)
 			}
 			else if (emoji_check == 0)
 			{
-				if (__art->emoji == __GUNICODE)
+				if ((*__art)->emoji == __GUNICODE)
 					__gprint("u", "0x00000");
 				__pemoji(lemoji[i]);
 
@@ -64,10 +64,10 @@ void __gemoji(char *emoji, int64_t index)
 
 void __pemoji(emoji_t emoji)
 {
-	if (__art->interf != GCLI)	/* TODO to be amended */
+	if ((*__art)->interf != GCLI)	/* TODO to be amended */
 		return;
 
-	if (__art->emoji == __GUNICODE)	/* pictorial emoji style is enabled */
+	if ((*__art)->emoji == __GUNICODE)	/* pictorial emoji style */
 	{
 		attron(A_BOLD);
 		__gprint("u", emoji.unicode);
@@ -78,7 +78,7 @@ void __pemoji(emoji_t emoji)
 		*/
 		attroff(A_BOLD);
 	}
-	else if (__art->emoji == __GSTRING)	/* long string style enabled */
+	else if ((*__art)->emoji == __GSTRING)	/* long string style enabled */
 	{
 		attron(A_BOLD);
 		__gprint("s", "[");
@@ -86,7 +86,7 @@ void __pemoji(emoji_t emoji)
 		__gprint("s", "]");
 		attroff(A_BOLD);
 	}
-	else if (__art->emoji == __GSSTRING)	/* short string style */
+	else if ((*__art)->emoji == __GSSTRING)	/* short string style */
 	{
 		attron(A_BOLD);
 		__gprint("s", "[");

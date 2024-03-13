@@ -85,6 +85,7 @@ void __pemoji(emoji_t emoji)
 		__gprint("s", emoji.string);
 		__gprint("s", "]");
 		attroff(A_BOLD);
+		move(getcury(stdscr), getcurx(stdscr) - 1);
 	}
 	else if ((*__art)->emoji == __GSSTRING)	/* short string style */
 	{
@@ -93,5 +94,6 @@ void __pemoji(emoji_t emoji)
 		__gprint("s", emoji.emoji);
 		__gprint("s", "]");
 		attroff(A_BOLD);
+		move(getcury(stdscr), getcurx(stdscr) - 1);
 	}
 }

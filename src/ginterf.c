@@ -44,12 +44,12 @@ void __ginterf(void)
 
 			refresh();
 
-			__prompt_win();	/* prompt window */
+			__gpmtwin();	/* prompt window */
 
 			break;
 
 		case GGUI:
-			/* gbuffer->interf.gui = TODO */
+			/* scr->interf.gui = TODO */
 			break;
 
 		default:
@@ -61,12 +61,12 @@ void __ginterf(void)
 }
 
 /**
- * __prompt_win - create a new window for prompt at the bottom of the stdscr
+ * __gpmtwin - create a new window for prompt at the bottom of the stdscr
  *
  * Return: return nothing
 */
 
-void __prompt_win(void)
+void __gpmtwin(void)
 {
 	int x, y;
 

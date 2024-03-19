@@ -7,40 +7,49 @@
 /**
  * gload - load the content onto a screen buffer
  *
- * @elem: pointer to an element
+ * @lbl: label id
  * @emoji: pointer to emoji to display
  * @string: content to load/display
  *
  * Return: return the integral location of the content within the gbuffer
 */
 
-int64_t gload(elem_t *elem, char *emoji, char *string)
+int64_t gload(int64_t lbl, const char *str, int ts)
 {
-	int64_t i;
-	char *str = "", *string_dup, *emoji_dup;
+	int64_t i, index = (*__art)->index, size;
+	glbl_t **label = (*__art)->lbl;
 
-	if (emoji == NULL)
-		emoji_dup = strdup(str);
+	i = __art[index]->vertice;
+	size = i + 2;
+
+	if (i == 0)
+	{
+		/* initialise the screen buffer */
+		__art[index]->scr = calloc(sizeof(gscr_t *), size);
+		if (__art[index]->scr == NULL)
+			return (-1);	/* TODO set up error status */
+	}
 	else
-		emoji_dup = strdup(emoji);
+	{
+		__art[index]->scr = realloc(__art[index]->scr,
+			sizeof(gscr_t *) * size);
+		if (__art[index]->scr == NULL)
+		{
+			free(__art[index]->scr);
+			return (-1);
+		}
+	}
 
-	if (string == NULL)
-		string_dup = strdup(str);
-	else
-		string_dup = strdup(string);
-
-	i = __gload(elem, emoji_dup, string_dup);
-
+	/* update screen buffer */
+	"this is how I want my text to look like [:c-f], this feels good!"
+	"and [u:f-b-a-k] this too [t:s-f]"
 	__gread(1);
-
-	free(string_dup);
-	free(emoji_dup);
 
 	return (i);
 }
 
 /**
- * __gload - updates __art->gbuffer
+ * __gload - updates __art->scr
  *
  * @elem: pointer to an array of elements for the art
  * @emoji: state/mood of @elem at the moment
@@ -59,36 +68,36 @@ int64_t gload(elem_t *elem, char *emoji, char *string)
  *	   return -1 on failure
 */
 
-int64_t __gload(elem_t *elem, char *emoji, char *string)
+int64_t __gload(glbl_t *lbl, char *emoji, char *string)
 {
 	int64_t index = (*__art)->index, size, base_size = 4;	/* 4 bytes */
 	int64_t i = __art[index]->vertice;
 
 	size = base_size * (2 * i + 3);
 
-	if (size == 0)
+	if (i == 0)
 	{
 		/* initialise the screen buffer */
-		__art[index]->gbuffer = calloc(sizeof(gbuffer_t *), size);
-		if (__art[index]->gbuffer == NULL)
+		__art[index]->scr = calloc(sizeof(gscr_t *), size);
+		if (__art[index]->scr == NULL)
 			return (-1);	/* TODO set up error status */
 	}
 	else
 	{
-		__art[index]->gbuffer = realloc(__art[index]->gbuffer,
-			sizeof(gbuffer_t *) * size);
-		if (__art[index]->gbuffer == NULL)
+		__art[index]->scr = realloc(__art[index]->scr,
+			sizeof(gscr_t *) * size);
+		if (__art[index]->scr == NULL)
 		{
-			free(__art[index]->gbuffer);
+			free(__art[index]->scr);
 
 			return (-1);
 		}
 	}
 
 	/* update screen buffer by adding a new line buffer */
-	i = __gload_1(__art[index]->gbuffer, elem, emoji, string);
+	i = __gload_1(__art[index]->scr, lbl, emoji, string);
 	if (i == -1)
-		free(__art[index]->gbuffer);
+		free(__art[index]->scr);
 
 	return (i);
 }
@@ -96,7 +105,7 @@ int64_t __gload(elem_t *elem, char *emoji, char *string)
 /**
  * __gload_1 - extension of __gload
  *
- * @gbuffer: double pointer to screen buffer
+ * @scr: double pointer to screen buffer
  * @elem: pointer to element to load into the screen buffer
  * @emoji: pointer to emoji to load into the screen buffer
  * @string: string to load into the screen buffer
@@ -105,39 +114,38 @@ int64_t __gload(elem_t *elem, char *emoji, char *string)
  * 	   return -1 on failure
 */
 
-int64_t __gload_1(gbuffer_t **gbuffer, elem_t *elem, char *emoji, char *string)
+int64_t __gload_1(gscr_t **scr, glbl_t *lbl, char *emoji, char *string)
 {
 	int i;
 	int64_t index = (*__art)->index, size, r = __art[index]->ref;
 
 	size = __art[index]->vertice;
 
-	gbuffer[size] = calloc(sizeof(gbuffer_t), 1);
-	if (elem == NULL)
+	scr[size] = calloc(sizeof(gscr_t), 1);
+	if (lbl == NULL)
 	{
 		/* unknown element */
-		gbuffer[size]->string = strdup("<Unknown>");
+		scr[size]->string = strdup("<Unknown>");
 	}
 	else
-		gbuffer[size]->string = strdup(elem->__dname);
+		scr[size]->string = strdup(lbl->__dname);
 
-	i = strlen(gbuffer[size]->string);
+	i = strlen(scr[size]->string);
 
-	gbuffer[size]->string = realloc(gbuffer[size]->string,
-		sizeof(char) * i + 2);
+	scr[size]->string = realloc(scr[size]->string, sizeof(char) * i + 2);
 
-	strcat(gbuffer[size]->string, ":");
+	strcat(scr[size]->string, ":");
 
-	gbuffer[size]->unicode = __gsplit(emoji, " \t\r\n:", 4);
-	gbuffer[size]->ref = r;
-	gbuffer[size]->attrs = GBOLD | GUNDERLINE;
-	gbuffer[size]->tts = GNONE;
+	scr[size]->unicode = __gsplit(emoji, " \t\r\n:", 4);
+	scr[size]->ref = r;
+	scr[size]->attrs = GBOLD | GUNDERLINE;
+	scr[size]->tts = GNONE;
 
 	__art[index]->vertice++;
 
-	__gload_2(gbuffer, string, r);
+	__gload_2(scr, string, r);
 
-	gbuffer[++__art[index]->vertice] = NULL;
+	scr[++__art[index]->vertice] = NULL;
 	__art[index]->ref++;
 
 	return (r);
@@ -146,14 +154,14 @@ int64_t __gload_1(gbuffer_t **gbuffer, elem_t *elem, char *emoji, char *string)
 /**
  * __gload_2 - extension of __gload_1
  *
- * @gbuffer: double pointer to screen buffer
+ * @scr: double pointer to screen buffer
  * @string: string to load into the screen buffer
  * @ref: reference number
  *
  * Return: return nothing
 */
 
-void __gload_2(gbuffer_t **gbuffer, char *string, int64_t ref)
+void __gload_2(gscr_t **scr, char *string, int64_t ref)
 {
 	int64_t index = (*__art)->index, size;
 
@@ -161,18 +169,18 @@ void __gload_2(gbuffer_t **gbuffer, char *string, int64_t ref)
 
 	if (strcmp(string, "") != 0)
 	{
-		gbuffer[size] = calloc(sizeof(gbuffer_t), 1);
-		gbuffer[size]->string = strdup(string);
-		gbuffer[size]->attrs = GNORMAL;
-		gbuffer[size]->tts = GINIT;
-		gbuffer[size]->ref = ref;
+		scr[size] = calloc(sizeof(gscr_t), 1);
+		scr[size]->string = strdup(string);
+		scr[size]->attrs = GNORMAL;
+		scr[size]->tts = GINIT;
+		scr[size]->ref = ref;
 
 		__art[index]->vertice++;
 	}
 
 	size = __art[index]->vertice;
-	gbuffer[size] = calloc(sizeof(gbuffer_t), 1);
-	gbuffer[size]->string = strdup("");
-	gbuffer[size]->attrs = GNORMAL;
-	gbuffer[size]->ref = -1;
+	scr[size] = calloc(sizeof(gscr_t), 1);
+	scr[size]->string = strdup("");
+	scr[size]->attrs = GNORMAL;
+	scr[size]->ref = -1;
 }

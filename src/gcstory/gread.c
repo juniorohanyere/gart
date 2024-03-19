@@ -50,16 +50,16 @@ void __gread(int step)
 }
 
 /**
- * __key_up - handle key-up button press
+ * __gkey_up - handle key-up button press
  *
  * Return: return nothing
 */
 
-void __key_up(void)
+void __gkey_up(void)
 {
 	int i = 0, x, y;
 	int64_t index = (*__art)->index, offset;
-	gbuffer_t **gbuffer = __art[index]->gbuffer;
+	gscr_t **scr = __art[index]->scr;
 
 	if (__art[index]->top < 0)
 		return;
@@ -74,17 +74,17 @@ void __key_up(void)
 	__art[index]->bottom--;
 
 	move(0, 0);
-	attron(gbuffer[offset]->attrs);
-	__gprint("s", gbuffer[offset]->string);
-	attroff(gbuffer[offset]->attrs);
+	attron(scr[offset]->attrs);
+	__gprint("s", scr[offset]->string);
+	attroff(scr[offset]->attrs);
 	__gprint("s", " ");
 
-	while (gbuffer[offset]->unicode != NULL &&
-		gbuffer[offset]->unicode[i] != NULL)
+	while (scr[offset]->unicode != NULL &&
+		scr[offset]->unicode[i] != NULL)
 	{
-		attron(gbuffer[offset]->attrs);
-		__gemoji(gbuffer[offset]->unicode[i], i);
-		attroff(gbuffer[offset]->attrs);
+		attron(scr[offset]->attrs);
+		__gemoji(scr[offset]->unicode[i], i);
+		attroff(scr[offset]->attrs);
 		move(0, getcurx(stdscr) + 2);
 		refresh();
 		i++;
@@ -93,7 +93,7 @@ void __key_up(void)
 	mvwprintw((*__art)->pmtwin, 0, 0, "$ ");
 	wrefresh((*__art)->pmtwin);
 
-	if (gbuffer[offset]->tts == GINIT)
-		__gtts(gbuffer[offset]->string);
+	if (scr[offset]->tts == GINIT)
+		__gtts(scr[offset]->string);
 	move(y, x);
 }

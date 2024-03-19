@@ -75,8 +75,8 @@ headers: $(DEP)
 
 # clean up generated object files
 clean:
-	-rm -f $(wildcard *.o)
+	@-rm -fv $(OBJ)
 
 # clean up all generated files
-clean-all: clean
-	-rm -f $(TARGET1)
+clean-all:
+	@-rm -fv $(wildcard *.o) $(TARGET0)

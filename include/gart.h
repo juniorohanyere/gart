@@ -19,7 +19,7 @@
 #endif	/* _ART */
 
 /* global variables */
-#define __ART art_t **__art	/* art descriptor table */
+#define __ART gart_t **__art	/* art descriptor table */
 
 /* general */
 #define GNONE 0	/* none */
@@ -43,37 +43,37 @@
 
 #include <ncurses.h>
 
-/* struct __keymap_s - structure for key input
+/* struct __gkey_s - structure for key input
  *
  * @key: key input
  * @func: function to execute when @key is encountered
 */
 
-typedef struct __keymap_s
+typedef struct __gkey_s
 {
 	int key;
 	int (*func)(WINDOW *, int, int);
-} keymap_t;
+} gkey_t;
 
 /**
- * struct elem_s - data structure for elements of an art
+ * struct glbl_s - data structure for labels of an art
  *
- * @__height: height element
- * @__weight: weight element
- * @__gender: gender element
- * @__dname: display name
- * @__fname: first name
- * @__lname: last name
+ * @__height: height of label
+ * @__weight: weight of label
+ * @__gender: gender of label
+ * @__dname: display name of label
+ * @__fname: first name of label
+ * @__lname: last name of label
 */
 
-typedef struct elem_s
+typedef struct __glbl_s
 {
 	int __height, __weight, __gender;
 	char *__dname, *__fname, *__lname;
-} elem_t;
+} glbl_t;
 
 /**
- * struct __gbuffer - data structure for screen buffer
+ * struct __gscr - data structure for screen buffer
  *
  * @attrs: attributes like color...
  * @tts: flag for text to speech
@@ -82,16 +82,16 @@ typedef struct elem_s
  * @unicode: double pointer to emoji(s) to display
 */
 
-typedef struct __gbuffer_s
+typedef struct __gscr_s
 {
 	int attrs, tts;
 	int64_t ref;
 	char *string;
 	char **unicode;
-} gbuffer_t;
+} gscr_t;
 
 /**
- * struct __emoji_s - structure that defines emojis and their respective
+ * struct __gemoji_s - structure that defines emojis and their respective
  *		      unicode characters
  *
  * @emoji: the emoji
@@ -99,43 +99,43 @@ typedef struct __gbuffer_s
  * @string: long string representation of @emoji
 */
 
-typedef struct __emoji_s
+typedef struct __gemoji_s
 {
 	char *emoji, *unicode, *string;
-} emoji_t;
+} gemoji_t;
 
 /**
- * struct __art_s - structure for art descriptor table
+ * struct __gart_s - structure for art descriptor table
  *
  * @interf: interface to use for the art
  * @status: return status of the art at runtime
  * @tts: text to speech flag
  * @emoji: emoji flag
  * @vertice: peak value of size of screen buffer
- * @elem_size: size of elem size to allocate
+ * @lbl_size: size of elem size to allocate
  * @top: integer value representing the top buffer position of the screen
  * @bottom: integer value representing the bottom buffer position of the screen
  * @ref: reference value of each loaded content
  * @title: title for a generative art
  * @subtitle: subtitle for the art
  * @desc: description for the art
- * @elem: pointer to the metadata/element of the generative art
- * @gbuffer: pointer to the screen buffer
+ * @lbl: pointer to the metadata/element of the generative art
+ * @scr: pointer to the screen buffer
  * @pmtwin: prompt window
 */
 
-typedef struct __art_s
+typedef struct __gart_s
 {
 	int interf, status, tts, emoji;
-	int64_t size, index, vertice, elem_size, top, bottom, ref;
+	int64_t size, index, vertice, lbl_size, top, bottom, ref;
 	char *title, *subtitle, *desc;
-	elem_t **elem;
-	gbuffer_t **gbuffer;
+	glbl_t **lbl;
+	gscr_t **scr;
 	WINDOW *pmtwin;
-} art_t;
+} gart_t;
 
 /* external variables */
-extern art_t **__art;
+extern gart_t **__art;
 
 /* include header files for specific libraries */
 #include <gcstory.h>
@@ -157,17 +157,17 @@ void gfinal(void);
 void __gtts(char *str);
 void __ginterf(void);
 char **__gsplit(char *str, const char *delim, int size);
-void __prompt_win(void);
-keymap_t *__keymap(void);
-int __bkspace(WINDOW *win, char *buffer, int ch, int length);
+void __gpmtwin(void);
+gkey_t *__gkey(void);
+int __gbkspace(WINDOW *win, char *buffer, int ch, int length);
 int __gget(WINDOW *win, char *buffer);
 void __gprint(const char *type, char *str);
 void __gsignal(int signal);
-void __scrollup(void);
-void __scollup_cli(gbuffer_t *gbuffer);
-void __scrolldown(void);
-void __scrolldown_cli(gbuffer_t *gbuffer);
-emoji_t *__emoji_list(void);
-void __key_up(void);
+void __gscrlup(void);
+void __gscrlup_cli(gscr_t *scr);
+void __gscrldown(void);
+void __gscrldown_cli(gscr_t *scr);
+gemoji_t *__glemoji(void);
+void __gkey_up(void);
 
 #endif	/* __GART_H */

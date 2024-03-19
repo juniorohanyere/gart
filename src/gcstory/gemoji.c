@@ -16,7 +16,7 @@ void __gemoji(char *emoji, int64_t index)
 {
 	int emoji_check;
 	int64_t i, emoji_size = index + 1;
-	emoji_t *lemoji = __emoji_list();
+	gemoji_t *lemoji = __glemoji();
 
 	if (emoji != NULL)
 	{
@@ -45,7 +45,7 @@ void __gemoji(char *emoji, int64_t index)
 			{
 				if ((*__art)->emoji == __GUNICODE)
 					__gprint("u", "0x00000");
-				__pemoji(lemoji[i]);
+				__gpemoji(lemoji[i]);
 
 				break;	/* check next emoji */
 			}
@@ -55,14 +55,14 @@ void __gemoji(char *emoji, int64_t index)
 }
 
 /**
- * __pemoji - print emoji based on current emoji style
+ * __gpemoji - print emoji based on current emoji style
  *
  * @emoji: the emoji to print
  *
  * Return: return nothing
 */
 
-void __pemoji(emoji_t emoji)
+void __gpemoji(gemoji_t emoji)
 {
 	if ((*__art)->interf != GCLI)	/* TODO to be amended */
 		return;

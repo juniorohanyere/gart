@@ -15,7 +15,7 @@
 int main(void)
 {
 	char *str, *emoji = "s-s-f:u-d-f:s-s-f", *em = "c-f:f-b-a-k:c-f";
-	elem_t *jun, *sam, *vic;
+	int64_t jun, sam, vic;
 
 	ginit();
 	gemoji("u");	/* enable pictorial emoji */
@@ -23,9 +23,9 @@ int main(void)
 
 	str = malloc(sizeof(char) * 1024);
 
-	jun = gcreate("Junior Ohanyere", "Junior", "Ohanyere");
-	sam = gcreate("Samson Sam", "Samson", "Samuel");
-	vic = gcreate("Jimmy Victor", "Jim", "Victor");
+	jun = glabel("Junior Ohanyere", "Junior", "Ohanyere");
+	sam = glabel("Samson Sam", "Samson", "Samuel");
+	vic = glabel("Jimmy Victor", "Jim", "Victor");
 
 	strcpy(str,
 		"A dialogue on gart library usage for creating chat stories");

@@ -45,7 +45,7 @@ clean:
 	-$(MAKE) -C src/gcstory clean
 
 # clean up all generated files
-clean-all: clean
+clean-all:
 	-$(MAKE) -C src clean-all
 	-$(MAKE) -C src/gcstory clean-all
-	-rm -f tests/test tests/test-static
+	@-rm -fv tests/test tests/test-static

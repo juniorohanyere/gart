@@ -4,8 +4,8 @@
 #include <gart.h>
 
 /**
- * __emoji_list - list of emojis, their representation, and respective unicode
- *		  values
+ * __glemoji - list of emojis, their representation, and respective unicode
+ *	      values
  *
  * Description: the emojis are arranged in chronological order
  *		the chronological order ranging from representation, to emoji,
@@ -14,9 +14,9 @@
  * Return: return a pointer to the list of emojis
 */
 
-emoji_t *__emoji_list(void)
+gemoji_t *__glemoji(void)
 {
-	static emoji_t emoji[] = {	/* arrange in chronological order */
+	static gemoji_t emoji[] = {	/* arrange in chronological order */
 		{"b-f-w-s-e", "0x1F601", "beaming face with smiling eyes"},
 		{"c-f", "0x1F622", "crying face"},
 		{"f-b-a-k", "0x1F618", "face blowing a kiss"},

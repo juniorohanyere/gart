@@ -30,7 +30,7 @@ int __gget(WINDOW *win, char *buffer)
 			case '\n':
 				return (i);
 			case '\b':
-				i = __bkspace(win, buffer, ch, i);
+				i = __gbkspace(win, buffer, ch, i);
 				wrefresh(win);
 				break;
 			case 4:	/* end of file condition (CTRL + D) */
@@ -39,7 +39,7 @@ int __gget(WINDOW *win, char *buffer)
 				i--;
 				break;
 			case KEY_UP:
-				__key_up();
+				__gkey_up();
 				break;
 			default:
 				wprintw(win, "%s", (char *)&ch);
@@ -55,7 +55,7 @@ int __gget(WINDOW *win, char *buffer)
 }
 
 /**
- * __bkspace - handle backspace character
+ * __gbkspace - handle backspace character
  *
  * @win: pointer to the window object to handle the character from
  * @buffer: the buffer to manipulate based on the backspace character
@@ -65,7 +65,7 @@ int __gget(WINDOW *win, char *buffer)
  * Return: return the new length of @buffer after manipulation
 */
 
-int __bkspace(WINDOW *win, char *buffer, int ch, int length)
+int __gbkspace(WINDOW *win, char *buffer, int ch, int length)
 {
 	wprintw(win, "%s", (char *)&ch);
 	if (getcurx(win) == 1)

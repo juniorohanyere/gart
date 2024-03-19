@@ -24,7 +24,7 @@ int64_t gstart(char *title, char *subtitle, char *description)
 {
 	int64_t i = ++(*__art)->size;
 
-	__art[i] = calloc(sizeof(art_t), 1);
+	__art[i] = calloc(sizeof(gart_t), 1);
 	if (__art[i] == NULL)
 	{
 		dprintf(STDERR_FILENO, "fatal: insufficient memory\n");
@@ -91,7 +91,7 @@ void gfinal(void)
 
 		if ((*__art)->interf == GCLI)
 		{
-			__dgbuffer(i);
+			__gscr_free(i);
 		}
 		free(__art[i]);
 		__art[i] = NULL;
@@ -113,7 +113,7 @@ void gfinal(void)
 
 void __gfinal(void)
 {
-	__delem();	/* delete elements of the chat story */
+	__glbl_free();	/* delete elements of the chat story */
 
 	set_term(NULL);
 	endwin();
@@ -130,27 +130,27 @@ void __gfinal(void)
 }
 
 /**
- * __dgbuffer - frees memory associated with the screen buffer
+ * __gscr_free - frees memory associated with the screen buffer
  *
  * Return: return nothing
 */
 
-void __dgbuffer(int64_t index)
+void __gscr_free(int64_t index)
 {
 	int64_t i, j;
-	gbuffer_t **gbuffer = __art[index]->gbuffer;
+	gscr_t **scr = __art[index]->scr;
 
 	for (i = 0; i < __art[index]->vertice; i++)
 	{
-		if (gbuffer[i]->string != NULL)
-			free(gbuffer[i]->string);
+		if (scr[i]->string != NULL)
+			free(scr[i]->string);
 
-		for (j = 0; gbuffer[i]->unicode != NULL &&
-			gbuffer[i]->unicode[j] != NULL; j++)
-			free(gbuffer[i]->unicode[j]);
+		for (j = 0; scr[i]->unicode != NULL &&
+			scr[i]->unicode[j] != NULL; j++)
+			free(scr[i]->unicode[j]);
 
-		free(gbuffer[i]->unicode);
-		free(gbuffer[i]);
+		free(scr[i]->unicode);
+		free(scr[i]);
 	}
-	free(gbuffer);
+	free(scr);
 }

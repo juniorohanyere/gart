@@ -10,8 +10,8 @@ int64_t gstart(char *title, char *subtitle, char *description);
 int64_t glabel(char *dname, char *fname, char *lname);
 
 void gdump(const char *str);
-int64_t gload(int64_t lbl, const char *str, int ts);
-int64_t gtag(int64_t lbl, int64_t tag, char *emoji, char *string);
+int64_t gload(int64_t id, const char *str, int ts);
+int64_t gtag(int64_t id1, int64_t id2, char *emoji, char *string);
 
 void gfinal(void);
 /*

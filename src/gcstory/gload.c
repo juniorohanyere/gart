@@ -7,14 +7,14 @@
 /**
  * gload - load the content onto a screen buffer
  *
- * @lbl: label id
+ * @id: label id
  * @emoji: pointer to emoji to display
  * @string: content to load/display
  *
  * Return: return the integral location of the content within the gbuffer
 */
 
-int64_t gload(int64_t lbl, const char *str, int ts)
+int64_t gload(int64_t id, const char *str, int ts)
 {
 	int64_t i, index = (*__art)->index, size;
 	glbl_t **label = (*__art)->lbl;

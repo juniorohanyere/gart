@@ -84,7 +84,7 @@ typedef struct __glbl_s
 } glbl_t;
 
 /**
- * struct __gscr - data structure for screen buffer
+ * struct __gscr - screen descriptor table
  *
  * @attrs: attributes like color...
  * @tts: flag for text to speech
@@ -95,10 +95,10 @@ typedef struct __glbl_s
 
 typedef struct __gscr_s
 {
-	int attrs, tts;
-	int64_t ref;
-	char *string;
-	char **unicode;
+	int size, ts;
+	int *attrs, *tts;
+	int64_t id;
+	char **string, **emoji;
 } gscr_t;
 
 /**
@@ -177,6 +177,7 @@ void gfinal(void);
 void __gtts(char *str);
 void __ginterf(void);
 char **__gsplit(char *str, const char *delim, int size);
+char **__gwsplit(char *str, const char *delim, int size);
 void __gpmtwin(void);
 gkey_t *__gkey(void);
 int __gbkspace(WINDOW *win, char *buffer, int ch, int length);

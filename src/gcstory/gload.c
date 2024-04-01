@@ -41,6 +41,7 @@ int64_t gload(int64_t id, const char *str, int ts)
 	}
 
 	/* update screen buffer */
+	__gload(__art[index]->scr, label[id], str,
 	"this is how I want my text to look like [:c-f], this feels good!"
 	"and [u:f-b-a-k] this too [t:s-f]"
 	__gread(1);
@@ -50,19 +51,6 @@ int64_t gload(int64_t id, const char *str, int ts)
 
 /**
  * __gload - updates __art->scr
- *
- * @elem: pointer to an array of elements for the art
- * @emoji: state/mood of @elem at the moment
- * @string: string to load
- *
- * Description: Original Formula/Algorithm: (i + size + (i - 1)) * size
- *		By: Junior Ohanyere <junohanyere@gmail.com>
- *
- *		History: (i + size + (i - 1)) * size) modified to:
- *			 (i * size * 2) + (size * size) - size modified to:
- *			 size * (2 * i + 3) simplified
- *
- *		where size = base size (4 bytes represented by 4 int)
  *
  * Return: return a pointer to the index location of the loaded content
  *	   return -1 on failure

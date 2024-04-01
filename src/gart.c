@@ -44,12 +44,5 @@ void ginit(void)
 		(*__art)->size = 0;
 		(*__art)->index = (*__art)->size;
 		(*__art)->lbl_size = 0;
-
-		(*__art)->dbuf = malloc(sizeof(char) * _DBUFFER);
-		/* (*__art)->sbuf = malloc(sizeof(char) * 2); */
-		if ((*__art)->dbuf == NULL)
-			return;
-
-		strcpy((*__art)->dbuf, "");
 	}
 }
